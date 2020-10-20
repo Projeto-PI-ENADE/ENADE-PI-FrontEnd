@@ -1,5 +1,8 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
+
+import Button from '@material-ui/core/Button';
+
 import Logo from '../assets/logo.png';
 
 const Home: React.FC = () => {
@@ -21,6 +24,8 @@ const Home: React.FC = () => {
                     Get started by editing{' '}
                     <code className={styles.code}>pages/index.js</code>
                 </p>
+
+                <Button color="primary">Oi</Button>
 
                 <div className={styles.grid}>
                     <a href="https://nextjs.org/docs" className={styles.card}>
