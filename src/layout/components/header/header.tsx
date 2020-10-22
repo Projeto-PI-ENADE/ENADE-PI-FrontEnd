@@ -24,7 +24,11 @@ const Header: React.FC = () => {
     return (
         <Grid container component="header" className={classes.container}>
             <Grid item xs={4}>
-                <img src={Logo} />
+                <img
+                    src={Logo}
+                    alt="logo do site com os dizeres ENADE e INEP"
+                    draggable="false"
+                />
             </Grid>
             <Grid item xs={2} />
             <Grid container item xs={6} justify="flex-end">
