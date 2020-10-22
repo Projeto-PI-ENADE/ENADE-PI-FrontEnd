@@ -12,7 +12,9 @@
     "next": "9.5.5",
     "next-images": "^1.6.0",
     "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "react-dom": "16.14.0",
+    "styled-components": "^5.2.0",
+    "styled-icons": "^10.22.0"
   },
   "devDependencies": {
     "@types/node": "^14.11.10",
