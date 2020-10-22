@@ -1,9 +1,12 @@
 import Head from 'next/head';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
+import courses2018 from '../utils/data/courses_2018.json';
+
 import { SecondaryCard, CardItem } from '../components/secondaryCard';
+import YearsMenu from '../components/yearsMenu/yearsMenu';
+import CoursesCard from '../components/coursesCard/coursesCard';
 import useStyles from '../styles/pages/index';
 
 const Home: React.FC = () => {
@@ -11,21 +14,33 @@ const Home: React.FC = () => {
     return (
         <Grid container direction={'column'} className={classes.container}>
             <Head>
-                <title>Painel Enade</title>
+                <title>Painel do Enade</title>
             </Head>
-            <Grid
-                container
-                item
-                xs={12}
-                component={Typography}
-                variant="h1"
-                className={classes.title}
-            >
-                <Typography>Painel</Typography>{' '}
-                <Typography>do Enade</Typography>
+
+            <Grid container>
+                <Grid
+                    container
+                    item
+                    xs={6}
+                    component={Typography}
+                    variant="h1"
+                    className={classes.title}
+                >
+                    <Typography>Painel</Typography>{' '}
+                    <Typography>do Enade</Typography>
+                </Grid>
+                <Grid
+                    container
+                    item
+                    xs={6}
+                    justify="flex-end"
+                    className={classes.yearsMenuContainer}
+                >
+                    <YearsMenu />
+                </Grid>
             </Grid>
 
-            <Grid container item className={classes.cardsContainer}>
+            <Grid container className={classes.cardsContainer}>
                 <Grid item xs={3} className={classes.mainCard}>
                     <Typography variant="h4">Alunos Inscritos</Typography>
                     <Typography>500.000</Typography>
@@ -50,6 +65,18 @@ const Home: React.FC = () => {
                     />
                 </SecondaryCard>
             </Grid>
+
+            <CoursesCard
+                title="Lista de cursos de Bacharelado avaliados"
+                courses={courses2018.bacharelado}
+                illus="bachelor"
+            />
+
+            <CoursesCard
+                title="Lista de cursos de Tecnologia avaliados"
+                courses={courses2018.tecnologia}
+                illus="technology"
+            />
         </Grid>
     );
 };

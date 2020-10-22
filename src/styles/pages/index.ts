@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
 
+        yearsMenuContainer: {
+            paddingRight: '2rem',
+        },
+
         cardsContainer: {
             marginTop: '2rem',
         },
