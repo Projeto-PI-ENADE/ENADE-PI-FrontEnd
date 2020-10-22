@@ -1,0 +1,33 @@
+{
+    "bacharelado": [
+        "Administração",
+        "Administração Pública",
+        "Ciências Contábeis",
+        "Ciências Econômicas",
+        "Design",
+        "Direito",
+        "Jornalismo",
+        "Psicologia",
+        "Publicidade e Propaganda",
+        "Relações Internacionais",
+        "Secretariado Executivo",
+        "Serviço Social",
+        "Teologia",
+        "Turismo"
+    ],
+    "tecnologia": [
+        "Tecnologia em Comércio Exterior",
+        "Tecnologia em Design de Interiores",
+        "Tecnologia em Design de Moda",
+        "Tecnologia em Design Gráfico",
+        "Tecnologia em Gastronomia",
+        "Tecnologia em Gestão Comercial",
+        "Tecnologia em Gestão da Qualidade",
+        "Tecnologia em Gestão de Rec. Humanos",
+        "Tecnologia em Gestão Financeira",
+        "Tecnologia em Gestão Pública",
+        "Tecnologia em Logística",
+        "Tecnologia em Marketing",
+        "Tecnologia em Processos Gerenciais"
+    ]
+}
