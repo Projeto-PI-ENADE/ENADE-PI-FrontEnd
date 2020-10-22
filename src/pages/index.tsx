@@ -1,80 +1,56 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
+import { SecondaryCard, CardItem } from '../components/secondaryCard';
+import useStyles from '../styles/pages/index';
 
 const Home: React.FC = () => {
+    const classes = useStyles();
     return (
-        <div className={styles.container}>
+        <Grid container direction={'column'} className={classes.container}>
             <Head>
-                <title>Hello Word</title>
-                <link rel="icon" href="/favicon.ico" />
+                <title>Painel Enade</title>
             </Head>
+            <Grid
+                container
+                item
+                xs={12}
+                component={Typography}
+                variant="h1"
+                className={classes.title}
+            >
+                <Typography>Painel</Typography>{' '}
+                <Typography>do Enade</Typography>
+            </Grid>
 
-            <main className={styles.main}>
-                <h1 className={styles.title}>
-                    Welcome to <a href="https://nextjs.org">Next.js!</a>
-                </h1>
-
-                <p className={styles.description}>
-                    Get started by editing{' '}
-                    <code className={styles.code}>pages/index.js</code>
-                </p>
-
-                <div className={styles.grid}>
-                    <a href="https://nextjs.org/docs" className={styles.card}>
-                        <h3>Documentation &rarr;</h3>
-                        <p>
-                            Find in-depth information about Next.js features and
-                            API.
-                        </p>
-                    </a>
-
-                    <a href="https://nextjs.org/learn" className={styles.card}>
-                        <h3>Learn &rarr;</h3>
-                        <p>
-                            Learn about Next.js in an interactive course with
-                            quizzes!
-                        </p>
-                    </a>
-
-                    <a
-                        href="https://github.com/vercel/next.js/tree/master/examples"
-                        className={styles.card}
-                    >
-                        <h3>Examples &rarr;</h3>
-                        <p>
-                            Discover and deploy boilerplate example Next.js
-                            projects.
-                        </p>
-                    </a>
-
-                    <a
-                        href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                        className={styles.card}
-                    >
-                        <h3>Deploy &rarr;</h3>
-                        <p>
-                            Instantly deploy your Next.js site to a public URL
-                            with Vercel.
-                        </p>
-                    </a>
-                </div>
-            </main>
-
-            <footer className={styles.footer}>
-                <a
-                    href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Powered by{' '}
-                    <img
-                        src="/vercel.svg"
-                        alt="Vercel Logo"
-                        className={styles.logo}
+            <Grid container item className={classes.cardsContainer}>
+                <Grid item xs={3} className={classes.mainCard}>
+                    <Typography variant="h4">Alunos Inscritos</Typography>
+                    <Typography>500.000</Typography>
+                </Grid>
+                <SecondaryCard title="Tipos de Presença">
+                    <CardItem data="400.000" subtitle="Presentes" />
+                    <CardItem data="50.000" subtitle="Ausentes" />
+                    <CardItem data="50.000" subtitle="Eliminados" />
+                </SecondaryCard>
+                <SecondaryCard title="Aplicação do Exame">
+                    <CardItem data={27} subtitle="UFs" />
+                    <CardItem
+                        data="1.385"
+                        subtitle="Municípios"
+                        className="right-content"
                     />
-                </a>
-            </footer>
-        </div>
+                    <CardItem data="1.581" subtitle="Locais de Aplicação" />
+                    <CardItem
+                        data="15.055"
+                        subtitle="Salas"
+                        className="right-content"
+                    />
+                </SecondaryCard>
+            </Grid>
+        </Grid>
     );
 };
 
