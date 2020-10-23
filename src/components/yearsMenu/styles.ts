@@ -12,6 +12,10 @@ const useStyles = makeStyles((theme: Theme) =>
             boxShadow: theme.shadows[2],
             transition: 'background-color .2s',
 
+            [theme.breakpoints.down('md')]: {
+                fontSize: '1.1rem',
+            },
+
             '&:hover': {
                 backgroundCOlor: 'gray',
             },
