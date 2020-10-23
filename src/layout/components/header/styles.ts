@@ -11,9 +11,19 @@ const useStyles = makeStyles((theme: Theme) =>
 
             '& div:first-child': {
                 paddingLeft: '2rem',
+
+                [theme.breakpoints.down('md')]: {
+                    paddingLeft: '1rem',
+                },
+
                 '& img': {
                     marginTop: 20,
                     height: 40,
+
+                    [theme.breakpoints.down('md')]: {
+                        width: 150,
+                        height: 'auto',
+                    },
                 },
             },
 
