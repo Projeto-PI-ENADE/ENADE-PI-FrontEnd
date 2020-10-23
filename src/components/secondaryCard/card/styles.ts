@@ -10,9 +10,18 @@ const useStyles = makeStyles((theme: Theme) =>
             boxShadow: theme.shadows[2],
             position: 'relative',
 
+            [theme.breakpoints.down('md')]: {
+                padding: '1rem',
+                minWidth: 240,
+            },
+
             '& h5': {
                 color: theme.palette.primary.main,
                 fontWeight: 600,
+
+                [theme.breakpoints.down('md')]: {
+                    fontSize: '1.1rem',
+                },
             },
 
             '& span': {
@@ -28,6 +37,11 @@ const useStyles = makeStyles((theme: Theme) =>
                 color: '#232A2F',
                 fontSize: '1.4rem',
                 fontWeight: 'bold',
+
+                [theme.breakpoints.down('md')]: {
+                    marginTop: '.5rem',
+                    fontSize: '1.2rem',
+                },
             },
 
             '& subtitle2': {
