@@ -37,6 +37,8 @@ const Header: React.FC = () => {
                     onChange={handleChange}
                     aria-label="abas de navegação"
                     indicatorColor="primary"
+                    variant="scrollable"
+                    scrollButtons="auto"
                     className={classes.tabs}
                     TabIndicatorProps={{
                         style: { height: 5, borderRadius: '40px 40px 0px 0px' },

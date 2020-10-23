@@ -40,17 +40,21 @@ const Home: React.FC = () => {
                 </Grid>
             </Grid>
 
-            <Grid container className={classes.cardsContainer}>
-                <Grid item xs={3} className={classes.mainCard}>
+            <Grid container component="ul" className={classes.cardsContainer}>
+                <Grid component="li" item xs={3} className={classes.mainCard}>
                     <Typography variant="h4">Alunos Inscritos</Typography>
                     <Typography>500.000</Typography>
                 </Grid>
-                <SecondaryCard title="Tipos de Presença">
+                <SecondaryCard title="Tipos de Presença" component="li">
                     <CardItem data="400.000" subtitle="Presentes" />
-                    <CardItem data="50.000" subtitle="Ausentes" />
+                    <CardItem
+                        data="50.000"
+                        subtitle="Ausentes"
+                        className="right-content"
+                    />
                     <CardItem data="50.000" subtitle="Eliminados" />
                 </SecondaryCard>
-                <SecondaryCard title="Aplicação do Exame">
+                <SecondaryCard title="Aplicação do Exame" component="li">
                     <CardItem data={27} subtitle="UFs" />
                     <CardItem
                         data="1.385"

@@ -5,18 +5,23 @@ import Typography from '@material-ui/core/Typography';
 
 import useStyles from './styles';
 
-type Props = {
+interface Props {
     title: string;
+    component?: string;
     children: React.ReactNode;
-};
+}
 
-const Card: React.FC<Props> = ({ title, children }) => {
+const Card: React.FC<Props> = ({ title, component, children }) => {
     const classes = useStyles();
     return (
         <Grid container item xs={3} className={classes.card}>
-            <Typography variant="h5">{title}</Typography>
+            <Grid item xs={12}>
+                <Typography variant="h5">{title}</Typography>
+            </Grid>
             <Box component="span" />
-            {children}
+            <Grid container item xs={12} spacing={1}>
+                {children}
+            </Grid>
         </Grid>
     );
 };

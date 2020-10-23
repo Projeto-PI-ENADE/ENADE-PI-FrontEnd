@@ -7,10 +7,19 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: '1rem 2rem',
             border: '1px solid gray',
             borderRadius: '.7rem',
+            backgroundColor: theme.palette.background.default,
+
+            [theme.breakpoints.down('md')]: {
+                padding: '1rem',
+            },
 
             '& h5': {
                 color: theme.palette.primary.dark,
                 fontWeight: 'bold',
+
+                [theme.breakpoints.down('md')]: {
+                    fontSize: '1.2rem',
+                },
             },
 
             '& ul': {
@@ -18,11 +27,23 @@ const useStyles = makeStyles((theme: Theme) =>
                 maxHeight: 390,
                 columnCount: 2,
                 columnWidth: 450,
+
+                [theme.breakpoints.down('md')]: {
+                    marginTop: '.3rem',
+                    maxHeight: 380,
+                    columnCount: 3,
+                    columnWidth: 200,
+                    overflowX: 'auto',
+                },
             },
 
             '& li': {
                 fontSize: '1.3rem',
                 color: theme.palette.primary.dark,
+
+                [theme.breakpoints.down('md')]: {
+                    fontSize: '1rem',
+                },
             },
 
             '& li::before': {
