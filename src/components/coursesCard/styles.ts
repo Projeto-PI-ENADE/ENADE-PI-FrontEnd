@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: '1rem 2rem',
             border: '1px solid gray',
             borderRadius: '.7rem',
+            backgroundColor: theme.palette.background.default,
 
             '& h5': {
                 color: theme.palette.primary.dark,
