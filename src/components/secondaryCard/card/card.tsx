@@ -19,7 +19,7 @@ const Card: React.FC<Props> = ({ title, component, children }) => {
                 <Typography variant="h5">{title}</Typography>
             </Grid>
             <Box component="span" />
-            <Grid container item xs={12} spacing={1}>
+            <Grid container spacing={1}>
                 {children}
             </Grid>
         </Grid>
