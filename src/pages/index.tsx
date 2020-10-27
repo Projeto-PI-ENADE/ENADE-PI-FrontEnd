@@ -7,6 +7,7 @@ import courses2018 from '../utils/data/courses_2018.json';
 import { SecondaryCard, CardItem } from '../components/secondaryCard';
 import YearsMenu from '../components/yearsMenu/yearsMenu';
 import CoursesCard from '../components/coursesCard/coursesCard';
+import { ChartContainer, ChartItem } from '../components/chart';
 import useStyles from '../styles/pages/index';
 
 const Home: React.FC = () => {
@@ -81,6 +82,20 @@ const Home: React.FC = () => {
                 courses={courses2018.tecnologia}
                 illus="technology"
             />
+
+            <ChartContainer
+                title={{ main: 'Resultados', secondary: 'do Enade' }}
+            >
+                <ChartItem />
+                <ChartItem />
+            </ChartContainer>
+
+            <ChartContainer
+                title={{ main: 'Dados', secondary: 'dos Participantes' }}
+            >
+                <ChartItem />
+                <ChartItem />
+            </ChartContainer>
         </Grid>
     );
 };

@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
             '& div:last-child': {
                 paddingRight: '1rem',
+
+                [theme.breakpoints.down('md')]: {
+                    paddingRight: '.1rem',
+                },
             },
         },
         tabs: {

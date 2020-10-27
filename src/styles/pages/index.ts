@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 flexWrap: 'nowrap',
             },
         },
+
         mainCard: {
             marginRight: '2rem',
             padding: '2rem 1.5rem',
