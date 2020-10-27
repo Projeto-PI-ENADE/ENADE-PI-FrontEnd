@@ -18,6 +18,13 @@ const useStyles = makeStyles((theme: Theme) =>
             '& button': {
                 boxShadow: theme.shadows[2],
                 color: theme.palette.primary.main,
+
+                '& svg': {
+                    [theme.breakpoints.down('md')]: {
+                        width: 12,
+                        height: 12,
+                    },
+                },
             },
         },
     })
