@@ -13,7 +13,7 @@ const Header: React.FC<Props> = ({ title, children }) => {
     const classes = useStyles();
 
     return (
-        <Grid container spacing={3} className={classes.container}>
+        <Grid container className={classes.container}>
             <Grid container alignItems="center" className={classes.header}>
                 <Box component="span" />
                 <Grid container item xs component={Typography} variant="h5">

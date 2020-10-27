@@ -3,8 +3,6 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
-            padding: '0 11px',
-
             '& #charts-container': {
                 [theme.breakpoints.down('md')]: {
                     padding: '0 1rem',
@@ -33,13 +31,13 @@ const useStyles = makeStyles((theme: Theme) =>
                 marginLeft: '1rem',
 
                 '& p:first-child': {
-                    fontSize: '2rem',
+                    fontSize: '1.8rem',
                     fontWeight: 600,
                 },
 
                 '& p:last-child': {
                     marginLeft: 10,
-                    fontSize: '2rem',
+                    fontSize: '1.8rem',
                     fontWeight: 500,
                 },
 
