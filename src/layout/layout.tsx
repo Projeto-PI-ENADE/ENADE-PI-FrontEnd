@@ -2,6 +2,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 
 import Header from './components/header/header';
+import Footer from './components/footer/footer';
 
 import useStyles from './styles';
 
@@ -25,6 +26,7 @@ const Layout: React.FC<Props> = (props: Props) => {
         >
             <Header />
             {children}
+            <Footer />
         </Box>
     );
 };
