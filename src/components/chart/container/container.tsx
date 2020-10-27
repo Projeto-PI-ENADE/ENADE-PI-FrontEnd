@@ -21,7 +21,12 @@ const Header: React.FC<Props> = ({ title, children }) => {
                     <Typography>{title.secondary}</Typography>
                 </Grid>
             </Grid>
-            <Grid container justify="space-evenly" spacing={3}>
+            <Grid
+                id="charts-container"
+                container
+                justify="space-evenly"
+                spacing={3}
+            >
                 {children}
             </Grid>
         </Grid>
