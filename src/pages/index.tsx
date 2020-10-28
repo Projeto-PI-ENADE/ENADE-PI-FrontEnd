@@ -8,6 +8,7 @@ import { SecondaryCard, CardItem } from '../components/secondaryCard';
 import YearsMenu from '../components/yearsMenu/yearsMenu';
 import CoursesCard from '../components/coursesCard/coursesCard';
 import { ChartContainer, ChartItem } from '../components/chart';
+import FabButton from '../components/scrollTopButton/scrollTopButton';
 import useStyles from '../styles/pages/index';
 
 const Home: React.FC = () => {
@@ -96,6 +97,8 @@ const Home: React.FC = () => {
                 <ChartItem />
                 <ChartItem />
             </ChartContainer>
+
+            <FabButton />
         </Grid>
     );
 };
