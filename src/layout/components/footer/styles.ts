@@ -3,7 +3,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         footer: {
-            marginTop: '4rem',
+            marginTop: '2rem',
             height: 50,
             backgroundColor: theme.palette.primary.main,
             alignItems: 'center',
