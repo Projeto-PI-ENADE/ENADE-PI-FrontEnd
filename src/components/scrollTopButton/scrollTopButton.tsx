@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import Box from '@material-ui/core/Box';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
@@ -84,4 +84,4 @@ const ScrollTopButton: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default ScrollTopButton;
+export default memo(ScrollTopButton);
