@@ -3,9 +3,10 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
+            justifyContent: 'flex-start',
             '& #charts-container': {
                 [theme.breakpoints.down('md')]: {
-                    padding: '0 1rem',
+                    padding: '0',
                 },
             },
         },
