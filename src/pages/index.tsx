@@ -87,15 +87,30 @@ const Home: React.FC = () => {
             <ChartContainer
                 title={{ main: 'Resultados', secondary: 'do Enade' }}
             >
-                <ChartItem />
-                <ChartItem />
+                <ChartItem
+                    title="Relatório das notas"
+                    modalTitle={{
+                        main: 'Análises',
+                        secondary: 'de notas',
+                    }}
+                >
+                    <ChartItem title="Relatório das notas" />
+                    <ChartItem title="Relatório das notas" />
+                    <ChartItem title="Relatório das notas" />
+                    <ChartItem title="Relatório das notas" />
+                    <ChartItem title="Relatório das notas" />
+                    <ChartItem title="Relatório das notas" />
+                </ChartItem>
+                <ChartItem title="Tipos de Presença" />
             </ChartContainer>
 
             <ChartContainer
                 title={{ main: 'Dados', secondary: 'dos Participantes' }}
             >
-                <ChartItem />
-                <ChartItem />
+                <ChartItem title="Tipos de Presença" />
+                <ChartItem title="Tipos de Presença" />
+                <ChartItem title="Tipos de Presença" />
+                <ChartItem title="Tipos de Presença" />
             </ChartContainer>
 
             <FabButton />
