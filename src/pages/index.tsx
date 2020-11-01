@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 
 import courses2018 from '../utils/data/courses_2018.json';
 
+import MainCard from '../components/mainCard/mainCard';
 import { SecondaryCard, CardItem } from '../components/secondaryCard';
 import YearsMenu from '../components/yearsMenu/yearsMenu';
 import CoursesCard from '../components/coursesCard/coursesCard';
@@ -43,10 +44,7 @@ const Home: React.FC = () => {
             </Grid>
 
             <Grid container component="ul" className={classes.cardsContainer}>
-                <Grid component="li" item xs={3} className={classes.mainCard}>
-                    <Typography variant="h4">Alunos Inscritos</Typography>
-                    <Typography>500.000</Typography>
-                </Grid>
+                <MainCard title="Alunos Inscritos" value="500.000" />
                 <SecondaryCard title="Tipos de Presença" component="li">
                     <CardItem data="400.000" subtitle="Presentes" />
                     <CardItem
