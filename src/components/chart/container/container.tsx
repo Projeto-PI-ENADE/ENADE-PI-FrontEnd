@@ -6,11 +6,14 @@ import useStyles from './styles';
 
 type Props = {
     title: { main: string; secondary: string };
+    justify?: 'flex-start' | 'space-evenly';
+    overflow?: boolean;
     children: React.ReactNode;
 };
 
-const Header: React.FC<Props> = ({ title, children }) => {
+const Header: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const { title, justify = 'space-evenly', overflow, children } = props;
 
     return (
         <Grid container className={classes.container}>
@@ -24,7 +27,10 @@ const Header: React.FC<Props> = ({ title, children }) => {
             <Grid
                 id="charts-container"
                 container
-                justify="space-evenly"
+                justify={justify}
+                style={
+                    overflow ? { overflowY: 'auto', maxHeight: '80vh' } : null
+                }
                 spacing={3}
             >
                 {children}

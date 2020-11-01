@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Grid from '@material-ui/core/Grid';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -8,10 +9,35 @@ import useStyles from './styles';
 
 const Header: React.FC = () => {
     const classes = useStyles();
+    const router = useRouter();
     const [value, setValue] = useState(0);
+
+    useEffect(() => {
+        const setInitialTab = () => {
+            console.log(router.pathname);
+            switch (router.pathname) {
+                case '/':
+                    setValue(0);
+                    break;
+                case '/curso':
+                    setValue(1);
+                    break;
+            }
+        };
+
+        setInitialTab();
+    }, []);
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
+        switch (newValue) {
+            case 0:
+                router.push('/');
+                break;
+            case 1:
+                router.push(`/curso`);
+                break;
+        }
     };
 
     function TabsProps(index: any) {

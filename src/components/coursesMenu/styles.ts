@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
             },
 
             '&:hover': {
-                backgroundColor: 'gray',
+                backgroundCOlor: 'gray',
             },
 
             '& svg': {

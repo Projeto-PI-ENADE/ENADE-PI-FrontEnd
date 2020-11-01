@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
 import { Bar } from 'react-chartjs-2';
 import { Info as InfoIcon } from '@styled-icons/fa-solid';
 
+import TypeTitle from '../models/title';
+
+import ChartModal from '../modal/modal';
 import useStyles from './styles';
 
 const data = {
@@ -34,30 +38,70 @@ const data = {
     ],
 };
 
-const ExampleChart = () => {
+type Props = {
+    title: string;
+    modalTitle?: TypeTitle;
+    children?: React.ReactNode;
+};
+
+const ChartItem: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const { title, modalTitle, children } = props;
+
+    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+
     return (
-        <Grid item xs={12} md={5} className={classes.container}>
-            <Grid container>
-                <Grid item xs={9} component={Typography} variant="h6">
-                    Relatório das notas
-                </Grid>
-                <Grid container item xs={3} justify="flex-end">
-                    <IconButton>
-                        <InfoIcon size={16} />
-                    </IconButton>
+        <React.Fragment>
+            <Grid container item xs={12} md={6} className={classes.container}>
+                <Grid
+                    item
+                    xs={12}
+                    md={11}
+                    className={classes.chartContentContainer}
+                >
+                    <Grid container>
+                        <Grid item xs={9} className={classes.titleContainer}>
+                            <Typography variant="h6">{title}</Typography>
+                        </Grid>
+                        {modalTitle && (
+                            <Grid container item xs={3} justify="flex-end">
+                                <Tooltip
+                                    title="Ver detalhes"
+                                    arrow
+                                    placement="top"
+                                >
+                                    <IconButton
+                                        onClick={() => setModalIsOpen(true)}
+                                    >
+                                        <InfoIcon size={16} />
+                                    </IconButton>
+                                </Tooltip>
+                            </Grid>
+                        )}
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Bar
+                            data={data}
+                            // width={100}
+                            // height={200}
+                            // options={{
+                            //     maintainAspectRatio: false,
+                            // }}
+                        />
+                    </Grid>
                 </Grid>
             </Grid>
-            <Bar
-                data={data}
-                // width={100}
-                // height={200}
-                // options={{
-                //     maintainAspectRatio: false,
-                // }}
-            />
-        </Grid>
+            {modalTitle && (
+                <ChartModal
+                    title={modalTitle}
+                    isOpen={modalIsOpen}
+                    setIsOpen={setModalIsOpen}
+                >
+                    {children}
+                </ChartModal>
+            )}
+        </React.Fragment>
     );
 };
 
-export default ExampleChart;
+export default ChartItem;

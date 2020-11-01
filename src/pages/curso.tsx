@@ -2,20 +2,23 @@ import Head from 'next/head';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import courses2018 from '../utils/data/courses_2018.json';
+import coursesData from '../utils/data/courses_w_id_2018.json';
 
 import MainCard from '../components/mainCard/mainCard';
 import { SecondaryCard, CardItem } from '../components/secondaryCard';
+import CoursesMenu from '../components/coursesMenu/coursesMenu';
 import YearsMenu from '../components/yearsMenu/yearsMenu';
-import CoursesCard from '../components/coursesCard/coursesCard';
 import { ChartContainer, ChartItem } from '../components/chart';
-import FabButton from '../components/scrollTopButton/scrollTopButton';
-import useStyles from '../styles/pages/index';
+import ScrollToTopButton from '../components/scrollTopButton/scrollTopButton';
+import homeUseStyles from '../styles/pages/index';
+import useStyles from '../styles/pages/curso';
 
-const Home: React.FC = () => {
+const Course: React.FC = () => {
+    const homeClasses = homeUseStyles();
     const classes = useStyles();
+
     return (
-        <Grid container direction={'column'} className={classes.container}>
+        <Grid container direction={'column'} className={homeClasses.container}>
             <Head>
                 <title>Painel do Enade</title>
             </Head>
@@ -24,10 +27,11 @@ const Home: React.FC = () => {
                 <Grid
                     container
                     item
-                    xs={6}
+                    xs={12}
+                    md={6}
                     component={Typography}
                     variant="h1"
-                    className={classes.title}
+                    className={homeClasses.title}
                 >
                     <Typography>Painel</Typography>{' '}
                     <Typography>do Enade</Typography>
@@ -35,15 +39,26 @@ const Home: React.FC = () => {
                 <Grid
                     container
                     item
-                    xs={6}
+                    xs={12}
+                    md={6}
                     justify="flex-end"
-                    className={classes.yearsMenuContainer}
+                    spacing={3}
+                    className={classes.filtersContainer}
                 >
-                    <YearsMenu />
+                    <Grid container item xs={8} md={9} justify="flex-end">
+                        <CoursesMenu coursesData={coursesData} />
+                    </Grid>
+                    <Grid container item xs={4} md={3}>
+                        <YearsMenu />
+                    </Grid>
                 </Grid>
             </Grid>
 
-            <Grid container component="ul" className={classes.cardsContainer}>
+            <Grid
+                container
+                component="ul"
+                className={homeClasses.cardsContainer}
+            >
                 <MainCard title="Alunos Inscritos" value="500.000" />
                 <SecondaryCard title="Tipos de Presença" component="li">
                     <CardItem data="400.000" subtitle="Presentes" />
@@ -54,33 +69,7 @@ const Home: React.FC = () => {
                     />
                     <CardItem data="50.000" subtitle="Eliminados" />
                 </SecondaryCard>
-                <SecondaryCard title="Aplicação do Exame" component="li">
-                    <CardItem data={27} subtitle="UFs" />
-                    <CardItem
-                        data="1.385"
-                        subtitle="Municípios"
-                        className="right-content"
-                    />
-                    <CardItem data="1.581" subtitle="Locais de Aplicação" />
-                    <CardItem
-                        data="15.055"
-                        subtitle="Salas"
-                        className="right-content"
-                    />
-                </SecondaryCard>
             </Grid>
-
-            <CoursesCard
-                title="Lista de cursos de Bacharelado avaliados"
-                courses={courses2018.bacharelado}
-                illus="bachelor"
-            />
-
-            <CoursesCard
-                title="Lista de cursos de Tecnologia avaliados"
-                courses={courses2018.tecnologia}
-                illus="technology"
-            />
 
             <ChartContainer
                 title={{ main: 'Resultados', secondary: 'do Enade' }}
@@ -111,9 +100,9 @@ const Home: React.FC = () => {
                 <ChartItem title="Tipos de Presença" />
             </ChartContainer>
 
-            <FabButton />
+            <ScrollToTopButton />
         </Grid>
     );
 };
 
-export default Home;
+export default Course;
