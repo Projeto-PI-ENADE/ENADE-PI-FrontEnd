@@ -1,0 +1,50 @@
+[
+        {
+            "id": 0,
+            "name": "Administração"
+        },
+        {
+            "id": 1,
+            "name": "Administração Pública"
+        },
+        {
+            "id": 2,
+            "name": "Ciências Contábeis"
+        },
+        {
+            "id": 3,
+            "name": "Ciências Econômicas"
+        },
+        {
+            "id": 4,
+            "name": "Design"
+        },
+        {
+            "id": 5,
+            "name": "Direito"
+        },
+        {
+            "id": 6,
+            "name": "Tecnologia em Comércio Exterior"
+        },
+        {
+            "id": 7,
+            "name": "Tecnologia em Design de Interiores"
+        },
+        {
+            "id": 8,
+            "name": "Tecnologia em Design de Moda"
+        },
+        {
+            "id": 9,
+            "name": "Tecnologia em Design Gráfico"
+        },
+        {
+            "id": 10,
+            "name": "Tecnologia em Gastronomia"
+        },
+        {
+            "id": 11,
+            "name": "Tecnologia em Gestão Comercial"
+        }
+]
