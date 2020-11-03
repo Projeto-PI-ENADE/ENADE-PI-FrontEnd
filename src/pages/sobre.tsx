@@ -82,8 +82,8 @@ const AboutUs: React.FC = () => {
 
                 <Grid id="techs-container" container spacing={1}>
                     {techs.map((tech, index) => (
-                        <Grid key={index} container item xs={4} md>
-                            <TechCard logo={tech} />
+                        <Grid key={index} container item xs={3} md>
+                            <TechCard tech={tech} />
                         </Grid>
                     ))}
                 </Grid>
