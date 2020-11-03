@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
             [theme.breakpoints.down('md')]: {
                 overflowX: 'auto',
                 flexWrap: 'nowrap',
+                zIndex: 5,
             },
         },
     })
