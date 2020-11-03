@@ -22,6 +22,9 @@ const Header: React.FC = () => {
                 case '/curso':
                     setValue(1);
                     break;
+                case '/sobre':
+                    setValue(2);
+                    break;
             }
         };
 
@@ -36,6 +39,9 @@ const Header: React.FC = () => {
                 break;
             case 1:
                 router.push(`/curso`);
+                break;
+            case 2:
+                router.push(`/sobre`);
                 break;
         }
     };
