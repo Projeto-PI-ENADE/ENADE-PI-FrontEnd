@@ -22,8 +22,11 @@ const Header: React.FC = () => {
                 case '/curso':
                     setValue(1);
                     break;
-                case '/sobre':
+                case '/relatorio':
                     setValue(2);
+                    break;
+                case '/sobre':
+                    setValue(3);
                     break;
             }
         };
@@ -41,6 +44,9 @@ const Header: React.FC = () => {
                 router.push(`/curso`);
                 break;
             case 2:
+                router.push(`/relatorio`);
+                break;
+            case 3:
                 router.push(`/sobre`);
                 break;
         }
@@ -55,15 +61,15 @@ const Header: React.FC = () => {
 
     return (
         <Grid container component="header" className={classes.container}>
-            <Grid item xs={4}>
+            <Grid item xs={4} md={4}>
                 <img
                     src={Logo}
                     alt="logo do site com os dizeres ENADE e INEP"
                     draggable="false"
                 />
             </Grid>
-            <Grid item xs={2} />
-            <Grid container item xs={6} justify="flex-end">
+            <Grid item xs={2} md={1} />
+            <Grid container item xs={6} md={7} justify="flex-end">
                 <Tabs
                     value={value}
                     onChange={handleChange}
@@ -78,7 +84,8 @@ const Header: React.FC = () => {
                 >
                     <Tab label="Painel Geral" {...TabsProps(0)} />
                     <Tab label="Cursos" {...TabsProps(1)} />
-                    <Tab label="Sobre Nós" {...TabsProps(2)} />
+                    <Tab label="Relatório" {...TabsProps(2)} />
+                    <Tab label="Sobre Nós" {...TabsProps(3)} />
                 </Tabs>
             </Grid>
         </Grid>
