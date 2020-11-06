@@ -4,8 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 
-import yearsData from './years';
-import years from './years';
+import yearsData from './data/years';
 import useStyles from './styles';
 
 const yearsMenu: React.FC = () => {
@@ -38,7 +37,7 @@ const yearsMenu: React.FC = () => {
                 className={classes.button}
                 onClick={handleClick}
             >
-                {years[selectedIndex]}
+                {yearsData[selectedIndex]}
                 <ChevronDownIcon size={20} />
             </Button>
             <Menu
