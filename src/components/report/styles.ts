@@ -24,6 +24,29 @@ const useStyles = makeStyles((theme: Theme) =>
                 },
             },
         },
+
+        checkboxesContainer: {
+            paddingRight: '2.5rem',
+            overflowY: 'auto',
+            minHeight: 820,
+            maxHeight: 840,
+            scrollbarWidth: 'thin',
+            '&::-webkit-scrollbar': {
+                width: '8px',
+                marginLeft: '12px',
+            },
+            /* Track */
+            '&::-webkit-scrollbar-track': {
+                WebkitBorderRadius: '10px',
+                borderRadius: '10px',
+            },
+            /* Handle */
+            '&::-webkit-scrollbar-thumb': {
+                WebkitBorderRadius: '10px',
+                borderRadius: '10px',
+                background: 'rgba(170,170,170,0.5)',
+            },
+        },
     })
 );
 
