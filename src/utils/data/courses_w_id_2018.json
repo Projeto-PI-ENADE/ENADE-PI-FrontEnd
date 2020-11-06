@@ -1,50 +1,122 @@
 [
         {
             "id": 0,
-            "name": "Administração"
+            "name": "Administração",
+            "checked": false
         },
         {
             "id": 1,
-            "name": "Administração Pública"
+            "name": "Administração Pública",
+            "checked": false
         },
         {
             "id": 2,
-            "name": "Ciências Contábeis"
+            "name": "Ciências Contábeis",
+            "checked": false
         },
         {
             "id": 3,
-            "name": "Ciências Econômicas"
+            "name": "Ciências Econômicas",
+            "checked": false
         },
         {
             "id": 4,
-            "name": "Design"
+            "name": "Design",
+            "checked": false
         },
         {
             "id": 5,
-            "name": "Direito"
+            "name": "Direito",
+            "checked": false
         },
         {
             "id": 6,
-            "name": "Tecnologia em Comércio Exterior"
+            "name": "Tecnologia em Comércio Exterior",
+            "checked": false
         },
         {
             "id": 7,
-            "name": "Tecnologia em Design de Interiores"
+            "name": "Tecnologia em Design de Interiores",
+            "checked": false
         },
         {
             "id": 8,
-            "name": "Tecnologia em Design de Moda"
+            "name": "Tecnologia em Design de Moda",
+            "checked": false
         },
         {
             "id": 9,
-            "name": "Tecnologia em Design Gráfico"
+            "name": "Tecnologia em Design Gráfico",
+            "checked": false
         },
         {
             "id": 10,
-            "name": "Tecnologia em Gastronomia"
+            "name": "Tecnologia em Gastronomia",
+            "checked": false
         },
         {
             "id": 11,
-            "name": "Tecnologia em Gestão Comercial"
+            "name": "Tecnologia em Gestão Comercial",
+            "checked": false
+        },
+        {
+            "id": 0,
+            "name": "Administração",
+            "checked": false
+        },
+        {
+            "id": 1,
+            "name": "Administração Pública",
+            "checked": false
+        },
+        {
+            "id": 2,
+            "name": "Ciências Contábeis",
+            "checked": false
+        },
+        {
+            "id": 3,
+            "name": "Ciências Econômicas",
+            "checked": false
+        },
+        {
+            "id": 4,
+            "name": "Design",
+            "checked": false
+        },
+        {
+            "id": 5,
+            "name": "Direito",
+            "checked": false
+        },
+        {
+            "id": 6,
+            "name": "Tecnologia em Comércio Exterior",
+            "checked": false
+        },
+        {
+            "id": 7,
+            "name": "Tecnologia em Design de Interiores",
+            "checked": false
+        },
+        {
+            "id": 8,
+            "name": "Tecnologia em Design de Moda",
+            "checked": false
+        },
+        {
+            "id": 9,
+            "name": "Tecnologia em Design Gráfico",
+            "checked": false
+        },
+        {
+            "id": 10,
+            "name": "Tecnologia em Gastronomia",
+            "checked": false
+        },
+        {
+            "id": 11,
+            "name": "Tecnologia em Gestão Comercial",
+            "checked": false
         }
 ]
