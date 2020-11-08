@@ -11,6 +11,8 @@ import yearsData from '../utils/data/report/years';
 import coursesData from '../utils/data/courses_w_id_2018.json';
 
 import ReportCard from '../components/report/reportCard';
+import RadioCard from '../components/report/radioCard';
+// import CoursesCard from '../components/report/coursesCard/coursesCard';
 import ScrollToTopButton from '../components/scrollTopButton/scrollTopButton';
 import homeUseStyles from '../styles/pages/index';
 import useStyles from '../styles/pages/report';
@@ -39,32 +41,19 @@ const Report: React.FC = () => {
             <Grid container spacing={3} className={classes.cardsContainer}>
                 <Grid container item xs={12} md={4} spacing={3}>
                     <Grid item xs={12}>
-                        <ReportCard
-                            title="Notas"
-                            data={scoresData}
-                            labelKey="label"
-                        />
+                        <ReportCard title="Notas" data={scoresData} />
                     </Grid>
                     <Grid item xs={12}>
-                        <ReportCard
-                            title="Presença"
-                            data={presencesData}
-                            labelKey="label"
-                        />
+                        <ReportCard title="Presença" data={presencesData} />
                     </Grid>
                     <Grid item xs={12}>
                         <ReportCard
                             title="Dados dos Participantes"
                             data={participantsData}
-                            labelKey="label"
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <ReportCard
-                            title="Exportação"
-                            data={exportsData}
-                            labelKey="label"
-                        />
+                        <RadioCard title="Exportação" data={exportsData} />
                     </Grid>
                 </Grid>
                 <Grid container item xs={12} md={8} spacing={1}>
@@ -76,7 +65,7 @@ const Report: React.FC = () => {
                             row
                         />
                     </Grid>
-                    <Grid container item xs={12}>
+                    <Grid container item xs={12} style={{ marginTop: '1rem' }}>
                         <ReportCard
                             title="Cursos"
                             data={coursesData}
