@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
@@ -8,11 +8,13 @@ import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 type Props = {
     initialData: Array<any>;
     setState: React.Dispatch<React.SetStateAction<any>>;
+    setIds: Dispatch<SetStateAction<Array<number>>>;
 };
 
-const ClearButton: React.FC<Props> = ({ initialData, setState }) => {
+const ClearButton: React.FC<Props> = ({ initialData, setState, setIds }) => {
     const clearBoxes = () => {
         setState(initialData);
+        setIds([]);
     };
 
     return (
