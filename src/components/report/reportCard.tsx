@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -12,18 +12,21 @@ import useStyles from './styles';
 type Props<T> = {
     title: string;
     data: Array<T>;
-    labelKey: string;
+    labelKey?: string;
     row?: boolean;
     scroll?: boolean;
 };
 
 const ReportCard = <T extends object>(props: Props<T>) => {
     const classes = useStyles();
-    const { title, data, labelKey, row, scroll } = props;
+    const { title, data, labelKey = 'label', row, scroll } = props;
 
     const [state, setState] = useState(data);
+    const [ids, setIds] = useState<Array<number>>([]);
 
-    const handleChange = (
+    // useEffect(() => console.log(`${title}: `, ids), [ids]);
+
+    const handleCheckboxes = (
         event: React.ChangeEvent<HTMLInputElement>,
         index: number
     ) => {
@@ -36,11 +39,34 @@ const ReportCard = <T extends object>(props: Props<T>) => {
         setState(copyState);
     };
 
+    const handleIds = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        id: number
+    ) => {
+        let copyIds = [...ids];
+        if (event.target.checked) copyIds.push(id);
+        else copyIds.splice(copyIds.indexOf(id), 1);
+        setIds(copyIds);
+    };
+
+    const handleChange = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        index: number,
+        id: number
+    ) => {
+        handleCheckboxes(event, index);
+        handleIds(event, id);
+    };
+
     return (
         <Grid container className={classes.container}>
             <FormControl component="fieldset">
                 <Typography component="legend">{title}</Typography>
-                <ClearButton initialData={data} setState={setState} />
+                <ClearButton
+                    initialData={data}
+                    setState={setState}
+                    setIds={setIds}
+                />
                 <Grid
                     item
                     xs={12}
@@ -56,7 +82,11 @@ const ReportCard = <T extends object>(props: Props<T>) => {
                                         checked={item['checked']}
                                         color="primary"
                                         onChange={(event) =>
-                                            handleChange(event, index)
+                                            handleChange(
+                                                event,
+                                                index,
+                                                item['id']
+                                            )
                                         }
                                     />
                                 }

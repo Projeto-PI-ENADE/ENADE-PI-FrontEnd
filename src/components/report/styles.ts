@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme: Theme) =>
         checkboxesContainer: {
             paddingRight: '2.5rem',
             overflowY: 'auto',
-            minHeight: 820,
-            maxHeight: 840,
+            minHeight: 800,
+            maxHeight: 800,
             scrollbarWidth: 'thin',
             '&::-webkit-scrollbar': {
                 width: '8px',
