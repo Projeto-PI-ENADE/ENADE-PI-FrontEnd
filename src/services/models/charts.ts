@@ -1,3 +1,7 @@
+export type TypeScoresRank = Array<{
+    qnt: number;
+    prc: number;
+}>;
 export type TypeStudentsPerAge = Array<number>;
 export type TypeStudentsPerGender = {
     feminino: number;
@@ -11,3 +15,7 @@ export type TypeCoursesPerTeachingModality = {
     presencial: number;
     ead: number;
 };
+export type TypeCoursesPerAcademicOrg = Array<{
+    tipo_org: number | string;
+    prc: number;
+}>;

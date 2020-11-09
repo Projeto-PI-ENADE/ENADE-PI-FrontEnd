@@ -1,8 +1,10 @@
 import api from '../api';
 import {
+    TypeScoresRank,
     TypeStudentsPerGender,
     TypeStudentsPerSchoolType,
     TypeCoursesPerTeachingModality,
+    TypeCoursesPerAcademicOrg,
 } from '../models/charts';
 import chartUrls from '../urls/charts';
 import toFixed from '../../utils/functions/toFixed';
@@ -10,9 +12,35 @@ import toFixed from '../../utils/functions/toFixed';
 export type TypeChart = {
     labels: Array<string>;
     data: Array<any>;
+    secondaryData?: Array<any>;
 };
 
 const chartsApi = {
+    scoresRank: async () => {
+        try {
+            const response = await api.get<TypeScoresRank>(
+                chartUrls.scoresRank
+            );
+            let auxData = [...response.data];
+            let dataset: Array<number> = [];
+            let dataset2: Array<number> = [];
+            auxData.map((item) => {
+                dataset.push(item.qnt);
+                dataset2.push(toFixed(item.prc, 2));
+            });
+            // console.log(auxData);
+            const data: TypeChart = {
+                labels: ['0-20', '20-40', '40-60', '60-80', '80-100'],
+                data: dataset,
+                secondaryData: dataset2,
+            };
+            return data;
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+
     studentsPerAge: async () => {
         try {
             const response = await api.get<Array<number>>(
@@ -120,19 +148,65 @@ const chartsApi = {
             return Promise.reject(error);
         }
     },
+
+    coursesPerAcademicOrg: async () => {
+        try {
+            const response = await api.get<TypeCoursesPerAcademicOrg>(
+                chartUrls.coursesPerAcademicOrg
+            );
+            let auxData = [...response.data];
+            let labels: Array<string> = [];
+            let dataset: Array<number> = [];
+            auxData.map((item) => {
+                switch (item.tipo_org) {
+                    case 10019:
+                        labels.push('Centro Federal de Educação Tecnológica');
+                        break;
+                    case 10020:
+                        labels.push('Centro Universitário');
+                        break;
+                    case 10022:
+                        labels.push('Faculdade');
+                        break;
+                    case 10026:
+                        labels.push(
+                            'Instituto Federal de Educação, Ciência e Tecnologia'
+                        );
+                        break;
+                    case 10028:
+                        labels.push('Universidade');
+                        break;
+                }
+                dataset.push(toFixed(item.prc, 2));
+            });
+            // console.log(auxData);
+            const data: TypeChart = {
+                labels,
+                data: dataset,
+            };
+            return data;
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
 };
 
 const getChartData = async () => {
+    const scoresRank = await chartsApi.scoresRank();
     const perAgeData = await chartsApi.studentsPerAge();
     const perGenderData = await chartsApi.studentsPerGender();
     const perSchoolType = await chartsApi.studentsPerSchoolType();
     const perTeachingModality = await chartsApi.coursesPerTeachingModality();
+    const coursesPerAcademicOrg = await chartsApi.coursesPerAcademicOrg();
 
     const data = {
+        scoresRank,
         perAgeData,
         perGenderData,
         perSchoolType,
         perTeachingModality,
+        coursesPerAcademicOrg,
     };
     // console.log(data);
     return data;
