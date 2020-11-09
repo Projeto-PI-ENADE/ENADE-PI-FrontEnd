@@ -1,8 +1,11 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
+import { GetStaticProps } from 'next';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import courses2018 from '../utils/data/courses_2018.json';
+import { getChartData, TypeChart } from '../services';
 
 import MainCard from '../components/mainCard/mainCard';
 import { SecondaryCard, CardItem } from '../components/secondaryCard';
@@ -12,8 +15,15 @@ import { ChartContainer, ChartItem } from '../components/chart';
 import ScrollToTopButton from '../components/scrollTopButton/scrollTopButton';
 import useStyles from '../styles/pages/index';
 
-const Home: React.FC = () => {
+type Props = {
+    charts: {
+        [key: string]: TypeChart;
+    };
+};
+
+const Home: React.FC<Props> = ({ charts }) => {
     const classes = useStyles();
+
     return (
         <Grid container direction={'column'} className={classes.container}>
             <Head>
@@ -93,11 +103,11 @@ const Home: React.FC = () => {
                     }}
                 >
                     <ChartItem title="Relatório das notas" />
+                    {/* <ChartItem title="Relatório das notas" />
                     <ChartItem title="Relatório das notas" />
                     <ChartItem title="Relatório das notas" />
                     <ChartItem title="Relatório das notas" />
-                    <ChartItem title="Relatório das notas" />
-                    <ChartItem title="Relatório das notas" />
+                    <ChartItem title="Relatório das notas" /> */}
                 </ChartItem>
                 <ChartItem title="Tipos de Presença" />
             </ChartContainer>
@@ -105,10 +115,27 @@ const Home: React.FC = () => {
             <ChartContainer
                 title={{ main: 'Dados', secondary: 'dos Participantes' }}
             >
-                <ChartItem title="Tipos de Presença" />
-                <ChartItem title="Tipos de Presença" />
-                <ChartItem title="Tipos de Presença" />
-                <ChartItem title="Tipos de Presença" />
+                <ChartItem
+                    title="Idade"
+                    description="Qnt. total por idade"
+                    data={charts['perAgeData']}
+                />
+                <ChartItem
+                    title="Gênero"
+                    description="Qnt. total por gênero"
+                    data={charts['perGenderData']}
+                />
+                <ChartItem
+                    title="Tipo de Ensino Médio"
+                    description="% de tipo de Ensino Médio"
+                    data={charts['perSchoolType']}
+                    chartType="Doughnut"
+                />
+                <ChartItem
+                    title="Modalidade de Ensino"
+                    description="Qnt. total por modalidade de ensino"
+                    data={charts['perTeachingModality']}
+                />
             </ChartContainer>
 
             <ScrollToTopButton />
@@ -117,3 +144,21 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+
+export const getStaticProps: GetStaticProps = async () => {
+    let data = null;
+
+    try {
+        const response = await getChartData();
+        data = response;
+    } catch (error) {
+        // toast de erro
+    }
+
+    return {
+        props: {
+            charts: data,
+        },
+        revalidate: 20,
+    };
+};

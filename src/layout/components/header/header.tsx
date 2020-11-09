@@ -14,7 +14,7 @@ const Header: React.FC = () => {
 
     useEffect(() => {
         const setInitialTab = () => {
-            console.log(router.pathname);
+            // console.log(router.pathname);
             switch (router.pathname) {
                 case '/':
                     setValue(0);
