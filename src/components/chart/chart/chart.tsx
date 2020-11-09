@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
+import Switch from '@material-ui/core/Switch';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import { Info as InfoIcon } from '@styled-icons/fa-solid';
 
@@ -14,10 +15,17 @@ import useStyles from './styles';
 type Props<T> = {
     title: string;
     description?: string;
+    secondaryDescription?: string;
     data?: T;
+    secondaryData?: Array<number>;
     modalTitle?: TypeTitle;
     chartType?: 'Bar' | 'Doughnut';
     children?: React.ReactNode;
+};
+
+const defaultData = {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    data: [12, 19, 3, 5, 2, 3],
 };
 
 const ChartItem = <T extends object>(props: Props<T>) => {
@@ -25,19 +33,28 @@ const ChartItem = <T extends object>(props: Props<T>) => {
     const {
         title,
         description,
-        data,
+        secondaryDescription,
+        data = defaultData,
         modalTitle,
         chartType = 'Bar',
         children,
     } = props;
+
+    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+    const [showSecondaryData, setShowSecondaryData] = useState(false);
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setShowSecondaryData(event.target.checked);
+    };
+
     const chartData = {
         labels: data
             ? data['labels']
             : ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
         datasets: [
             {
-                label: description ? description : '# of Votes',
-                data: data ? data['data'] : [12, 19, 3, 5, 2, 3],
+                label: showSecondaryData ? secondaryDescription : description,
+                data: showSecondaryData ? data['secondaryData'] : data['data'],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -61,8 +78,6 @@ const ChartItem = <T extends object>(props: Props<T>) => {
         ],
     };
 
-    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-
     return (
         <React.Fragment>
             <Grid container item xs={12} md={6} className={classes.container}>
@@ -72,12 +87,30 @@ const ChartItem = <T extends object>(props: Props<T>) => {
                     md={11}
                     className={classes.chartContentContainer}
                 >
-                    <Grid container>
-                        <Grid item xs={9} className={classes.titleContainer}>
+                    <Grid container alignItems="center">
+                        <Grid item xs={6} className={classes.titleContainer}>
                             <Typography variant="h6">{title}</Typography>
                         </Grid>
+                        {secondaryDescription && (
+                            <Grid container item xs={4} alignItems="center">
+                                <Switch
+                                    color="primary"
+                                    checked={showSecondaryData}
+                                    onChange={handleChange}
+                                    inputProps={{
+                                        'aria-label':
+                                            'Interruptor do tipo de dado',
+                                    }}
+                                />
+                                <Typography>
+                                    {showSecondaryData
+                                        ? secondaryDescription
+                                        : description}
+                                </Typography>
+                            </Grid>
+                        )}
                         {modalTitle && (
-                            <Grid container item xs={3} justify="flex-end">
+                            <Grid container item xs={2} justify="flex-end">
                                 <Tooltip
                                     title="Ver detalhes"
                                     arrow
@@ -93,7 +126,7 @@ const ChartItem = <T extends object>(props: Props<T>) => {
                         )}
                     </Grid>
                     <Grid item xs={12}>
-                        {chartType === 'Bar' ? (
+                        {chartType === 'Bar' && !showSecondaryData ? (
                             <Bar
                                 data={chartData}
                                 // width={100}
