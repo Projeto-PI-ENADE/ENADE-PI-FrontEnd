@@ -5,7 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import courses2018 from '../utils/data/courses_2018.json';
-import { getChartData, TypeChart } from '../services';
+import formatPtBr from '../utils/functions/formatPtBr';
+import { getData, getChartData, TypeChart, TypeData } from '../services';
 
 import MainCard from '../components/mainCard/mainCard';
 import { SecondaryCard, CardItem } from '../components/secondaryCard';
@@ -16,12 +17,13 @@ import ScrollToTopButton from '../components/scrollTopButton/scrollTopButton';
 import useStyles from '../styles/pages/index';
 
 type Props = {
+    data: TypeData;
     charts: {
         [key: string]: TypeChart;
     };
 };
 
-const Home: React.FC<Props> = ({ charts }) => {
+const Home: React.FC<Props> = ({ data, charts }) => {
     const classes = useStyles();
 
     return (
@@ -54,7 +56,10 @@ const Home: React.FC<Props> = ({ charts }) => {
             </Grid>
 
             <Grid container component="ul" className={classes.cardsContainer}>
-                <MainCard title="Alunos Inscritos" value="500.000" />
+                <MainCard
+                    title="Alunos Inscritos"
+                    value={formatPtBr(data.studentsEnrolled)}
+                />
                 <SecondaryCard title="Tipos de Presença" component="li">
                     <CardItem data="400.000" subtitle="Presentes" />
                     <CardItem
@@ -96,7 +101,11 @@ const Home: React.FC<Props> = ({ charts }) => {
                 title={{ main: 'Resultados', secondary: 'do Enade' }}
             >
                 <ChartItem
-                    title="Relatório das notas"
+                    title="Ranking das notas"
+                    description="Quantidade"
+                    secondaryDescription="Porcentagem"
+                    data={charts['scoresRank']}
+                    secondaryData={charts['scoresRank'].secondaryData}
                     modalTitle={{
                         main: 'Análises',
                         secondary: 'de notas',
@@ -126,15 +135,29 @@ const Home: React.FC<Props> = ({ charts }) => {
                     data={charts['perGenderData']}
                 />
                 <ChartItem
-                    title="Tipo de Ensino Médio"
+                    title="Tipo de Ensino Médio %"
                     description="% de tipo de Ensino Médio"
                     data={charts['perSchoolType']}
                     chartType="Doughnut"
                 />
+            </ChartContainer>
+
+            <ChartContainer
+                title={{
+                    main: 'Dados',
+                    secondary: 'dos cursos dos participantes',
+                }}
+            >
                 <ChartItem
                     title="Modalidade de Ensino"
                     description="Qnt. total por modalidade de ensino"
                     data={charts['perTeachingModality']}
+                />
+                <ChartItem
+                    title="Organização acadêmica"
+                    description="Qnt. total por organização acadêmica"
+                    data={charts['coursesPerAcademicOrg']}
+                    chartType="Doughnut"
                 />
             </ChartContainer>
 
@@ -147,18 +170,23 @@ export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
     let data = null;
+    let chartsData = null;
 
     try {
-        const response = await getChartData();
-        data = response;
+        const dataResponse = await getData();
+        const chartResponse = await getChartData();
+        data = dataResponse;
+        chartsData = chartResponse;
+        // console.log(chartsData);
     } catch (error) {
         // toast de erro
     }
 
     return {
         props: {
-            charts: data,
+            data,
+            charts: chartsData,
         },
-        revalidate: 20,
+        revalidate: 10,
     };
 };
