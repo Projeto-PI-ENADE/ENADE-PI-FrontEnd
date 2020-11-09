@@ -145,17 +145,17 @@ const Home: React.FC<Props> = ({ data, charts }) => {
             <ChartContainer
                 title={{
                     main: 'Dados',
-                    secondary: 'dos cursos dos participantes',
+                    secondary: 'dos cursos',
                 }}
             >
                 <ChartItem
                     title="Modalidade de Ensino"
-                    description="Qnt. total por modalidade de ensino"
+                    description="Qnt. total"
                     data={charts['perTeachingModality']}
                 />
                 <ChartItem
                     title="Organização acadêmica"
-                    description="Qnt. total por organização acadêmica"
+                    description="Qnt. total"
                     data={charts['coursesPerAcademicOrg']}
                     chartType="Doughnut"
                 />

@@ -88,11 +88,22 @@ const ChartItem = <T extends object>(props: Props<T>) => {
                     className={classes.chartContentContainer}
                 >
                     <Grid container alignItems="center">
-                        <Grid item xs={6} className={classes.titleContainer}>
+                        <Grid
+                            item
+                            xs={12}
+                            md={6}
+                            className={classes.titleContainer}
+                        >
                             <Typography variant="h6">{title}</Typography>
                         </Grid>
                         {secondaryDescription && (
-                            <Grid container item xs={4} alignItems="center">
+                            <Grid
+                                container
+                                item
+                                xs={6}
+                                md={4}
+                                alignItems="center"
+                            >
                                 <Switch
                                     color="primary"
                                     checked={showSecondaryData}
@@ -110,7 +121,13 @@ const ChartItem = <T extends object>(props: Props<T>) => {
                             </Grid>
                         )}
                         {modalTitle && (
-                            <Grid container item xs={2} justify="flex-end">
+                            <Grid
+                                container
+                                item
+                                xs={6}
+                                md={2}
+                                justify="flex-end"
+                            >
                                 <Tooltip
                                     title="Ver detalhes"
                                     arrow
@@ -133,7 +150,10 @@ const ChartItem = <T extends object>(props: Props<T>) => {
                                 // height={200}
                             />
                         ) : (
-                            <Doughnut data={chartData} />
+                            <Doughnut
+                                data={chartData}
+                                options={{ maintainAspectRatio: true }}
+                            />
                         )}
                     </Grid>
                 </Grid>

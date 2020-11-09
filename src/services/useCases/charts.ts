@@ -104,15 +104,15 @@ const chartsApi = {
                         break;
                     case 'D':
                         auxData[index].tip_ens_medio =
-                            'A maior parte em escola pública';
+                            'Maior parte em escola pública';
                         break;
                     case 'E':
                         auxData[index].tip_ens_medio =
-                            'A maior parte em escola particular';
+                            'Maior parte em escola particular';
                         break;
                     case 'F':
                         auxData[index].tip_ens_medio =
-                            'Parte no Brasil e parte no exterior';
+                            'Parte no Brasil e no exterior';
                         break;
                 }
                 labels.push(item.tip_ens_medio);
