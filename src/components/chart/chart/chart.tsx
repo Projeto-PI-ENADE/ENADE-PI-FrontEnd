@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Doughnut } from 'react-chartjs-2';
 import { Info as InfoIcon } from '@styled-icons/fa-solid';
 
 import TypeTitle from '../models/title';
@@ -11,42 +11,55 @@ import TypeTitle from '../models/title';
 import ChartModal from '../modal/modal';
 import useStyles from './styles';
 
-const data = {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    datasets: [
-        {
-            label: '% of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-            ],
-            borderWidth: 1,
-        },
-    ],
-};
-
-type Props = {
+type Props<T> = {
     title: string;
+    description?: string;
+    data?: T;
     modalTitle?: TypeTitle;
+    chartType?: 'Bar' | 'Doughnut';
     children?: React.ReactNode;
 };
 
-const ChartItem: React.FC<Props> = (props: Props) => {
+const ChartItem = <T extends object>(props: Props<T>) => {
     const classes = useStyles();
-    const { title, modalTitle, children } = props;
+    const {
+        title,
+        description,
+        data,
+        modalTitle,
+        chartType = 'Bar',
+        children,
+    } = props;
+    const chartData = {
+        labels: data
+            ? data['labels']
+            : ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [
+            {
+                label: description ? description : '# of Votes',
+                data: data ? data['data'] : [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(254, 96, 13, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(254, 96, 13, 1)',
+                ],
+                borderWidth: 1,
+            },
+        ],
+    };
 
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
@@ -80,14 +93,15 @@ const ChartItem: React.FC<Props> = (props: Props) => {
                         )}
                     </Grid>
                     <Grid item xs={12}>
-                        <Bar
-                            data={data}
-                            // width={100}
-                            // height={200}
-                            // options={{
-                            //     maintainAspectRatio: false,
-                            // }}
-                        />
+                        {chartType === 'Bar' ? (
+                            <Bar
+                                data={chartData}
+                                // width={100}
+                                // height={200}
+                            />
+                        ) : (
+                            <Doughnut data={chartData} />
+                        )}
                     </Grid>
                 </Grid>
             </Grid>
