@@ -1,8 +1,12 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
+import { GetStaticProps } from 'next';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import courses2018 from '../utils/data/courses_2018.json';
+import formatPtBr from '../utils/functions/formatPtBr';
+import { getData, getChartData, TypeChart, TypeData } from '../services';
 
 import MainCard from '../components/mainCard/mainCard';
 import { SecondaryCard, CardItem } from '../components/secondaryCard';
@@ -12,8 +16,16 @@ import { ChartContainer, ChartItem } from '../components/chart';
 import ScrollToTopButton from '../components/scrollTopButton/scrollTopButton';
 import useStyles from '../styles/pages/index';
 
-const Home: React.FC = () => {
+type Props = {
+    data: TypeData;
+    charts: {
+        [key: string]: TypeChart;
+    };
+};
+
+const Home: React.FC<Props> = ({ data, charts }) => {
     const classes = useStyles();
+
     return (
         <Grid container direction={'column'} className={classes.container}>
             <Head>
@@ -44,7 +56,10 @@ const Home: React.FC = () => {
             </Grid>
 
             <Grid container component="ul" className={classes.cardsContainer}>
-                <MainCard title="Alunos Inscritos" value="500.000" />
+                <MainCard
+                    title="Alunos Inscritos"
+                    value={formatPtBr(data.studentsEnrolled)}
+                />
                 <SecondaryCard title="Tipos de Presença" component="li">
                     <CardItem data="400.000" subtitle="Presentes" />
                     <CardItem
@@ -86,18 +101,22 @@ const Home: React.FC = () => {
                 title={{ main: 'Resultados', secondary: 'do Enade' }}
             >
                 <ChartItem
-                    title="Relatório das notas"
+                    title="Ranking das notas"
+                    description="Quantidade"
+                    secondaryDescription="Porcentagem"
+                    data={charts['scoresRank']}
+                    secondaryData={charts['scoresRank'].secondaryData}
                     modalTitle={{
                         main: 'Análises',
                         secondary: 'de notas',
                     }}
                 >
                     <ChartItem title="Relatório das notas" />
+                    {/* <ChartItem title="Relatório das notas" />
                     <ChartItem title="Relatório das notas" />
                     <ChartItem title="Relatório das notas" />
                     <ChartItem title="Relatório das notas" />
-                    <ChartItem title="Relatório das notas" />
-                    <ChartItem title="Relatório das notas" />
+                    <ChartItem title="Relatório das notas" /> */}
                 </ChartItem>
                 <ChartItem title="Tipos de Presença" />
             </ChartContainer>
@@ -105,10 +124,41 @@ const Home: React.FC = () => {
             <ChartContainer
                 title={{ main: 'Dados', secondary: 'dos Participantes' }}
             >
-                <ChartItem title="Tipos de Presença" />
-                <ChartItem title="Tipos de Presença" />
-                <ChartItem title="Tipos de Presença" />
-                <ChartItem title="Tipos de Presença" />
+                <ChartItem
+                    title="Idade"
+                    description="Qnt. total por idade"
+                    data={charts['perAgeData']}
+                />
+                <ChartItem
+                    title="Gênero"
+                    description="Qnt. total por gênero"
+                    data={charts['perGenderData']}
+                />
+                <ChartItem
+                    title="Tipo de Ensino Médio %"
+                    description="% de tipo de Ensino Médio"
+                    data={charts['perSchoolType']}
+                    chartType="Doughnut"
+                />
+            </ChartContainer>
+
+            <ChartContainer
+                title={{
+                    main: 'Dados',
+                    secondary: 'dos cursos',
+                }}
+            >
+                <ChartItem
+                    title="Modalidade de Ensino"
+                    description="Qnt. total"
+                    data={charts['perTeachingModality']}
+                />
+                <ChartItem
+                    title="Organização acadêmica"
+                    description="Qnt. total"
+                    data={charts['coursesPerAcademicOrg']}
+                    chartType="Doughnut"
+                />
             </ChartContainer>
 
             <ScrollToTopButton />
@@ -117,3 +167,26 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+
+export const getStaticProps: GetStaticProps = async () => {
+    let data = null;
+    let chartsData = null;
+
+    try {
+        const dataResponse = await getData();
+        const chartResponse = await getChartData();
+        data = dataResponse;
+        chartsData = chartResponse;
+        // console.log(chartsData);
+    } catch (error) {
+        // toast de erro
+    }
+
+    return {
+        props: {
+            data,
+            charts: chartsData,
+        },
+        revalidate: 10,
+    };
+};

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
             },
 
             '& h4': {
-                color: theme.palette.primary.light,
+                color: '#E8FFF9',
                 fontWeight: 600,
 
                 [theme.breakpoints.down('md')]: {
