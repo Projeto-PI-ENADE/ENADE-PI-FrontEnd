@@ -30,6 +30,10 @@ const Home: React.FC<Props> = ({ data, charts }) => {
         <Grid container direction={'column'} className={classes.container}>
             <Head>
                 <title>Painel do Enade</title>
+                <meta
+                    name="description"
+                    content="Análises e relatórios dos dados do ENADE"
+                />
             </Head>
 
             <Grid container>
@@ -61,13 +65,13 @@ const Home: React.FC<Props> = ({ data, charts }) => {
                     value={formatPtBr(data.studentsEnrolled)}
                 />
                 <SecondaryCard title="Tipos de Presença" component="li">
-                    <CardItem data="400.000" subtitle="Presentes" />
+                    <CardItem data="330.000" subtitle="Presentes" />
                     <CardItem
-                        data="50.000"
+                        data="57.928"
                         subtitle="Ausentes"
                         className="right-content"
                     />
-                    <CardItem data="50.000" subtitle="Eliminados" />
+                    <CardItem data="10.000" subtitle="Eliminados" />
                 </SecondaryCard>
                 <SecondaryCard title="Aplicação do Exame" component="li">
                     <CardItem data={27} subtitle="UFs" />

@@ -96,30 +96,26 @@ const ChartItem = <T extends object>(props: Props<T>) => {
                         >
                             <Typography variant="h6">{title}</Typography>
                         </Grid>
-                        {secondaryDescription && (
-                            <Grid
-                                container
-                                item
-                                xs={6}
-                                md={4}
-                                alignItems="center"
-                            >
-                                <Switch
-                                    color="primary"
-                                    checked={showSecondaryData}
-                                    onChange={handleChange}
-                                    inputProps={{
-                                        'aria-label':
-                                            'Interruptor do tipo de dado',
-                                    }}
-                                />
-                                <Typography>
-                                    {showSecondaryData
-                                        ? secondaryDescription
-                                        : description}
-                                </Typography>
-                            </Grid>
-                        )}
+                        <Grid container item xs={6} md={4} alignItems="center">
+                            {secondaryDescription && (
+                                <>
+                                    <Switch
+                                        color="primary"
+                                        checked={showSecondaryData}
+                                        onChange={handleChange}
+                                        inputProps={{
+                                            'aria-label':
+                                                'Interruptor do tipo de dado',
+                                        }}
+                                    />
+                                    <Typography>
+                                        {showSecondaryData
+                                            ? secondaryDescription
+                                            : description}
+                                    </Typography>
+                                </>
+                            )}
+                        </Grid>
                         {modalTitle && (
                             <Grid
                                 container

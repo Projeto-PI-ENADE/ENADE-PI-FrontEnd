@@ -1,7 +1,6 @@
 import api from '../api';
 import { TypeStudentsEnrolled } from '../models/data';
 import dataUrls from '../urls/data';
-import toFixed from '../../utils/functions/toFixed';
 
 const dataApi = {
     studentsEnrolled: async () => {
