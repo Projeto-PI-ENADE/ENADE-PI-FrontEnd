@@ -1,6 +1,10 @@
 import api from './api';
-import getChartData, { TypeChart } from './useCases/charts';
+import getChartData, {
+    TypeChart,
+    TypeGroupedChart,
+    getGroupedChartData,
+} from './useCases/charts';
 import getData, { TypeData } from './useCases/data';
 
-export { api, getChartData, getData };
-export type { TypeChart, TypeData };
+export { api, getData, getChartData, getGroupedChartData };
+export type { TypeChart, TypeGroupedChart, TypeData };

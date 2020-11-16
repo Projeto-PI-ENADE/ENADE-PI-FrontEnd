@@ -1,6 +1,7 @@
 import api from '../api';
 import {
     TypeScoresRank,
+    TypeScoresPerGenderAndGroup,
     TypeStudentsPerGender,
     TypeStudentsPerSchoolType,
     TypeCoursesPerTeachingModality,
@@ -9,10 +10,46 @@ import {
 import chartUrls from '../urls/charts';
 import toFixed from '../../utils/functions/toFixed';
 
+const colorsConfig = {
+    backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(254, 96, 13, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+    ],
+    borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(254, 96, 13, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)',
+        'rgba(255, 206, 86, 1)',
+    ],
+    borderWidth: 1,
+};
+
 export type TypeChart = {
     labels: Array<string>;
-    data: Array<any>;
-    secondaryData?: Array<any>;
+    data: Array<number>;
+    secondaryData?: Array<number>;
+};
+
+type TypeGroupedChartData = Array<{
+    label: string;
+    data: Array<number>;
+    backgroundColor: string | Array<string>;
+    borderColor?: string | Array<string>;
+    borderWidth?: number;
+}>;
+
+export type TypeGroupedChart = {
+    labels: Array<string>;
+    data: TypeGroupedChartData;
+    secondaryData?: TypeGroupedChartData;
 };
 
 const chartsApi = {
@@ -28,6 +65,90 @@ const chartsApi = {
                 dataset.push(item.qnt);
                 dataset2.push(toFixed(item.prc, 2));
             });
+            // console.log(auxData);
+            const data: TypeChart = {
+                labels: ['0-20', '20-40', '40-60', '60-80', '80-100'],
+                data: dataset,
+                secondaryData: dataset2,
+            };
+            return data;
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+
+    scoresPerGender: async () => {
+        const defaultValue = [
+            {
+                label: 'Feminino',
+                data: [],
+                backgroundColor: 'rgb(255, 99, 132)',
+            },
+            {
+                label: 'Masculino',
+                data: [],
+                backgroundColor: 'rgb(54, 162, 235)',
+            },
+        ];
+        const defaultValue2 = [
+            {
+                label: 'Feminino',
+                data: [],
+                backgroundColor: colorsConfig.backgroundColor,
+                borderColor: colorsConfig.borderColor,
+                borderWidth: colorsConfig.borderWidth,
+            },
+            {
+                label: 'Masculino',
+                data: [],
+                backgroundColor: colorsConfig.backgroundColor,
+                borderColor: colorsConfig.borderColor,
+                borderWidth: colorsConfig.borderWidth,
+            },
+        ];
+
+        try {
+            const response = await api.get<TypeScoresPerGenderAndGroup>(
+                chartUrls.scoresPerGender
+            );
+
+            let auxData = [...response.data];
+            let dataset: TypeGroupedChartData = [...defaultValue];
+            let dataset2: TypeGroupedChartData = [...defaultValue2];
+
+            for (let index = 0; index < auxData.length; index++) {
+                auxData[index].rank.map((item) => {
+                    dataset[index].data.push(item.quantidade_elementos);
+                    dataset2[index].data.push(toFixed(item.percentual, 2));
+                });
+            }
+            // console.log(dataset);
+            // console.log(dataset2);
+            const data: TypeGroupedChart = {
+                labels: ['0-20', '20-40', '40-60', '60-80', '80-100'],
+                data: dataset,
+                secondaryData: dataset2,
+            };
+            return data;
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+
+    scoresGroup: async () => {
+        try {
+            const response = await api.get<TypeScoresPerGenderAndGroup>(
+                chartUrls.scoresPerGroup
+            );
+            let auxData = [...response.data];
+            let dataset: Array<number> = [];
+            let dataset2: Array<number> = [];
+            // auxData.map((item) => {
+            //     dataset.push(item.qnt);
+            //     dataset2.push(toFixed(item.prc, 2));
+            // });
             // console.log(auxData);
             const data: TypeChart = {
                 labels: ['0-20', '20-40', '40-60', '60-80', '80-100'],
@@ -207,6 +328,16 @@ const getChartData = async () => {
         perSchoolType,
         perTeachingModality,
         coursesPerAcademicOrg,
+    };
+    // console.log(data);
+    return data;
+};
+
+export const getGroupedChartData = async () => {
+    const scoresPerGender = await chartsApi.scoresPerGender();
+
+    const data = {
+        scoresPerGender,
     };
     // console.log(data);
     return data;

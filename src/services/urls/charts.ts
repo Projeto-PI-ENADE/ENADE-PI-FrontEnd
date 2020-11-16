@@ -4,6 +4,8 @@ const courseUrl = 'cursos';
 
 const chartsUrl = {
     scoresRank: `${testUrl}/RankingNotas`,
+    scoresPerGender: `${testUrl}/sexo`,
+    scoresPerGroup: `${testUrl}/etnia`,
     studentsPerAge: `${studentUrl}/TotalPorIdade`,
     studentsPerGender: `${studentUrl}/TotalPorSexo`,
     studentsPerSchoolType: `${studentUrl}/PercentualModalidadeEM`,
