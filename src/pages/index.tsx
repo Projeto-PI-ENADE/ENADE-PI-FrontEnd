@@ -6,13 +6,24 @@ import Typography from '@material-ui/core/Typography';
 
 import courses2018 from '../utils/data/courses_2018.json';
 import formatPtBr from '../utils/functions/formatPtBr';
-import { getData, getChartData, TypeChart, TypeData } from '../services';
+import {
+    getData,
+    getChartData,
+    getGroupedChartData,
+    TypeChart,
+    TypeGroupedChart,
+    TypeData,
+} from '../services';
 
 import MainCard from '../components/mainCard/mainCard';
 import { SecondaryCard, CardItem } from '../components/secondaryCard';
 import YearsMenu from '../components/yearsMenu/yearsMenu';
 import CoursesCard from '../components/coursesCard/coursesCard';
-import { ChartContainer, ChartItem } from '../components/chart';
+import {
+    ChartContainer,
+    ChartItem,
+    GroupedChartItem,
+} from '../components/chart';
 import ScrollToTopButton from '../components/scrollTopButton/scrollTopButton';
 import useStyles from '../styles/pages/index';
 
@@ -21,9 +32,12 @@ type Props = {
     charts: {
         [key: string]: TypeChart;
     };
+    groupedCharts: {
+        [key: string]: TypeGroupedChart;
+    };
 };
 
-const Home: React.FC<Props> = ({ data, charts }) => {
+const Home: React.FC<Props> = ({ data, charts, groupedCharts }) => {
     const classes = useStyles();
 
     return (
@@ -109,18 +123,24 @@ const Home: React.FC<Props> = ({ data, charts }) => {
                     description="Quantidade"
                     secondaryDescription="Porcentagem"
                     data={charts['scoresRank']}
-                    secondaryData={charts['scoresRank'].secondaryData}
+                    chartType={{ first: 'Bar', second: 'Doughnut' }}
                     modalTitle={{
                         main: 'Análises',
                         secondary: 'de notas',
                     }}
                 >
-                    <ChartItem title="Relatório das notas" />
-                    {/* <ChartItem title="Relatório das notas" />
-                    <ChartItem title="Relatório das notas" />
-                    <ChartItem title="Relatório das notas" />
-                    <ChartItem title="Relatório das notas" />
-                    <ChartItem title="Relatório das notas" /> */}
+                    <GroupedChartItem
+                        title="Notas por Gênero"
+                        description="Quantidade"
+                        secondaryDescription="Porcentagem"
+                        data={groupedCharts['scoresPerGender']}
+                        switchSize="small"
+                    />
+                    <ChartItem title="Relatório das notas" description="Qnt." />
+                    <ChartItem title="Relatório das notas" description="Qnt." />
+                    <ChartItem title="Relatório das notas" description="Qnt." />
+                    <ChartItem title="Relatório das notas" description="Qnt." />
+                    <ChartItem title="Relatório das notas" description="Qnt." />
                 </ChartItem>
                 <ChartItem title="Tipos de Presença" />
             </ChartContainer>
@@ -156,6 +176,7 @@ const Home: React.FC<Props> = ({ data, charts }) => {
                     title="Modalidade de Ensino"
                     description="Qnt. total"
                     data={charts['perTeachingModality']}
+                    chartType="Doughnut"
                 />
                 <ChartItem
                     title="Organização acadêmica"
@@ -173,24 +194,20 @@ const Home: React.FC<Props> = ({ data, charts }) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
-    let data = null;
-    let chartsData = null;
-
     try {
-        const dataResponse = await getData();
-        const chartResponse = await getChartData();
-        data = dataResponse;
-        chartsData = chartResponse;
-        // console.log(chartsData);
+        const data = await getData();
+        const chartsData = await getChartData();
+        const groupedChart = await getGroupedChartData();
+
+        return {
+            props: {
+                data,
+                charts: chartsData,
+                groupedCharts: groupedChart,
+            },
+            revalidate: 10,
+        };
     } catch (error) {
         // toast de erro
     }
-
-    return {
-        props: {
-            data,
-            charts: chartsData,
-        },
-        revalidate: 10,
-    };
 };
