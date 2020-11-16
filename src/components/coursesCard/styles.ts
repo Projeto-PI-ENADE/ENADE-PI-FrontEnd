@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 maxHeight: 390,
                 columnCount: 2,
                 columnWidth: 450,
+                zIndex: 0,
 
                 [theme.breakpoints.down('md')]: {
                     marginTop: '.3rem',
