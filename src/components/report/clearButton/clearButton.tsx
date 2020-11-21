@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import ButtonBase from '@material-ui/core/ButtonBase';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 
@@ -18,10 +18,13 @@ const ClearButton: React.FC<Props> = ({ initialData, setState, setIds }) => {
     };
 
     return (
-        <ButtonBase onClick={clearBoxes}>
+        <Button
+            onClick={clearBoxes}
+            style={{ padding: '5px 0', textTransform: 'initial' }}
+        >
             <CloseIcon size={20} />
             <Typography>Limpar associações</Typography>
-        </ButtonBase>
+        </Button>
     );
 };
 

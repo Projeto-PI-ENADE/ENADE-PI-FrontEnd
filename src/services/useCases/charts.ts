@@ -95,16 +95,12 @@ const chartsApi = {
             {
                 label: 'Feminino',
                 data: [],
-                backgroundColor: colorsConfig.backgroundColor,
-                borderColor: colorsConfig.borderColor,
-                borderWidth: colorsConfig.borderWidth,
+                backgroundColor: 'rgb(255, 99, 132)',
             },
             {
                 label: 'Masculino',
                 data: [],
-                backgroundColor: colorsConfig.backgroundColor,
-                borderColor: colorsConfig.borderColor,
-                borderWidth: colorsConfig.borderWidth,
+                backgroundColor: 'rgb(54, 162, 235)',
             },
         ];
 
