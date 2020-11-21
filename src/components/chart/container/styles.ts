@@ -5,6 +5,22 @@ const useStyles = makeStyles((theme: Theme) =>
         container: {
             justifyContent: 'flex-start',
             '& #charts-container': {
+                scrollbarWidth: 'thin',
+                '&::-webkit-scrollbar': {
+                    width: '8px',
+                    marginLeft: '12px',
+                },
+                /* Track */
+                '&::-webkit-scrollbar-track': {
+                    WebkitBorderRadius: '10px',
+                    borderRadius: '10px',
+                },
+                /* Handle */
+                '&::-webkit-scrollbar-thumb': {
+                    WebkitBorderRadius: '10px',
+                    borderRadius: '10px',
+                    background: 'rgba(170,170,170,0.5)',
+                },
                 [theme.breakpoints.down('md')]: {
                     padding: '0',
                 },
