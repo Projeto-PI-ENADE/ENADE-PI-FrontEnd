@@ -21,6 +21,7 @@ type Props<T> = {
     modalTitle?: TypeTitle;
     children?: React.ReactNode;
     switchSize?: 'medium' | 'small';
+    fullWidth?: boolean;
 };
 
 const defaultData = {
@@ -38,6 +39,7 @@ const ChartItem = <T extends object>(props: Props<T>) => {
         modalTitle,
         children,
         switchSize = 'medium',
+        fullWidth = false,
     } = props;
 
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
@@ -56,7 +58,13 @@ const ChartItem = <T extends object>(props: Props<T>) => {
 
     return (
         <React.Fragment>
-            <Grid container item xs={12} md={6} className={classes.container}>
+            <Grid
+                container
+                item
+                xs={12}
+                md={fullWidth ? 12 : 6}
+                className={classes.container}
+            >
                 <Grid
                     item
                     xs={12}
