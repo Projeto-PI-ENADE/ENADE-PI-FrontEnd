@@ -9,6 +9,14 @@ export type TypeScores = Array<{
         percentual: number;
     }>;
 }>;
+export type TypeStudentsPresence = {
+    Total: number;
+    NumeroALunosPresentes: number;
+    PercentualPresente: number;
+    NumeroAlunosAusentes: number;
+    PercentualAusente: number;
+};
+
 export type TypeStudentsPerAge = Array<number>;
 export type TypeStudentsPerGender = {
     feminino: number;

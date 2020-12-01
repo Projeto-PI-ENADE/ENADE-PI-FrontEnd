@@ -1,12 +1,14 @@
 const testUrl = 'provas';
 const studentUrl = 'alunos';
 const courseUrl = 'cursos';
+const presenceUrl = 'presenca';
 
 const chartsUrl = {
     scoresRank: `${testUrl}/RankingNotas`,
     scoresPerGender: `${testUrl}/sexo`,
     scoresPerAge: `${testUrl}/idade`,
     scoresPerGroup: `${testUrl}/etnia`,
+    studentsPresence: `${presenceUrl}/proporcaoAusentePresente`,
     studentsPerAge: `${studentUrl}/TotalPorIdade`,
     studentsPerGender: `${studentUrl}/TotalPorSexo`,
     studentsPerSchoolType: `${studentUrl}/PercentualModalidadeEM`,

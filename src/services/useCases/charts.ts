@@ -2,6 +2,7 @@ import api from '../api';
 import {
     TypeScoresRank,
     TypeScores,
+    TypeStudentsPresence,
     TypeStudentsPerGender,
     TypeStudentsPerSchoolType,
     TypeCoursesPerTeachingModality,
@@ -267,6 +268,30 @@ const chartsApi = {
         }
     },
 
+    studentsPresence: async () => {
+        try {
+            const response = await api.get<TypeStudentsPresence>(
+                chartUrls.studentsPresence
+            );
+            const presence = response.data;
+            const data: TypeChart = {
+                labels: ['Presentes', 'Ausentes'],
+                data: [
+                    presence.NumeroALunosPresentes,
+                    presence.NumeroAlunosAusentes,
+                ],
+                secondaryData: [
+                    toFixed(presence.PercentualPresente, 2),
+                    toFixed(presence.PercentualAusente, 2),
+                ],
+            };
+            return data;
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+
     studentsPerAge: async () => {
         try {
             const response = await api.get<Array<number>>(
@@ -420,28 +445,31 @@ const chartsApi = {
 
 export type TypeCharts = {
     scoresRank: TypeChart;
+    perPresence: TypeChart;
     perAgeData: TypeChart;
     perGenderData: TypeChart;
-    // perSchoolType: TypeChart;
+    perSchoolType: TypeChart;
     perTeachingModality: TypeChart;
-    // coursesPerAcademicOrg: TypeChart;
+    coursesPerAcademicOrg: TypeChart;
 };
 
 const getChartData = async () => {
     const scoresRank = await chartsApi.scoresRank();
+    const perPresence = await chartsApi.studentsPresence();
     const perAgeData = await chartsApi.studentsPerAge();
     const perGenderData = await chartsApi.studentsPerGender();
-    // const perSchoolType = await chartsApi.studentsPerSchoolType();
+    const perSchoolType = await chartsApi.studentsPerSchoolType();
     const perTeachingModality = await chartsApi.coursesPerTeachingModality();
-    // const coursesPerAcademicOrg = await chartsApi.coursesPerAcademicOrg();
+    const coursesPerAcademicOrg = await chartsApi.coursesPerAcademicOrg();
 
     const data: TypeCharts = {
         scoresRank,
+        perPresence,
         perAgeData,
         perGenderData,
-        // perSchoolType,
+        perSchoolType,
         perTeachingModality,
-        // coursesPerAcademicOrg,
+        coursesPerAcademicOrg,
     };
     // console.log(data);
     return data;

@@ -35,9 +35,6 @@ type Props = {
     groupedCharts: {
         [key: string]: TypeGroupedChart;
     };
-    coursesData: {
-        [key: string]: TypeCoursesData;
-    };
 };
 
 const Home: React.FC<Props> = (props: Props) => {
@@ -83,16 +80,21 @@ const Home: React.FC<Props> = (props: Props) => {
                     title="Alunos Inscritos"
                     value={formatPtBr(data.studentsEnrolled)}
                 />
-                <SecondaryCard title="Tipos de Presença" component="li">
-                    <CardItem data="330.000" subtitle="Presentes" />
+                <SecondaryCard
+                    title="Tipos de Presença"
+                    style={{ marginTop: '-4rem' }}
+                >
                     <CardItem
-                        data="57.928"
+                        data={formatPtBr(charts.perPresence.data[0])}
+                        subtitle="Presentes"
+                    />
+                    <CardItem
+                        data={formatPtBr(charts.perPresence.data[1])}
                         subtitle="Ausentes"
                         className="right-content"
                     />
-                    <CardItem data="10.000" subtitle="Eliminados" />
                 </SecondaryCard>
-                <SecondaryCard title="Aplicação do Exame" component="li">
+                <SecondaryCard title="Aplicação do Exame">
                     <CardItem data={27} subtitle="UFs" />
                     <CardItem
                         data="1.385"
@@ -162,10 +164,14 @@ const Home: React.FC<Props> = (props: Props) => {
                     />
                     <ChartItem title="Relatório das notas" description="Qnt." />
                     <ChartItem title="Relatório das notas" description="Qnt." />
-                    <ChartItem title="Relatório das notas" description="Qnt." />
-                    <ChartItem title="Relatório das notas" description="Qnt." />
                 </ChartItem>
-                <ChartItem title="Tipos de Presença" />
+                <ChartItem
+                    title="Tipos de Presença"
+                    description="Quantidade"
+                    secondaryDescription="Porcentagem"
+                    data={charts.perPresence}
+                    chartType={{ first: 'Bar', second: 'Doughnut' }}
+                />
             </ChartContainer>
 
             <ChartContainer
@@ -174,19 +180,19 @@ const Home: React.FC<Props> = (props: Props) => {
                 <ChartItem
                     title="Idade"
                     description="Qnt. total por idade"
-                    data={charts.perAgeData /* ['perAgeData'] */}
+                    data={charts.perAgeData}
                 />
                 <ChartItem
                     title="Gênero"
                     description="Qnt. total por gênero"
-                    data={charts.perGenderData /* ['perGenderData'] */}
+                    data={charts.perGenderData}
                 />
-                {/* <ChartItem
+                <ChartItem
                     title="Tipo de Ensino Médio %"
                     description="% de tipo de Ensino Médio"
                     data={charts['perSchoolType']}
                     chartType="Doughnut"
-                /> */}
+                />
             </ChartContainer>
 
             <ChartContainer
@@ -198,15 +204,15 @@ const Home: React.FC<Props> = (props: Props) => {
                 <ChartItem
                     title="Modalidade de Ensino"
                     description="Qnt. total"
-                    data={charts['perTeachingModality']}
+                    data={charts.perTeachingModality}
                     chartType="Doughnut"
                 />
-                {/* <ChartItem
+                <ChartItem
                     title="Organização acadêmica"
                     description="Qnt. total"
-                    data={charts['coursesPerAcademicOrg']}
+                    data={charts.coursesPerAcademicOrg}
                     chartType="Doughnut"
-                /> */}
+                />
             </ChartContainer>
 
             <ScrollToTopButton />
@@ -234,16 +240,14 @@ export const getStaticProps: GetStaticProps = async (context) => {
         const data = await getData(Number(year), true);
         const chartsData = await getChartData();
         const groupedCharts = await getGroupedChartData();
-        // const coursesData = await getCourseData();
 
         return {
             props: {
                 data,
                 charts: chartsData,
                 groupedCharts,
-                // coursesData,
             },
-            revalidate: 10,
+            // revalidate: 10,
         };
     } catch (error) {
         // toast de erro
