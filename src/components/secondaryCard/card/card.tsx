@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import useStyles from './styles';
 
-interface Props {
+type Props = {
     title: string;
-    component?: string;
+    style?: React.CSSProperties;
     children: React.ReactNode;
-}
+};
 
-const Card: React.FC<Props> = ({ title, component, children }) => {
+const Card: React.FC<Props> = ({ title, style, children }) => {
     const classes = useStyles();
     return (
         <Grid container item xs={3} className={classes.card}>
@@ -19,7 +19,7 @@ const Card: React.FC<Props> = ({ title, component, children }) => {
                 <Typography variant="h5">{title}</Typography>
             </Grid>
             <Box component="span" />
-            <Grid container spacing={1}>
+            <Grid container spacing={1} style={style}>
                 {children}
             </Grid>
         </Grid>
