@@ -2,7 +2,7 @@ export type TypeScoresRank = Array<{
     qnt: number;
     prc: number;
 }>;
-export type TypeScoresPerGenderAndGroup = Array<{
+export type TypeScores = Array<{
     grupo: string;
     rank: Array<{
         quantidade_elementos: number;

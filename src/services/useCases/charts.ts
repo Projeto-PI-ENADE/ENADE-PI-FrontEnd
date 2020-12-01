@@ -1,7 +1,7 @@
 import api from '../api';
 import {
     TypeScoresRank,
-    TypeScoresPerGenderAndGroup,
+    TypeScores,
     TypeStudentsPerGender,
     TypeStudentsPerSchoolType,
     TypeCoursesPerTeachingModality,
@@ -105,7 +105,7 @@ const chartsApi = {
         ];
 
         try {
-            const response = await api.get<TypeScoresPerGenderAndGroup>(
+            const response = await api.get<TypeScores>(
                 chartUrls.scoresPerGender
             );
 
@@ -133,9 +133,118 @@ const chartsApi = {
         }
     },
 
+    scoresPerAge: async () => {
+        const dataset: TypeGroupedChartData = [
+            {
+                label: 'Entre 16 e 24 anos',
+                data: [],
+                backgroundColor: '#459AFF',
+            },
+            {
+                label: 'Entre 25 e 33 anos',
+                data: [],
+                backgroundColor: '#3DB6E3',
+            },
+            {
+                label: 'Entre 34 e 42 anos',
+                data: [],
+                backgroundColor: '#50FAFA',
+            },
+            {
+                label: 'Entre 43 e 51 anos',
+                data: [],
+                backgroundColor: '#33D175',
+            },
+            {
+                label: 'Entre 52 e 60 anos',
+                data: [],
+                backgroundColor: '#26FFCC',
+            },
+            {
+                label: 'Entre 61 e 69 anos',
+                data: [],
+                backgroundColor: '#74D119',
+            },
+            {
+                label: 'Entre 70 e 78 anos',
+                data: [],
+                backgroundColor: '#3DE3B3',
+            },
+            {
+                label: 'Entre 79 e 87 anos',
+                data: [],
+                backgroundColor: '#22E37E',
+            },
+        ];
+        const dataset2: TypeGroupedChartData = [
+            {
+                label: 'Entre 16 e 24 anos',
+                data: [],
+                backgroundColor: '#459AFF',
+            },
+            {
+                label: 'Entre 25 e 33 anos',
+                data: [],
+                backgroundColor: '#3DB6E3',
+            },
+            {
+                label: 'Entre 34 e 42 anos',
+                data: [],
+                backgroundColor: '#50FAFA',
+            },
+            {
+                label: 'Entre 43 e 51 anos',
+                data: [],
+                backgroundColor: '#33D175',
+            },
+            {
+                label: 'Entre 52 e 60 anos',
+                data: [],
+                backgroundColor: '#26FFCC',
+            },
+            {
+                label: 'Entre 61 e 69 anos',
+                data: [],
+                backgroundColor: '#74D119',
+            },
+            {
+                label: 'Entre 70 e 78 anos',
+                data: [],
+                backgroundColor: '#3DE3B3',
+            },
+            {
+                label: 'Entre 79 e 87 anos',
+                data: [],
+                backgroundColor: '#22E37E',
+            },
+        ];
+
+        try {
+            const response = await api.get<TypeScores>(chartUrls.scoresPerAge);
+            let auxData = [...response.data];
+
+            for (let index = 0; index < auxData.length; index++) {
+                auxData[index].rank.map((item) => {
+                    dataset[index].data.push(item.quantidade_elementos);
+                    dataset2[index].data.push(toFixed(item.percentual, 2));
+                });
+            }
+            // console.log(dataset2);
+            const data: TypeGroupedChart = {
+                labels: ['0-20', '20-40', '40-60', '60-80', '80-100'],
+                data: dataset,
+                secondaryData: dataset2,
+            };
+            return data;
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+
     scoresGroup: async () => {
         try {
-            const response = await api.get<TypeScoresPerGenderAndGroup>(
+            const response = await api.get<TypeScores>(
                 chartUrls.scoresPerGroup
             );
             let auxData = [...response.data];
@@ -309,21 +418,30 @@ const chartsApi = {
     },
 };
 
+export type TypeCharts = {
+    scoresRank: TypeChart;
+    perAgeData: TypeChart;
+    perGenderData: TypeChart;
+    // perSchoolType: TypeChart;
+    perTeachingModality: TypeChart;
+    // coursesPerAcademicOrg: TypeChart;
+};
+
 const getChartData = async () => {
     const scoresRank = await chartsApi.scoresRank();
     const perAgeData = await chartsApi.studentsPerAge();
     const perGenderData = await chartsApi.studentsPerGender();
-    const perSchoolType = await chartsApi.studentsPerSchoolType();
+    // const perSchoolType = await chartsApi.studentsPerSchoolType();
     const perTeachingModality = await chartsApi.coursesPerTeachingModality();
-    const coursesPerAcademicOrg = await chartsApi.coursesPerAcademicOrg();
+    // const coursesPerAcademicOrg = await chartsApi.coursesPerAcademicOrg();
 
-    const data = {
+    const data: TypeCharts = {
         scoresRank,
         perAgeData,
         perGenderData,
-        perSchoolType,
+        // perSchoolType,
         perTeachingModality,
-        coursesPerAcademicOrg,
+        // coursesPerAcademicOrg,
     };
     // console.log(data);
     return data;
@@ -331,9 +449,11 @@ const getChartData = async () => {
 
 export const getGroupedChartData = async () => {
     const scoresPerGender = await chartsApi.scoresPerGender();
-
+    const scoresPerAge = await chartsApi.scoresPerAge();
+    // console.log(scoresPerAge);
     const data = {
         scoresPerGender,
+        scoresPerAge,
     };
     // console.log(data);
     return data;

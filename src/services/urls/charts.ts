@@ -5,6 +5,7 @@ const courseUrl = 'cursos';
 const chartsUrl = {
     scoresRank: `${testUrl}/RankingNotas`,
     scoresPerGender: `${testUrl}/sexo`,
+    scoresPerAge: `${testUrl}/idade`,
     scoresPerGroup: `${testUrl}/etnia`,
     studentsPerAge: `${studentUrl}/TotalPorIdade`,
     studentsPerGender: `${studentUrl}/TotalPorSexo`,
