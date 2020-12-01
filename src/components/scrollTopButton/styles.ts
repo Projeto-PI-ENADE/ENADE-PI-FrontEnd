@@ -10,6 +10,11 @@ const useStyles = makeStyles((theme: Theme) =>
                 color: 'white',
                 backgroundColor: theme.palette.primary.main,
             },
+
+            [theme.breakpoints.down('md')]: {
+                right: '1rem',
+                bottom: '1rem',
+            },
         },
 
         fabButton: {
