@@ -6,18 +6,31 @@ import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 
 import BachelorIllus from '../../assets/illustrations/bachelor.svg';
+import GraduationIllus from '../../assets/illustrations/graduation.svg';
 import TechnologyIllus from '../../assets/illustrations/technology.svg';
 import useStyles from './styles';
 
 type Props = {
     title: string;
-    courses: Array<string>;
-    illus: 'bachelor' | 'technology';
+    courses: { [key: string]: string };
+    illus: 'bachelor' | 'technology' | 'graduation';
 };
 
 const CoursesCard: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { title, courses, illus } = props;
+    const Illus = () => {
+        switch (illus) {
+            case 'bachelor':
+                return <BachelorIllus />;
+            case 'graduation':
+                return <GraduationIllus />;
+            case 'technology':
+                return <TechnologyIllus />;
+            default:
+                return <BachelorIllus />;
+        }
+    };
     return (
         <Grid container className={classes.container}>
             <Grid item xs={12} component={Typography} variant="h5">
@@ -25,18 +38,14 @@ const CoursesCard: React.FC<Props> = (props: Props) => {
             </Grid>
             <Grid container item xs={12} md={9}>
                 <List>
-                    {courses.map((course, index) => (
+                    {Object.values(courses).map((course, index) => (
                         <ListItem key={index}>{course}</ListItem>
                     ))}
                 </List>
             </Grid>
             <Hidden mdDown>
                 <Grid item xs={3}>
-                    {illus === 'bachelor' ? (
-                        <BachelorIllus />
-                    ) : (
-                        <TechnologyIllus />
-                    )}
+                    <Illus />
                 </Grid>
             </Hidden>
         </Grid>
