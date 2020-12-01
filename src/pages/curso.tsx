@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { GetStaticProps } from 'next';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
@@ -49,7 +50,7 @@ const Course: React.FC = () => {
                         <CoursesMenu coursesData={coursesData} />
                     </Grid>
                     <Grid container item xs={4} md={3}>
-                        <YearsMenu />
+                        <YearsMenu year={2018} />
                     </Grid>
                 </Grid>
             </Grid>
@@ -106,3 +107,24 @@ const Course: React.FC = () => {
 };
 
 export default Course;
+
+// export const getStaticProps: GetStaticProps = async () => {
+//     let data = null;
+//     let chartsData = null;
+
+//     try {
+//         data = dataResponse;
+//         chartsData = chartResponse;
+//         // console.log(chartsData);
+//     } catch (error) {
+//         // toast de erro
+//     }
+
+//     return {
+//         props: {
+//             data,
+//             charts: chartsData,
+//         },
+//         revalidate: 10,
+//     };
+// };
