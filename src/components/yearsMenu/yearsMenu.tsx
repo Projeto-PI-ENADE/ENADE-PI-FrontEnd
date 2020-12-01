@@ -1,17 +1,22 @@
 import React, { Fragment, useState } from 'react';
+import Router from 'next/router';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 
-import yearsData from './data/years';
+import yearsData from '../../utils/data/years';
 import useStyles from './styles';
 
-const yearsMenu: React.FC = () => {
+type Props = {
+    year: number;
+};
+
+const yearsMenu: React.FC<Props> = ({ year }) => {
     const classes = useStyles();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [selectedYear, setSelectedYear] = useState(year);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -19,9 +24,10 @@ const yearsMenu: React.FC = () => {
 
     const handleMenuItemClick = (
         event: React.MouseEvent<HTMLElement>,
-        index: number
+        year: number
     ) => {
-        setSelectedIndex(index);
+        setSelectedYear(year);
+        Router.push(`/dashboard/${year}`);
         setAnchorEl(null);
     };
 
@@ -37,7 +43,7 @@ const yearsMenu: React.FC = () => {
                 className={classes.button}
                 onClick={handleClick}
             >
-                {yearsData[selectedIndex]}
+                {year}
                 <ChevronDownIcon size={20} />
             </Button>
             <Menu
@@ -48,11 +54,11 @@ const yearsMenu: React.FC = () => {
                 onClose={handleClose}
             >
                 <MenuItem disabled>Selecione o ano:</MenuItem>
-                {yearsData.map((year, index) => (
+                {yearsData.map((year) => (
                     <MenuItem
                         key={year}
-                        selected={index === selectedIndex}
-                        onClick={(event) => handleMenuItemClick(event, index)}
+                        selected={year === selectedYear}
+                        onClick={(event) => handleMenuItemClick(event, year)}
                     >
                         {year}
                     </MenuItem>
