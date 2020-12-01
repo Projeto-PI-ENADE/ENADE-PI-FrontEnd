@@ -38,7 +38,7 @@ const Header: React.FC = () => {
         setValue(newValue);
         switch (newValue) {
             case 0:
-                router.push('/');
+                router.push('/dashboard/2018');
                 break;
             case 1:
                 router.push(`/curso`);
