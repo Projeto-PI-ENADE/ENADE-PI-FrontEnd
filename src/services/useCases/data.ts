@@ -1,5 +1,5 @@
 import api from '../api';
-import { TypeStudentsEnrolled, TypeCourses } from '../models/data';
+import { TypeStudentsEnrolled, TypeCourses, TypePlaces } from '../models/data';
 import dataUrls from '../urls/data';
 
 const dataApi = {
@@ -26,11 +26,21 @@ const dataApi = {
             return Promise.reject(error);
         }
     },
+    places: async () => {
+        try {
+            const response = await api.get<TypePlaces>(dataUrls.places);
+            return response.data;
+        } catch (error) {
+            console.log(error.response);
+            return Promise.reject(error);
+        }
+    },
 };
 
 export type TypeData = {
     studentsEnrolled: number;
     courses: TypeCourses;
+    places: TypePlaces;
 };
 
 const getData = async (year: number, type?: boolean) => {
@@ -41,12 +51,16 @@ const getData = async (year: number, type?: boolean) => {
     //     config.params['ano'] = query.year;
     //     return config;
     // });
-    const studentsEnrolled = await dataApi.studentsEnrolled(year);
-    const courses = await dataApi.courses(year, type);
+    const studentsEnrolled = dataApi.studentsEnrolled(year);
+    const courses = dataApi.courses(year, type);
+    const places = dataApi.places();
+
+    const response = await Promise.all([studentsEnrolled, courses, places]);
 
     const data: TypeData = {
-        studentsEnrolled,
-        courses,
+        studentsEnrolled: response[0],
+        courses: { ...response[1] },
+        places: { ...response[2] },
     };
     // console.log(data);
     return data;

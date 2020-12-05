@@ -3,6 +3,7 @@ import getChartData, {
     TypeChart,
     TypeCharts,
     TypeGroupedChart,
+    TypeGroupedCharts,
     getGroupedChartData,
 } from './useCases/charts';
 import getData, { TypeData } from './useCases/data';
@@ -13,6 +14,7 @@ export type {
     TypeChart,
     TypeCharts,
     TypeGroupedChart,
+    TypeGroupedCharts,
     TypeData,
     TypeCoursesData,
 };

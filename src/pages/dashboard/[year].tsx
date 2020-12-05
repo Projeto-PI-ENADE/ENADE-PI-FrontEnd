@@ -13,6 +13,7 @@ import {
     getCourseData,
     TypeCharts,
     TypeGroupedChart,
+    TypeGroupedCharts,
     TypeData,
     TypeCoursesData,
 } from '../../services';
@@ -32,9 +33,7 @@ import useStyles from '../../styles/pages/index';
 type Props = {
     data: TypeData;
     charts: TypeCharts;
-    groupedCharts: {
-        [key: string]: TypeGroupedChart;
-    };
+    groupedCharts: TypeGroupedCharts;
 };
 
 const Home: React.FC<Props> = (props: Props) => {
@@ -94,20 +93,25 @@ const Home: React.FC<Props> = (props: Props) => {
                         className="right-content"
                     />
                 </SecondaryCard>
-                <SecondaryCard title="Aplicação do Exame">
-                    <CardItem data={27} subtitle="UFs" />
-                    <CardItem
-                        data="1.385"
-                        subtitle="Municípios"
-                        className="right-content"
-                    />
-                    <CardItem data="1.581" subtitle="Locais de Aplicação" />
-                    <CardItem
-                        data="15.055"
-                        subtitle="Salas"
-                        className="right-content"
-                    />
-                </SecondaryCard>
+                {Object.keys(data.places).length !== 0 && (
+                    <SecondaryCard title="Aplicação do Exame">
+                        <CardItem data={data.places.UF} subtitle="UFs" />
+                        <CardItem
+                            data={data.places.municipios}
+                            subtitle="Municípios"
+                            className="right-content"
+                        />
+                        <CardItem
+                            data={data.places.local_ap}
+                            subtitle="Locais de Aplicação"
+                        />
+                        <CardItem
+                            data={data.places.salas}
+                            subtitle="Salas"
+                            className="right-content"
+                        />
+                    </SecondaryCard>
+                )}
             </Grid>
 
             {data.courses.bacharelado && (
@@ -150,7 +154,7 @@ const Home: React.FC<Props> = (props: Props) => {
                         title="Notas por Gênero"
                         description="Quantidade"
                         secondaryDescription="Porcentagem"
-                        data={groupedCharts['scoresPerGender']}
+                        data={groupedCharts.scoresPerGender}
                         switchSize="small"
                         fullWidth
                     />
@@ -158,12 +162,34 @@ const Home: React.FC<Props> = (props: Props) => {
                         title="Notas por Idade"
                         description="Quantidade"
                         secondaryDescription="Porcentagem"
-                        data={groupedCharts['scoresPerAge']}
+                        data={groupedCharts.scoresPerAge}
                         switchSize="small"
                         fullWidth
                     />
-                    <ChartItem title="Relatório das notas" description="Qnt." />
-                    <ChartItem title="Relatório das notas" description="Qnt." />
+                    <GroupedChartItem
+                        title="Notas por Bolsa"
+                        description="Quantidade"
+                        secondaryDescription="Porcentagem"
+                        data={groupedCharts.scoresPerScholarship}
+                        switchSize="small"
+                        fullWidth
+                    />
+                    <GroupedChartItem
+                        title="Notas por Etnia"
+                        description="Quantidade"
+                        secondaryDescription="Porcentagem"
+                        data={groupedCharts.scoresPerGroup}
+                        switchSize="small"
+                        fullWidth
+                    />
+                    <GroupedChartItem
+                        title="Notas por Renda Familiar"
+                        description="Quantidade"
+                        secondaryDescription="Porcentagem"
+                        data={groupedCharts.scoresPerIncome}
+                        switchSize="small"
+                        fullWidth
+                    />
                 </ChartItem>
                 <ChartItem
                     title="Tipos de Presença"

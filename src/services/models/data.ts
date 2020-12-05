@@ -1,4 +1,5 @@
 export type TypeStudentsEnrolled = number;
+
 export type TypeCourses = {
     bacharelado?: {
         [key: string]: string;
@@ -9,4 +10,12 @@ export type TypeCourses = {
     tecnologo?: {
         [key: string]: string;
     };
+};
+
+export type TypePlaces = {
+    UF: number;
+    ano: number;
+    municipios: number;
+    local_ap: number;
+    salas: number;
 };
