@@ -12,7 +12,7 @@ import useStyles from './styles';
 
 type Props = {
     title: string;
-    courses: { [key: string]: string };
+    courses: string | { [key: string]: string };
     illus: 'bachelor' | 'technology' | 'graduation';
 };
 

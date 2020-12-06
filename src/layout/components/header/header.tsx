@@ -16,10 +16,10 @@ const Header: React.FC = () => {
         const setInitialTab = () => {
             // console.log(router.pathname);
             switch (router.pathname) {
-                case '/':
+                case '/dashboard/[year]':
                     setValue(0);
                     break;
-                case '/curso':
+                case '/dashboard/[year]/[course]':
                     setValue(1);
                     break;
                 case '/relatorio':
@@ -41,7 +41,7 @@ const Header: React.FC = () => {
                 router.push('/dashboard/2018');
                 break;
             case 1:
-                router.push(`/curso`);
+                router.push(`/dashboard/2018/1`);
                 break;
             case 2:
                 router.push(`/relatorio`);

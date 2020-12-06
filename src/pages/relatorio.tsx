@@ -20,7 +20,7 @@ import ReportCard from '../components/report/reportCard';
 import RadioCard from '../components/report/radioCard';
 // import CoursesCard from '../components/report/coursesCard/coursesCard';
 import ScrollToTopButton from '../components/scrollTopButton/scrollTopButton';
-import homeUseStyles from '../styles/pages/index';
+import homeUseStyles from '../styles/pages/yearDashboard';
 import useStyles from '../styles/pages/report';
 import { Checkbox } from '@material-ui/core';
 import { TreeItem } from '@material-ui/lab';

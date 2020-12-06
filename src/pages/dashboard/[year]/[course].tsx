@@ -1,34 +1,33 @@
 import Head from 'next/head';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import yearsData from '../../utils/data/years';
-import formatPtBr from '../../utils/functions/formatPtBr';
+import yearsData from '../../../utils/data/years';
+import formatPtBr from '../../../utils/functions/formatPtBr';
 import {
     getData,
     getChartData,
     getGroupedChartData,
-    getCourseData,
     TypeCharts,
-    TypeGroupedChart,
     TypeGroupedCharts,
     TypeData,
-    TypeCoursesData,
-} from '../../services';
+} from '../../../services';
+import { dataApi } from '../../../services/useCases/data';
 
-import MainCard from '../../components/mainCard/mainCard';
-import { SecondaryCard, CardItem } from '../../components/secondaryCard';
-import YearsMenu from '../../components/yearsMenu/yearsMenu';
-import CoursesCard from '../../components/coursesCard/coursesCard';
+import MainCard from '../../../components/mainCard/mainCard';
+import { SecondaryCard, CardItem } from '../../../components/secondaryCard';
+import CoursesMenu from '../../../components/coursesMenu/coursesMenu';
+import YearsMenu from '../../../components/yearsMenu/yearsMenu';
 import {
     ChartContainer,
     ChartItem,
     GroupedChartItem,
-} from '../../components/chart';
-import ScrollToTopButton from '../../components/scrollTopButton/scrollTopButton';
-import useStyles from '../../styles/pages/index';
+} from '../../../components/chart';
+import ScrollToTopButton from '../../../components/scrollTopButton/scrollTopButton';
+import homeUseStyles from '../../../styles/pages/yearDashboard';
+import useStyles from '../../../styles/pages/curso';
 
 type Props = {
     data: TypeData;
@@ -36,29 +35,27 @@ type Props = {
     groupedCharts: TypeGroupedCharts;
 };
 
-const Home: React.FC<Props> = (props: Props) => {
+const Course: React.FC<Props> = (props: Props) => {
+    const homeClasses = homeUseStyles();
     const classes = useStyles();
     const { query } = useRouter();
     const { data, charts, groupedCharts } = props;
 
     return (
-        <Grid container direction={'column'} className={classes.container}>
+        <Grid container direction={'column'} className={homeClasses.container}>
             <Head>
                 <title>Painel do Enade</title>
-                <meta
-                    name="description"
-                    content="Análises e relatórios dos dados do ENADE"
-                />
             </Head>
 
             <Grid container>
                 <Grid
                     container
                     item
-                    xs={6}
+                    xs={12}
+                    md={6}
                     component={Typography}
                     variant="h1"
-                    className={classes.title}
+                    className={homeClasses.title}
                 >
                     <Typography>Painel</Typography>{' '}
                     <Typography>do Enade</Typography>
@@ -66,15 +63,30 @@ const Home: React.FC<Props> = (props: Props) => {
                 <Grid
                     container
                     item
-                    xs={6}
+                    xs={12}
+                    md={6}
                     justify="flex-end"
-                    className={classes.yearsMenuContainer}
+                    spacing={3}
+                    className={classes.filtersContainer}
                 >
-                    <YearsMenu year={Number(query.year)} />
+                    <Grid container item xs={8} md={9} justify="flex-end">
+                        <CoursesMenu
+                            year={query.year}
+                            course={Number(query.course)}
+                            coursesData={data.courses!}
+                        />
+                    </Grid>
+                    <Grid container item xs={4} md={3}>
+                        <YearsMenu year={Number(query.year)} />
+                    </Grid>
                 </Grid>
             </Grid>
 
-            <Grid container component="ul" className={classes.cardsContainer}>
+            <Grid
+                container
+                component="ul"
+                className={homeClasses.cardsContainer}
+            >
                 <MainCard
                     title="Alunos Inscritos"
                     value={formatPtBr(data.studentsEnrolled)}
@@ -93,55 +105,14 @@ const Home: React.FC<Props> = (props: Props) => {
                         className="right-content"
                     />
                 </SecondaryCard>
-                {Object.keys(data.places).length !== 0 && (
-                    <SecondaryCard title="Aplicação do Exame">
-                        <CardItem data={data.places.UF} subtitle="UFs" />
-                        <CardItem
-                            data={data.places.municipios}
-                            subtitle="Municípios"
-                            className="right-content"
-                        />
-                        <CardItem
-                            data={data.places.local_ap}
-                            subtitle="Locais de Aplicação"
-                        />
-                        <CardItem
-                            data={data.places.salas}
-                            subtitle="Salas"
-                            className="right-content"
-                        />
-                    </SecondaryCard>
-                )}
             </Grid>
-
-            {data.courses.bacharelado && (
-                <CoursesCard
-                    title="Lista de cursos de Bacharelado avaliados"
-                    courses={data.courses.bacharelado}
-                    illus="bachelor"
-                />
-            )}
-            {data.courses.licenciatura && (
-                <CoursesCard
-                    title="Lista de cursos de Licenciatura avaliados"
-                    courses={data.courses.licenciatura}
-                    illus="graduation"
-                />
-            )}
-            {data.courses.tecnologo && (
-                <CoursesCard
-                    title="Lista de cursos de Tecnologia avaliados"
-                    courses={data.courses.tecnologo}
-                    illus="technology"
-                />
-            )}
 
             <ChartContainer
                 title={{ main: 'Resultados', secondary: 'do Enade' }}
             >
                 <ChartItem
                     title="Ranking das notas"
-                    description="Quantidade"
+                    description="Alunos"
                     secondaryDescription="Porcentagem"
                     data={charts.scoresRank /* ['scoresRank'] */}
                     chartType={{ first: 'Bar', second: 'Doughnut' }}
@@ -240,19 +211,23 @@ const Home: React.FC<Props> = (props: Props) => {
                     chartType="Doughnut"
                 />
             </ChartContainer>
-
             <ScrollToTopButton />
         </Grid>
     );
 };
 
-export default Home;
+export default Course;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const paths = yearsData.map((year) => {
-        return { params: { year: year.toString() } };
-    });
+    const paths = [];
+    for await (const year of yearsData) {
+        const courses = await dataApi.courses(year);
+        Object.keys(courses).map((course) => {
+            paths.push({ params: { year: year.toString(), course } });
+        });
+    }
 
+    // console.log(paths);
     return {
         paths,
         fallback: false,
@@ -260,10 +235,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const { year } = context.params;
+    const { year, course } = context.params;
 
     try {
-        const data = await getData(Number(year), true);
+        const data = await getData(Number(year), false, Number(course));
         const chartsData = await getChartData();
         const groupedCharts = await getGroupedChartData();
 

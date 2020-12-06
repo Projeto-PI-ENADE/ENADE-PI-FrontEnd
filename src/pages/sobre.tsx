@@ -12,7 +12,7 @@ import TeamIllus from '../assets/illustrations/team.svg';
 import TechCard from '../components/about/techCard/techCard';
 import TeamCard from '../components/about/teamCard/teamCard';
 import ScrollToTopButton from '../components/scrollTopButton/scrollTopButton';
-import homeUseStyles from '../styles/pages/index';
+import homeUseStyles from '../styles/pages/yearDashboard';
 import useStyles from '../styles/pages/sobre';
 
 const AboutUs: React.FC = () => {
