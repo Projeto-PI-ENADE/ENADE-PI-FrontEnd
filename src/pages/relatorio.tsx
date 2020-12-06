@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -14,7 +14,8 @@ import exportsData from '../utils/data/report/exports';
 import yearsReportData from '../utils/data/report/years';
 import coursesData from '../utils/data/courses_w_id_2018.json';
 import yearsData from '../utils/data/years';
-// import {} from '../services/useCases/data';
+import { TypeCourses } from '../services/models/data';
+import { dataApi } from '../services/useCases/data';
 
 import ReportCard from '../components/report/reportCard';
 import RadioCard from '../components/report/radioCard';
@@ -28,10 +29,24 @@ import { TreeItem } from '@material-ui/lab';
 const Report: React.FC = () => {
     const homeClasses = homeUseStyles();
     const classes = useStyles();
+    let TreeID = 0;
 
-    useEffect(() => {
+    const [courses, setCourse] = useState<TypeCourses | null>(null);
 
-    }, []);
+    const getTreeID = () => {
+        const tmp = TreeID;
+        TreeID++;
+        return String(tmp);
+    }
+
+    // const getCoursesData = async() => {
+    //     try {
+    //         const response = await dataApi.courses();
+
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
 
     // const renderYearTree = () => {
     //     return (
@@ -68,39 +83,123 @@ const Report: React.FC = () => {
                 <TreeView
                     defaultCollapseIcon={<ChevronDown />}
                     defaultExpandIcon={<ChevronRight />}>
-                    <TreeItem nodeId="1" label="Arquivo">
-                        <FormGroup row>
-                            <FormControlLabel
-                                control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
-                                label="CSV"
-                            />
-                            <FormControlLabel
-                                control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
-                                label="XLS"
-                            />
-                        </FormGroup>
-                        <TreeItem nodeId="2" label="Anos">
+                    <TreeItem nodeId={getTreeID()} label="Relatorio">
+                        <TreeItem nodeId={getTreeID()} label="Arquivo">
                             <FormGroup row>
-                                {yearsData.map(year => (
+                                <FormControlLabel
+                                    control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                    label="CSV"
+                                />
+                                <FormControlLabel
+                                    control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                    label="XLS"
+                                />
+                            </FormGroup>
+                            <TreeItem nodeId={getTreeID()} label="Anos">
+                                <FormGroup row>
+                                    {yearsData.map(year => (
+                                        <FormControlLabel
+                                            control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                            label={year}
+                                        />
+                                    ))}
+
+                                </FormGroup>
+                                <TreeItem nodeId={getTreeID()} label="Curos">
                                     <FormControlLabel
                                         control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
-                                        label={year}
+                                        label="Administração"
                                     />
-                                ))}
+                                    <FormControlLabel
+                                        control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                        label="Direito"
+                                    />
+                                </TreeItem>
+                            </TreeItem>
 
-                            </FormGroup>
-                            <TreeItem nodeId="3" label="Curos">
-                                <FormControlLabel
-                                    control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
-                                    label="Administração"
-                                />
-                                <FormControlLabel
-                                    control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
-                                    label="Direito"
-                                />
+
+                            <TreeItem nodeId={getTreeID()} label="Anos">
+                                <FormGroup row>
+                                    {yearsData.map(year => (
+                                        <FormControlLabel
+                                            control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                            label={year}
+                                        />
+                                    ))}
+
+                                </FormGroup>
+                                <TreeItem nodeId={getTreeID()} label="Curos">
+                                    <FormControlLabel
+                                        control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                        label="Administração"
+                                    />
+                                    <FormControlLabel
+                                        control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                        label="Direito"
+                                    />
+                                </TreeItem>
                             </TreeItem>
                         </TreeItem>
                     </TreeItem>
+                    <TreeItem nodeId={getTreeID()} label="Relatorio">
+                        <TreeItem nodeId={getTreeID()} label="Arquivo">
+                            <FormGroup row>
+                                <FormControlLabel
+                                    control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                    label="CSV"
+                                />
+                                <FormControlLabel
+                                    control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                    label="XLS"
+                                />
+                            </FormGroup>
+                            <TreeItem nodeId={getTreeID()} label="Anos">
+                                <FormGroup row>
+                                    {yearsData.map(year => (
+                                        <FormControlLabel
+                                            control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                            label={year}
+                                        />
+                                    ))}
+
+                                </FormGroup>
+                                <TreeItem nodeId={getTreeID()} label="Curos">
+                                    <FormControlLabel
+                                        control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                        label="Administração"
+                                    />
+                                    <FormControlLabel
+                                        control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                        label="Direito"
+                                    />
+                                </TreeItem>
+                            </TreeItem>
+
+
+                            <TreeItem nodeId={getTreeID()} label="Anos">
+                                <FormGroup row>
+                                    {yearsData.map(year => (
+                                        <FormControlLabel
+                                            control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                            label={year}
+                                        />
+                                    ))}
+
+                                </FormGroup>
+                                <TreeItem nodeId={getTreeID()} label="Curos">
+                                    <FormControlLabel
+                                        control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                        label="Administração"
+                                    />
+                                    <FormControlLabel
+                                        control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                        label="Direito"
+                                    />
+                                </TreeItem>
+                            </TreeItem>
+                        </TreeItem>
+                    </TreeItem>
+
                 </TreeView>
             </Grid>
 
