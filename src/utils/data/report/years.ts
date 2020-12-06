@@ -50,10 +50,5 @@ const years: Array<TypeYear> = [
         year: 2010,
         checked: false,
     },
-    {
-        id: 9,
-        year: 2009,
-        checked: false,
-    },
 ];
 export default years;

@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import TreeView from '@material-ui/lab/TreeView';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { ChevronRight, ChevronDown } from '@styled-icons/evaicons-solid';
 
 import scoresData from '../utils/data/report/scores';
 import presencesData from '../utils/data/report/presences';
 import participantsData from '../utils/data/report/participants';
 import exportsData from '../utils/data/report/exports';
-import yearsData from '../utils/data/report/years';
+import yearsReportData from '../utils/data/report/years';
 import coursesData from '../utils/data/courses_w_id_2018.json';
+import yearsData from '../utils/data/years';
+// import {} from '../services/useCases/data';
 
 import ReportCard from '../components/report/reportCard';
 import RadioCard from '../components/report/radioCard';
@@ -16,10 +22,30 @@ import RadioCard from '../components/report/radioCard';
 import ScrollToTopButton from '../components/scrollTopButton/scrollTopButton';
 import homeUseStyles from '../styles/pages/index';
 import useStyles from '../styles/pages/report';
+import { Checkbox } from '@material-ui/core';
+import { TreeItem } from '@material-ui/lab';
 
 const Report: React.FC = () => {
     const homeClasses = homeUseStyles();
     const classes = useStyles();
+
+    useEffect(() => {
+
+    }, []);
+
+    // const renderYearTree = () => {
+    //     return (
+    //         <FormGroup row>
+    //             { yearsReportData.map(year => (
+    //                 <FormControlLabel
+    //                     control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+    //                     label={year.year}
+    //                 />
+    //             ))}
+    //         </FormGroup>
+    //     )
+    // }
+
     return (
         <Grid container className={homeClasses.container}>
             <Head>
@@ -38,43 +64,44 @@ const Report: React.FC = () => {
                 </Grid>
             </Grid>
 
-            <Grid container spacing={3} className={classes.cardsContainer}>
-                <Grid container item xs={12} md={4} spacing={3}>
-                    <Grid item xs={12}>
-                        <ReportCard title="Notas" data={scoresData} />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <ReportCard title="Presença" data={presencesData} />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <ReportCard
-                            title="Dados dos Participantes"
-                            data={participantsData}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <RadioCard title="Exportação" data={exportsData} />
-                    </Grid>
-                </Grid>
-                <Grid container item xs={12} md={8} spacing={1}>
-                    <Grid item xs={12}>
-                        <ReportCard
-                            title="Anos"
-                            data={yearsData}
-                            labelKey="year"
-                            row
-                        />
-                    </Grid>
-                    <Grid container item xs={12} style={{ marginTop: '1rem' }}>
-                        <ReportCard
-                            title="Cursos"
-                            data={coursesData}
-                            labelKey="name"
-                            row
-                            scroll
-                        />
-                    </Grid>
-                </Grid>
+            <Grid>
+                <TreeView
+                    defaultCollapseIcon={<ChevronDown />}
+                    defaultExpandIcon={<ChevronRight />}>
+                    <TreeItem nodeId="1" label="Arquivo">
+                        <FormGroup row>
+                            <FormControlLabel
+                                control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                label="CSV"
+                            />
+                            <FormControlLabel
+                                control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                label="XLS"
+                            />
+                        </FormGroup>
+                        <TreeItem nodeId="2" label="Anos">
+                            <FormGroup row>
+                                {yearsData.map(year => (
+                                    <FormControlLabel
+                                        control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                        label={year}
+                                    />
+                                ))}
+
+                            </FormGroup>
+                            <TreeItem nodeId="3" label="Curos">
+                                <FormControlLabel
+                                    control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                    label="Administração"
+                                />
+                                <FormControlLabel
+                                    control={<Checkbox /* checked={state.checkedA} onChange={handleChange} name="checkedA" */ />}
+                                    label="Direito"
+                                />
+                            </TreeItem>
+                        </TreeItem>
+                    </TreeItem>
+                </TreeView>
             </Grid>
 
             <ScrollToTopButton />
