@@ -1,21 +1,24 @@
 import React, { Fragment, useState } from 'react';
+import Router from 'next/router';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 
-import CoursesDataType from './coursesDataType';
+import { TypeCourses } from '../../services/models/data';
 import useStyles from './styles';
 
 type Props = {
-    coursesData: Array<CoursesDataType>;
+    year: string | string[];
+    course: number;
+    coursesData: TypeCourses | { [key: string]: string };
 };
 
-const yearsMenu: React.FC<Props> = ({ coursesData }) => {
+const yearsMenu: React.FC<Props> = ({ year, course, coursesData }) => {
     const classes = useStyles();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [selectedCourse, setSelectedIndex] = useState(course);
     const [courses] = useState(coursesData);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,9 +27,10 @@ const yearsMenu: React.FC<Props> = ({ coursesData }) => {
 
     const handleMenuItemClick = (
         event: React.MouseEvent<HTMLElement>,
-        index: number
+        course_id: number
     ) => {
-        setSelectedIndex(index);
+        setSelectedIndex(course_id);
+        Router.push(`/dashboard/${year}/${course_id}`);
         setAnchorEl(null);
     };
 
@@ -42,7 +46,7 @@ const yearsMenu: React.FC<Props> = ({ coursesData }) => {
                 className={classes.button}
                 onClick={handleClick}
             >
-                {courses[selectedIndex].name}
+                {courses[selectedCourse]}
                 <ChevronDownIcon size={20} />
             </Button>
             <Menu
@@ -53,13 +57,15 @@ const yearsMenu: React.FC<Props> = ({ coursesData }) => {
                 onClose={handleClose}
             >
                 <MenuItem disabled>Selecione o curso:</MenuItem>
-                {courses.map((course, index) => (
+                {Object.entries(courses).map((course) => (
                     <MenuItem
-                        key={course.id}
-                        selected={index === selectedIndex}
-                        onClick={(event) => handleMenuItemClick(event, index)}
+                        key={course[0]}
+                        selected={Number(course[0]) === selectedCourse}
+                        onClick={(event) =>
+                            handleMenuItemClick(event, Number(course[0]))
+                        }
                     >
-                        {course.name}
+                        {course[1]}
                     </MenuItem>
                 ))}
             </Menu>
