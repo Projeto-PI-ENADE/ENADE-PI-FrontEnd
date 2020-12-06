@@ -4,31 +4,28 @@ import { useRouter } from 'next/router';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import yearsData from '../../utils/data/years';
-import formatPtBr from '../../utils/functions/formatPtBr';
+import yearsData from '../../../utils/data/years';
+import formatPtBr from '../../../utils/functions/formatPtBr';
 import {
     getData,
     getChartData,
     getGroupedChartData,
-    getCourseData,
     TypeCharts,
-    TypeGroupedChart,
     TypeGroupedCharts,
     TypeData,
-    TypeCoursesData,
-} from '../../services';
+} from '../../../services';
 
-import MainCard from '../../components/mainCard/mainCard';
-import { SecondaryCard, CardItem } from '../../components/secondaryCard';
-import YearsMenu from '../../components/yearsMenu/yearsMenu';
-import CoursesCard from '../../components/coursesCard/coursesCard';
+import MainCard from '../../../components/mainCard/mainCard';
+import { SecondaryCard, CardItem } from '../../../components/secondaryCard';
+import YearsMenu from '../../../components/yearsMenu/yearsMenu';
+import CoursesCard from '../../../components/coursesCard/coursesCard';
 import {
     ChartContainer,
     ChartItem,
     GroupedChartItem,
-} from '../../components/chart';
-import ScrollToTopButton from '../../components/scrollTopButton/scrollTopButton';
-import useStyles from '../../styles/pages/index';
+} from '../../../components/chart';
+import ScrollToTopButton from '../../../components/scrollTopButton/scrollTopButton';
+import useStyles from '../../../styles/pages/yearDashboard';
 
 type Props = {
     data: TypeData;
@@ -141,7 +138,7 @@ const Home: React.FC<Props> = (props: Props) => {
             >
                 <ChartItem
                     title="Ranking das notas"
-                    description="Quantidade"
+                    description="Alunos"
                     secondaryDescription="Porcentagem"
                     data={charts.scoresRank /* ['scoresRank'] */}
                     chartType={{ first: 'Bar', second: 'Doughnut' }}
