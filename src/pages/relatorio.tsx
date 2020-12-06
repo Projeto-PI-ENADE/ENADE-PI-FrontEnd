@@ -26,15 +26,38 @@ import yearsReportData from '../utils/data/report/years';
 import { dataApi } from '../services/useCases/data';
 import ReportCard from '../components/report/reportCard';
 import RadioCard from '../components/report/radioCard';
+
 // import CoursesCard from '../components/report/coursesCard/coursesCard';
 
 let ids = 0;
+
+
 
 const getNewID = () => {
     const tmp = ids;
     ids++;
     return String(tmp);
 }
+
+
+class Filtro {
+    makrs: Array<boolean>
+}
+class Curso {
+    filtros: Array<Filtro>
+    makrs: Array<boolean>
+}
+
+class Ano {
+    cursos: Array<Curso>
+    makrs: Array<boolean>
+}
+
+class Arquivo {
+    anos: Array<Ano>
+    makrs: Array<boolean>
+}
+
 
 const FiltrosComponent: React.FC = () => {
     const noID = getNewID()
@@ -113,7 +136,7 @@ const AnosComponent: React.FC = () => {
         </TreeItem>)
 }
 
-const ArquivoComponent: React.FC = () => {
+const ArquivoComponent: React.FC<Arquivo> = (props: Arquivo) => {
     const arqList = ['CSV', 'XLSX']
     const noID = getNewID()
 
@@ -136,10 +159,28 @@ const ArquivoComponent: React.FC = () => {
         </TreeItem>)
 }
 
+
+
+
+
+
+
+
 const Report: React.FC = () => {
     const homeClasses = homeUseStyles();
     const classes = useStyles();
     const [courses, setCourse] = useState<TypeCourses | null>(null);
+
+    const [relatorios, setRelatorios] = useState<Array<Arquivo>>([new Arquivo()])
+
+
+    const adicionarRelatorio = () => {
+        //ESSA PORRA É UMA VERGONHA
+        const aux = [...relatorios]
+        aux.push(new Arquivo());
+        setRelatorios(aux)
+
+    }
 
 
     return (
@@ -164,9 +205,12 @@ const Report: React.FC = () => {
                 <TreeView
                     defaultCollapseIcon={<ChevronDown />}
                     defaultExpandIcon={<ChevronRight />}>
-                    <ArquivoComponent />
+                    {relatorios.map(x => (
+                        <ArquivoComponent key={getNewID()} props={x} />)
+                    )}
+
                     <Button variant="contained" size="small"
-                        color="default" endIcon={<Plus />} >
+                        color="default" endIcon={<Plus />} onClick={adicionarRelatorio} >
                         Adicionar Arquivo
                     </Button>
                 </TreeView>
