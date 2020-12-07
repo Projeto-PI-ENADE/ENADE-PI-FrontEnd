@@ -16,6 +16,7 @@ import {
 } from '../../../services';
 import { dataApi } from '../../../services/useCases/data';
 
+import Layout from '../../../layout/layout';
 import MainCard from '../../../components/mainCard/mainCard';
 import { SecondaryCard, CardItem } from '../../../components/secondaryCard';
 import CoursesMenu from '../../../components/coursesMenu/coursesMenu';
@@ -42,177 +43,183 @@ const Course: React.FC<Props> = (props: Props) => {
     const { data, charts, groupedCharts } = props;
 
     return (
-        <Grid container direction={'column'} className={homeClasses.container}>
-            <Head>
-                <title>Painel do Enade</title>
-            </Head>
-
-            <Grid container>
-                <Grid
-                    container
-                    item
-                    xs={12}
-                    md={6}
-                    component={Typography}
-                    variant="h1"
-                    className={homeClasses.title}
-                >
-                    <Typography>Painel</Typography>{' '}
-                    <Typography>do Enade</Typography>
-                </Grid>
-                <Grid
-                    container
-                    item
-                    xs={12}
-                    md={6}
-                    justify="flex-end"
-                    spacing={3}
-                    className={classes.filtersContainer}
-                >
-                    <Grid container item xs={8} md={9} justify="flex-end">
-                        <CoursesMenu
-                            year={query.year}
-                            course={Number(query.course)}
-                            coursesData={data.courses!}
-                        />
-                    </Grid>
-                    <Grid container item xs={4} md={3}>
-                        <YearsMenu year={Number(query.year)} />
-                    </Grid>
-                </Grid>
-            </Grid>
-
+        <Layout>
             <Grid
                 container
-                component="ul"
-                className={homeClasses.cardsContainer}
+                direction={'column'}
+                className={homeClasses.container}
             >
-                <MainCard
-                    title="Alunos Inscritos"
-                    value={formatPtBr(data.studentsEnrolled)}
-                />
-                <SecondaryCard
-                    title="Tipos de Presença"
-                    style={{ marginTop: '-4rem' }}
-                >
-                    <CardItem
-                        data={formatPtBr(charts.perPresence.data[0])}
-                        subtitle="Presentes"
-                    />
-                    <CardItem
-                        data={formatPtBr(charts.perPresence.data[1])}
-                        subtitle="Ausentes"
-                        className="right-content"
-                    />
-                </SecondaryCard>
-            </Grid>
+                <Head>
+                    <title>Painel do Enade</title>
+                </Head>
 
-            <ChartContainer
-                title={{ main: 'Resultados', secondary: 'do Enade' }}
-            >
-                <ChartItem
-                    title="Ranking das notas"
-                    description="Alunos"
-                    secondaryDescription="Porcentagem"
-                    data={charts.scoresRank /* ['scoresRank'] */}
-                    chartType={{ first: 'Bar', second: 'Doughnut' }}
-                    modalTitle={{
-                        main: 'Análises',
-                        secondary: 'de notas',
+                <Grid container>
+                    <Grid
+                        container
+                        item
+                        xs={12}
+                        md={6}
+                        component={Typography}
+                        variant="h1"
+                        className={homeClasses.title}
+                    >
+                        <Typography>Painel</Typography>{' '}
+                        <Typography>do Enade</Typography>
+                    </Grid>
+                    <Grid
+                        container
+                        item
+                        xs={12}
+                        md={6}
+                        justify="flex-end"
+                        spacing={3}
+                        className={classes.filtersContainer}
+                    >
+                        <Grid container item xs={8} md={9} justify="flex-end">
+                            <CoursesMenu
+                                year={query.year}
+                                course={Number(query.course)}
+                                coursesData={data.courses!}
+                            />
+                        </Grid>
+                        <Grid container item xs={4} md={3}>
+                            <YearsMenu year={Number(query.year)} />
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+                <Grid
+                    container
+                    component="ul"
+                    className={homeClasses.cardsContainer}
+                >
+                    <MainCard
+                        title="Alunos Inscritos"
+                        value={formatPtBr(data.studentsEnrolled)}
+                    />
+                    <SecondaryCard
+                        title="Tipos de Presença"
+                        style={{ marginTop: '-4rem' }}
+                    >
+                        <CardItem
+                            data={formatPtBr(charts.perPresence.data[0])}
+                            subtitle="Presentes"
+                        />
+                        <CardItem
+                            data={formatPtBr(charts.perPresence.data[1])}
+                            subtitle="Ausentes"
+                            className="right-content"
+                        />
+                    </SecondaryCard>
+                </Grid>
+
+                <ChartContainer
+                    title={{ main: 'Resultados', secondary: 'do Enade' }}
+                >
+                    <ChartItem
+                        title="Ranking das notas"
+                        description="Alunos"
+                        secondaryDescription="Porcentagem"
+                        data={charts.scoresRank /* ['scoresRank'] */}
+                        chartType={{ first: 'Bar', second: 'Doughnut' }}
+                        modalTitle={{
+                            main: 'Análises',
+                            secondary: 'de notas',
+                        }}
+                    >
+                        <GroupedChartItem
+                            title="Notas por Gênero"
+                            description="Quantidade"
+                            secondaryDescription="Porcentagem"
+                            data={groupedCharts.scoresPerGender}
+                            switchSize="small"
+                            fullWidth
+                        />
+                        <GroupedChartItem
+                            title="Notas por Idade"
+                            description="Quantidade"
+                            secondaryDescription="Porcentagem"
+                            data={groupedCharts.scoresPerAge}
+                            switchSize="small"
+                            fullWidth
+                        />
+                        <GroupedChartItem
+                            title="Notas por Bolsa"
+                            description="Quantidade"
+                            secondaryDescription="Porcentagem"
+                            data={groupedCharts.scoresPerScholarship}
+                            switchSize="small"
+                            fullWidth
+                        />
+                        <GroupedChartItem
+                            title="Notas por Etnia"
+                            description="Quantidade"
+                            secondaryDescription="Porcentagem"
+                            data={groupedCharts.scoresPerGroup}
+                            switchSize="small"
+                            fullWidth
+                        />
+                        <GroupedChartItem
+                            title="Notas por Renda Familiar"
+                            description="Quantidade"
+                            secondaryDescription="Porcentagem"
+                            data={groupedCharts.scoresPerIncome}
+                            switchSize="small"
+                            fullWidth
+                        />
+                    </ChartItem>
+                    <ChartItem
+                        title="Tipos de Presença"
+                        description="Quantidade"
+                        secondaryDescription="Porcentagem"
+                        data={charts.perPresence}
+                        chartType={{ first: 'Bar', second: 'Doughnut' }}
+                    />
+                </ChartContainer>
+
+                <ChartContainer
+                    title={{ main: 'Dados', secondary: 'dos Participantes' }}
+                >
+                    <ChartItem
+                        title="Idade"
+                        description="Qnt. total por idade"
+                        data={charts.perAgeData}
+                    />
+                    <ChartItem
+                        title="Gênero"
+                        description="Qnt. total por gênero"
+                        data={charts.perGenderData}
+                    />
+                    <ChartItem
+                        title="Tipo de Ensino Médio %"
+                        description="% de tipo de Ensino Médio"
+                        data={charts['perSchoolType']}
+                        chartType="Doughnut"
+                    />
+                </ChartContainer>
+
+                <ChartContainer
+                    title={{
+                        main: 'Dados',
+                        secondary: 'dos cursos',
                     }}
                 >
-                    <GroupedChartItem
-                        title="Notas por Gênero"
-                        description="Quantidade"
-                        secondaryDescription="Porcentagem"
-                        data={groupedCharts.scoresPerGender}
-                        switchSize="small"
-                        fullWidth
+                    <ChartItem
+                        title="Modalidade de Ensino"
+                        description="Qnt. total"
+                        data={charts.perTeachingModality}
+                        chartType="Doughnut"
                     />
-                    <GroupedChartItem
-                        title="Notas por Idade"
-                        description="Quantidade"
-                        secondaryDescription="Porcentagem"
-                        data={groupedCharts.scoresPerAge}
-                        switchSize="small"
-                        fullWidth
+                    <ChartItem
+                        title="Organização acadêmica"
+                        description="Qnt. total"
+                        data={charts.coursesPerAcademicOrg}
+                        chartType="Doughnut"
                     />
-                    <GroupedChartItem
-                        title="Notas por Bolsa"
-                        description="Quantidade"
-                        secondaryDescription="Porcentagem"
-                        data={groupedCharts.scoresPerScholarship}
-                        switchSize="small"
-                        fullWidth
-                    />
-                    <GroupedChartItem
-                        title="Notas por Etnia"
-                        description="Quantidade"
-                        secondaryDescription="Porcentagem"
-                        data={groupedCharts.scoresPerGroup}
-                        switchSize="small"
-                        fullWidth
-                    />
-                    <GroupedChartItem
-                        title="Notas por Renda Familiar"
-                        description="Quantidade"
-                        secondaryDescription="Porcentagem"
-                        data={groupedCharts.scoresPerIncome}
-                        switchSize="small"
-                        fullWidth
-                    />
-                </ChartItem>
-                <ChartItem
-                    title="Tipos de Presença"
-                    description="Quantidade"
-                    secondaryDescription="Porcentagem"
-                    data={charts.perPresence}
-                    chartType={{ first: 'Bar', second: 'Doughnut' }}
-                />
-            </ChartContainer>
-
-            <ChartContainer
-                title={{ main: 'Dados', secondary: 'dos Participantes' }}
-            >
-                <ChartItem
-                    title="Idade"
-                    description="Qnt. total por idade"
-                    data={charts.perAgeData}
-                />
-                <ChartItem
-                    title="Gênero"
-                    description="Qnt. total por gênero"
-                    data={charts.perGenderData}
-                />
-                <ChartItem
-                    title="Tipo de Ensino Médio %"
-                    description="% de tipo de Ensino Médio"
-                    data={charts['perSchoolType']}
-                    chartType="Doughnut"
-                />
-            </ChartContainer>
-
-            <ChartContainer
-                title={{
-                    main: 'Dados',
-                    secondary: 'dos cursos',
-                }}
-            >
-                <ChartItem
-                    title="Modalidade de Ensino"
-                    description="Qnt. total"
-                    data={charts.perTeachingModality}
-                    chartType="Doughnut"
-                />
-                <ChartItem
-                    title="Organização acadêmica"
-                    description="Qnt. total"
-                    data={charts.coursesPerAcademicOrg}
-                    chartType="Doughnut"
-                />
-            </ChartContainer>
-            <ScrollToTopButton />
-        </Grid>
+                </ChartContainer>
+                <ScrollToTopButton />
+            </Grid>
+        </Layout>
     );
 };
 

@@ -7,6 +7,7 @@ import Hidden from '@material-ui/core/Hidden';
 import techsData from '../utils/data/techs';
 import teamData from '../utils/data/team';
 
+import Layout from '../layout/layout';
 import CimatecLogo from '../assets/cimatecLogo.svg';
 import TeamIllus from '../assets/illustrations/team.svg';
 import TechCard from '../components/about/techCard/techCard';
@@ -23,85 +24,88 @@ const AboutUs: React.FC = () => {
     const [team] = useState(teamData);
 
     return (
-        <Grid container className={homeClasses.container}>
-            <Head>
-                <title>Sobre nós</title>
-            </Head>
+        <Layout>
+            <Grid container className={homeClasses.container}>
+                <Head>
+                    <title>Sobre nós</title>
+                </Head>
 
-            <Grid container>
-                <Grid
-                    container
-                    component={Typography}
-                    variant="h1"
-                    className={homeClasses.title}
-                >
-                    <Typography>Sobre</Typography> <Typography>Nós</Typography>
-                </Grid>
-            </Grid>
-
-            <Grid container className={classes.descriptionContainer}>
-                <Grid container item xs={12} md={6}>
-                    <Grid
-                        container
-                        item
-                        xs={12}
-                        component={Typography}
-                        alignItems="center"
-                    >
-                        Projeto desenvolvido como requisito para o Projeto
-                        Integrador 2 do Curso de Engenharia de Computação do
-                        Senai Cimatec, Salvador - BA.
-                    </Grid>
-                    <Grid id="cimatecLogo-container" item xs={12}>
-                        <CimatecLogo />
-                    </Grid>
-                </Grid>
-                <Hidden only="xs">
-                    <Grid
-                        id="teamIllus-container"
-                        container
-                        item
-                        md={6}
-                        justify="center"
-                    >
-                        <TeamIllus />
-                    </Grid>
-                </Hidden>
-            </Grid>
-
-            <Grid container className={classes.techsWrapper}>
-                <Grid
-                    container
-                    component={Typography}
-                    variant="h2"
-                    className={homeClasses.title}
-                >
-                    <Typography>Tecnologias</Typography>{' '}
-                    <Typography>Utilizadas</Typography>
-                </Grid>
-
-                <Grid id="techs-container" container spacing={1}>
-                    {techs.map((tech, index) => (
-                        <Grid key={index} container item xs={3} md>
-                            <TechCard tech={tech} />
-                        </Grid>
-                    ))}
-                </Grid>
-            </Grid>
-
-            <Grid container className={classes.teamContainer}>
-                <Typography variant="h2">Equipe</Typography>
                 <Grid container>
-                    {team.map((dev, index) => (
-                        <Grid key={index} container item xs={12} md={6}>
-                            <TeamCard dev={dev} />
-                        </Grid>
-                    ))}
+                    <Grid
+                        container
+                        component={Typography}
+                        variant="h1"
+                        className={homeClasses.title}
+                    >
+                        <Typography>Sobre</Typography>{' '}
+                        <Typography>Nós</Typography>
+                    </Grid>
                 </Grid>
-            </Grid>
 
-            <ScrollToTopButton />
-        </Grid>
+                <Grid container className={classes.descriptionContainer}>
+                    <Grid container item xs={12} md={6}>
+                        <Grid
+                            container
+                            item
+                            xs={12}
+                            component={Typography}
+                            alignItems="center"
+                        >
+                            Projeto desenvolvido como requisito para o Projeto
+                            Integrador 2 do Curso de Engenharia de Computação do
+                            Senai Cimatec, Salvador - BA.
+                        </Grid>
+                        <Grid id="cimatecLogo-container" item xs={12}>
+                            <CimatecLogo />
+                        </Grid>
+                    </Grid>
+                    <Hidden only="xs">
+                        <Grid
+                            id="teamIllus-container"
+                            container
+                            item
+                            md={6}
+                            justify="center"
+                        >
+                            <TeamIllus />
+                        </Grid>
+                    </Hidden>
+                </Grid>
+
+                <Grid container className={classes.techsWrapper}>
+                    <Grid
+                        container
+                        component={Typography}
+                        variant="h2"
+                        className={homeClasses.title}
+                    >
+                        <Typography>Tecnologias</Typography>{' '}
+                        <Typography>Utilizadas</Typography>
+                    </Grid>
+
+                    <Grid id="techs-container" container spacing={1}>
+                        {techs.map((tech, index) => (
+                            <Grid key={index} container item xs={3} md>
+                                <TechCard tech={tech} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Grid>
+
+                <Grid container className={classes.teamContainer}>
+                    <Typography variant="h2">Equipe</Typography>
+                    <Grid container>
+                        {team.map((dev, index) => (
+                            <Grid key={index} container item xs={12} md={6}>
+                                <TeamCard dev={dev} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Grid>
+
+                <ScrollToTopButton />
+            </Grid>
+        </Layout>
     );
 };
 
