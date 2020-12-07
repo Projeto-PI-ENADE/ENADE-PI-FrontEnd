@@ -117,7 +117,9 @@ const chartsApi = {
             for (let index = 0; index < auxData.length; index++) {
                 auxData[index].rank.map((item) => {
                     dataset[index].data.push(item.quantidade_elementos);
-                    dataset2[index].data.push(toFixed(item.percentual, 2));
+                    if (item.percentual)
+                        dataset2[index].data.push(toFixed(item.percentual, 2));
+                    else dataset2[index].data.push(0);
                 });
             }
             // console.log(dataset);
@@ -370,7 +372,9 @@ const chartsApi = {
             for (let index = 0; index < auxData.length; index++) {
                 auxData[index].rank.map((item) => {
                     dataset[index].data.push(item.quantidade_elementos);
-                    dataset2[index].data.push(toFixed(item.percentual, 2));
+                    if (item.percentual)
+                        dataset2[index].data.push(toFixed(item.percentual, 2));
+                    else dataset2[index].data.push(0);
                 });
             }
             // console.log(dataset2);
@@ -461,7 +465,9 @@ const chartsApi = {
             for (let index = 0; index < auxData.length; index++) {
                 auxData[index].rank.map((item) => {
                     dataset[index].data.push(item.quantidade_elementos);
-                    dataset2[index].data.push(toFixed(item.percentual, 2));
+                    if (item.percentual)
+                        dataset2[index].data.push(toFixed(item.percentual, 2));
+                    else dataset2[index].data.push(0);
                 });
             }
             // console.log(dataset2);
@@ -562,7 +568,9 @@ const chartsApi = {
             for (let index = 0; index < auxData.length; index++) {
                 auxData[index].rank.map((item) => {
                     dataset[index].data.push(item.quantidade_elementos);
-                    dataset2[index].data.push(toFixed(item.percentual, 2));
+                    if (item.percentual)
+                        dataset2[index].data.push(toFixed(item.percentual, 2));
+                    else dataset2[index].data.push(0);
                 });
             }
             // console.log(dataset2);
