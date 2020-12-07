@@ -27,11 +27,7 @@ import { dataApi } from '../services/useCases/data';
 import ReportCard from '../components/report/reportCard';
 import RadioCard from '../components/report/radioCard';
 
-// import CoursesCard from '../components/report/coursesCard/coursesCard';
-
 let ids = 0;
-
-
 
 const getNewID = () => {
     const tmp = ids;
@@ -39,147 +35,211 @@ const getNewID = () => {
     return String(tmp);
 }
 
+class Check {
+    nome: string
+    valor: boolean
+}
 
 class Filtro {
-    makrs: Array<boolean>
+    marksNota: Array<Check>
+    marksPresenca: Array<Check>
+
+    constructor() {
+        const op = ['Por quantidade de alunos', 'Por idade', 'Por sexo', 'Por renda familiar', 'Por modalidade de ensino', 'Por etnia']
+
+        this.marksNota = new Array<Check>(op.length)
+        this.marksPresenca = new Array<Check>(op.length)
+
+        for (let index = 0; index < op.length; index++) {
+            this.marksNota[index] = { nome: op[index], valor: false }
+            this.marksPresenca[index] = { nome: op[index], valor: false }
+        }
+    }
 }
+
 class Curso {
-    filtros: Array<Filtro>
-    makrs: Array<boolean>
+    childs: Array<Filtro>
+    marks: Array<Check>
+
+    constructor(ano: number[]) {
+        const cursos = coursesData;
+        this.childs = new Array<Filtro>()
+        this.marks = new Array<Check>(cursos.length)
+
+        for (let i = 0; i < cursos.length; i++) {
+            this.marks[i] = { nome: cursos[i].name, valor: cursos[i].checked }
+
+        }
+    }
 }
 
 class Ano {
-    cursos: Array<Curso>
-    makrs: Array<boolean>
+    childs: Array<Curso>
+    marks: Array<Check>
+
+    constructor() {
+        this.childs = new Array<Curso>()
+        this.marks = new Array<Check>(yearsData.length)
+
+        for (let i = 0; i < yearsData.length; i++) {
+            this.marks[i] = { nome: String(yearsData[i]), valor: false };
+        }
+
+    }
 }
 
 class Arquivo {
-    anos: Array<Ano>
-    makrs: Array<boolean>
+    childs: Array<Ano>
+    marks: Array<Check>
+
+    constructor() {
+        this.childs = new Array<Ano>()
+        this.marks = [{ nome: "CSV", valor: false }, { nome: "XLSX", valor: false }]
+    }
 }
-
-
-const FiltrosComponent: React.FC = () => {
-    const noID = getNewID()
-    const noNot = getNewID()
-    const noPre = getNewID()
-    const op = ['Por quantidade de alunos', 'Por idade', 'Por sexo', 'Por renda familiar', 'Por modalidade de ensino', 'Por etnia']
-    return (
-        <TreeItem nodeId={noID} label="Filtro">
-            <TreeItem nodeId={noNot} label="Nota">
-                <FormGroup row>
-                    {op.map(c => (
-                        <FormControlLabel
-                            id={getNewID()}
-                            control={<Checkbox />}
-                            label={c}
-                        />
-                    ))}
-                </FormGroup>
-            </TreeItem>
-            <TreeItem nodeId={noPre} label="Presença">
-                <FormGroup row>
-                    {op.map(c => (
-                        <FormControlLabel
-                            id={getNewID()}
-                            control={<Checkbox />}
-                            label={c}
-                        />
-                    ))}
-                </FormGroup>
-            </TreeItem>
-        </TreeItem>
-    )
-}
-
-const CursosComponent: React.FC<Array<number>> = (props: Array<number>) => {
-    const cursos = coursesData; //aplicar alguma logica de filtro aqui
-    const noID = getNewID()
-    console.log(props)
-    return (
-        <TreeItem nodeId={noID} label="Cursos">
-            <FormGroup row>
-                {cursos.map(c => (
-                    <FormControlLabel
-                        id={getNewID()}
-                        control={<Checkbox />}
-                        label={c.name}
-                    />
-                ))}
-            </FormGroup>
-            <FiltrosComponent />
-            <Button size="small" variant="contained"
-                color="default" endIcon={<Plus />} >
-                Adicionar Filtro
-            </Button>
-        </TreeItem>)
-}
-
-const AnosComponent: React.FC = () => {
-    const noID = getNewID()
-    return (
-        <TreeItem nodeId={noID} label="Anos">
-            <FormGroup row>
-                {yearsData.map(year => (
-                    <FormControlLabel
-                        id={getNewID()}
-                        control={<Checkbox />}
-                        label={year}
-                    />
-                ))}
-            </FormGroup>
-            <CursosComponent props={[0, 0, 0]} />
-            <Button variant="contained" size="small"
-                color="default" endIcon={<Plus />} >
-                Adicionar Curso
-            </Button>
-        </TreeItem>)
-}
-
-const ArquivoComponent: React.FC<Arquivo> = (props: Arquivo) => {
-    const arqList = ['CSV', 'XLSX']
-    const noID = getNewID()
-
-    return (
-        <TreeItem nodeId={noID} label="Arquivo">
-            <FormGroup row>
-                {arqList.map(item => (
-                    <FormControlLabel
-                        id={getNewID()}
-                        control={<Checkbox />}
-                        label={item}
-                    />
-                ))}
-            </FormGroup>
-            <AnosComponent />
-            <Button variant="contained" size="small"
-                color="default" endIcon={<Plus />} >
-                Adicionar Ano
-            </Button>
-        </TreeItem>)
-}
-
-
-
-
-
-
 
 
 const Report: React.FC = () => {
     const homeClasses = homeUseStyles();
     const classes = useStyles();
     const [courses, setCourse] = useState<TypeCourses | null>(null);
-
     const [relatorios, setRelatorios] = useState<Array<Arquivo>>([new Arquivo()])
 
-
     const adicionarRelatorio = () => {
-        //ESSA PORRA É UMA VERGONHA
         const aux = [...relatorios]
         aux.push(new Arquivo());
         setRelatorios(aux)
+    }
 
+    const RenderCheckBox: React.FC<Array<Check>> = (props: Array<Check>) => {
+        const [upt, setUpt] = useState(0)
+        const comp = props.props
+        return (
+            <FormGroup row>
+                {comp.map((item, index) => (
+                    <FormControlLabel
+                        id={getNewID()}
+                        control={<Checkbox checked={item.valor} onChange={(event) => { setUpt(upt + 1); item.valor = event.target.checked }} />}
+                        label={item.nome}
+                    />
+                ))}
+            </FormGroup>
+        )
+    }
+
+    const FiltrosComponent: React.FC<Filtro> = (props: Filtro) => {
+        const noID = getNewID()
+        const noNot = getNewID()
+        const noPre = getNewID()
+        const comp = props.props
+
+        return (
+            <TreeItem nodeId={noID} label="Filtro">
+                <TreeItem nodeId={noNot} label="Nota">
+                    <RenderCheckBox props={comp.marksNota} />
+                </TreeItem>
+                <TreeItem nodeId={noPre} label="Presença">
+                    <RenderCheckBox props={comp.marksPresenca} />
+                </TreeItem>
+            </TreeItem>
+        )
+    }
+
+    const CursosComponent: React.FC<Curso> = (props: Curso) => {
+
+        const noID = getNewID()
+        const comp = props.props
+        const [upt, setUpt] = useState(0)
+
+        const adicionarFiltro = (pai: Curso) => {
+
+
+
+            pai.childs.push(new Filtro())
+            setUpt(upt + 1);
+        }
+
+        return (
+            <TreeItem nodeId={noID} label="Cursos">
+                <RenderCheckBox props={comp.marks} />
+                {
+                    comp.childs.map(x => (
+                        <FiltrosComponent key={getNewID()} props={x} />)
+                    )
+                }
+                <Button size="small" variant="contained"
+                    color="default" endIcon={<Plus />} onClick={(event) => { adicionarFiltro(comp) }} >
+                    Adicionar Filtro
+                </Button>
+            </TreeItem >)
+    }
+
+    const AnosComponent: React.FC<Ano> = (props: Ano) => {
+        const noID = getNewID()
+        const comp = props.props
+        const [upt, setUpt] = useState(0)
+
+        const adicionarAno = (pai: Ano) => {
+
+            const anos: number[] = []
+
+            pai.marks.map(x => {
+                anos.push(Number(x.nome))
+            })
+
+            pai.childs.push(new Curso(anos))
+            setUpt(upt + 1);
+        }
+
+        return (
+            <TreeItem nodeId={noID} label="Anos">
+                <RenderCheckBox props={comp.marks} />
+                {
+                    comp.childs.map(x => (
+                        <CursosComponent key={getNewID()} props={x} />)
+                    )
+                }
+                <Button variant="contained" size="small"
+                    color="default" endIcon={<Plus />} onClick={(event) => { adicionarAno(comp) }} >
+                    Adicionar Curso
+                </Button>
+            </TreeItem>)
+    }
+
+    const ArquivoComponent: React.FC<Arquivo> = (props: Arquivo) => {
+
+        const noID = getNewID()
+        const comp = props.props
+        const [upt, setUpt] = useState(0)
+
+
+        const adicionarAno = (pai: Arquivo) => {
+            pai.childs.push(new Ano())
+            setUpt(upt + 1);
+        }
+
+        return (
+            <TreeItem nodeId={noID} label="Arquivo">
+                <RenderCheckBox props={comp.marks} />
+                {
+                    comp.childs.map(x => (
+                        <AnosComponent key={getNewID()} props={x} />)
+                    )
+                }
+                <Button variant="contained" size="small"
+                    color="default" endIcon={<Plus />} onClick={(event) => { adicionarAno(comp) }}>
+                    Adicionar Ano
+                </Button>
+            </TreeItem>)
+    }
+
+    const RelatorioComponent: React.FC<Array<Arquivo>> = (props: Array<Arquivo>) => {
+        const comps = props.props
+        return (<div>{
+            comps.map(x => (
+                <ArquivoComponent key={getNewID()} props={x} />)
+            )
+        }</div>)
     }
 
 
@@ -205,10 +265,7 @@ const Report: React.FC = () => {
                 <TreeView
                     defaultCollapseIcon={<ChevronDown />}
                     defaultExpandIcon={<ChevronRight />}>
-                    {relatorios.map(x => (
-                        <ArquivoComponent key={getNewID()} props={x} />)
-                    )}
-
+                    <RelatorioComponent props={relatorios} />
                     <Button variant="contained" size="small"
                         color="default" endIcon={<Plus />} onClick={adicionarRelatorio} >
                         Adicionar Arquivo
