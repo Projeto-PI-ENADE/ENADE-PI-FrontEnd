@@ -28,6 +28,7 @@ type Props<T> = {
               second: TypeChart;
           };
     switchSize?: 'medium' | 'small';
+    fullWidth?: boolean;
     children?: React.ReactNode;
 };
 
@@ -46,6 +47,7 @@ const ChartItem = <T extends object>(props: Props<T>) => {
         modalTitle,
         chartType = 'Bar',
         switchSize = 'medium',
+        fullWidth,
         children,
     } = props;
 
@@ -89,7 +91,13 @@ const ChartItem = <T extends object>(props: Props<T>) => {
 
     return (
         <React.Fragment>
-            <Grid container item xs={12} md={6} className={classes.container}>
+            <Grid
+                container
+                item
+                xs={12}
+                md={fullWidth ? 12 : 6}
+                className={classes.container}
+            >
                 <Grid
                     item
                     xs={12}
