@@ -6,7 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 
 import { TypeCourses } from '../../services/models/data';
-import useStyles from './styles';
+import yearMenuUseStyles from '../yearsMenu/styles';
 
 type Props = {
     year: string | string[];
@@ -15,7 +15,7 @@ type Props = {
 };
 
 const yearsMenu: React.FC<Props> = ({ year, course, coursesData }) => {
-    const classes = useStyles();
+    const yearMenuClasses = yearMenuUseStyles();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [selectedCourse, setSelectedIndex] = useState(course);
@@ -43,7 +43,7 @@ const yearsMenu: React.FC<Props> = ({ year, course, coursesData }) => {
             <Button
                 aria-controls="menu-de-anos"
                 aria-haspopup="true"
-                className={classes.button}
+                className={yearMenuClasses.button}
                 onClick={handleClick}
             >
                 {courses[selectedCourse]}

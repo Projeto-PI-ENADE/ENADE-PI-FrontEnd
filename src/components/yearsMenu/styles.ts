@@ -3,12 +3,11 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         button: {
-            padding: '0 .7rem',
+            padding: '0 1rem',
             color: '#505050',
             fontSize: '1.3rem',
 
-            border: `1px solid ${theme.palette.primary.dark}`,
-            borderRadius: '.7rem',
+            borderRadius: 50,
             boxShadow: theme.shadows[2],
             transition: 'background-color .2s',
 
@@ -17,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
             },
 
             '&:hover': {
-                backgroundColor: 'gray',
+                backgroundColor: '#dfdfdf',
             },
 
             '& svg': {
