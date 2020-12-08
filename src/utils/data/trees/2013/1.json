@@ -1,0 +1,130 @@
+{
+    "name": "RENDA_(_<=_30) <= 0.5",
+    "children": [
+        {
+            "name": "SEXO_F <= 0.5",
+            "children": [
+                {
+                    "name": "IDADE <= 0.5",
+                    "children": [
+                        {
+                            "name": "IDADE <= 0.5",
+                            "children": [
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                },
+                                {
+                                    "name": " class: D <= 0.5",
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "IDADE <= 0.5",
+                            "children": [
+                                {
+                                    "name": " class: D <= 0.5",
+                                    "children": []
+                                },
+                                {
+                                    "name": " class: D <= 0.5",
+                                    "children": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "IDADE <= 0.5",
+                    "children": [
+                        {
+                            "name": "FIES <= 0.5",
+                            "children": [
+                                {
+                                    "name": " class: D <= 0.5",
+                                    "children": []
+                                },
+                                {
+                                    "name": " class: D <= 0.5",
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "RENDA_(>=6 <= 0.5",
+                            "children": [
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                },
+                                {
+                                    "name": " class: D <= 0.5",
+                                    "children": []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "TRABALHA_EVENTUALMENTE <= 0.5",
+            "children": [
+                {
+                    "name": "NENHUMA_PARTICULAR <= 0.5",
+                    "children": [
+                        {
+                            "name": "GRATUITA <= 0.5",
+                            "children": [
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                },
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "ESTUDANDO_12h <= 0.5",
+                            "children": [
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                },
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "IDADE <= 0.5",
+                    "children": [
+                        {
+                            "name": "ETNIA_N_DECLARADA <= 0.5",
+                            "children": [
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                },
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": " class: A <= 0.5",
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
