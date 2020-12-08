@@ -22,11 +22,14 @@ const Header: React.FC = () => {
                 case '/dashboard/[year]/[course]':
                     setValue(1);
                     break;
-                case '/relatorio':
+                case '/mineracao/[year]/[tree]':
                     setValue(2);
                     break;
-                case '/sobre':
+                case '/relatorio':
                     setValue(3);
+                    break;
+                case '/sobre':
+                    setValue(4);
                     break;
             }
         };
@@ -44,9 +47,12 @@ const Header: React.FC = () => {
                 router.push(`/dashboard/2018/1`);
                 break;
             case 2:
-                router.push(`/relatorio`);
+                router.push(`/mineracao/2018/1`);
                 break;
             case 3:
+                router.push(`/relatorio`);
+                break;
+            case 4:
                 router.push(`/sobre`);
                 break;
         }
@@ -84,8 +90,9 @@ const Header: React.FC = () => {
                 >
                     <Tab label="Painel Geral" {...TabsProps(0)} />
                     <Tab label="Cursos" {...TabsProps(1)} />
-                    <Tab label="Relatório" {...TabsProps(2)} />
-                    <Tab label="Sobre Nós" {...TabsProps(3)} />
+                    <Tab label="Mineração" {...TabsProps(2)} />
+                    <Tab label="Relatório" {...TabsProps(3)} />
+                    <Tab label="Sobre Nós" {...TabsProps(4)} />
                 </Tabs>
             </Grid>
         </Grid>
