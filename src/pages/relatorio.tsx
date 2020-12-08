@@ -27,6 +27,7 @@ import { dataApi } from '../services/useCases/data';
 import ReportCard from '../components/report/reportCard';
 import RadioCard from '../components/report/radioCard';
 
+
 let ids = 0;
 
 const getNewID = () => {
@@ -263,6 +264,7 @@ const Report: React.FC = () => {
 
             <Grid>
                 <TreeView
+                    defaultExpanded={["1"]}
                     defaultCollapseIcon={<ChevronDown />}
                     defaultExpandIcon={<ChevronRight />}>
                     <RelatorioComponent props={relatorios} />
