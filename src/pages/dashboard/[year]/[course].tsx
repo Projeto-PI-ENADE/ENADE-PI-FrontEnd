@@ -215,9 +215,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
     const paths = [];
     for await (const year of [2018 /*2017  , 2016, 2015, 2014 */]) {
         const courses = await dataApi.courses(year);
-        Object.keys(courses).map((course) => {
-            paths.push({ params: { year: year.toString(), course } });
-        });
+        Object.keys(courses)
+            .slice(0, 1)
+            .map((course) => {
+                paths.push({ params: { year: year.toString(), course } });
+            });
     }
 
     // console.log(paths);

@@ -36,8 +36,12 @@ type Props = {
 
 const Home: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { query } = useRouter();
+    const { query, isFallback } = useRouter();
     const { data, charts, groupedCharts } = props;
+
+    if (isFallback) {
+        return <Typography>Carregando...</Typography>;
+    }
 
     return (
         <Layout>
@@ -105,11 +109,11 @@ const Home: React.FC<Props> = (props: Props) => {
                                 className="right-content"
                             />
                             <CardItem
-                                data={data.places.local_ap}
+                                data={formatPtBr(data.places.local_ap)}
                                 subtitle="Locais de Aplicação"
                             />
                             <CardItem
-                                data={data.places.salas}
+                                data={formatPtBr(data.places.salas)}
                                 subtitle="Salas"
                                 className="right-content"
                             />
@@ -253,13 +257,13 @@ const Home: React.FC<Props> = (props: Props) => {
 export default Home;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const paths = yearsData.map((year) => {
+    const paths = [2018 /* , 2017, 2016 */].map((year) => {
         return { params: { year: year.toString() } };
     });
 
     return {
         paths,
-        fallback: false,
+        fallback: true,
     };
 };
 
