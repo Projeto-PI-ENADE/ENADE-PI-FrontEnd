@@ -65,13 +65,13 @@ const Home: React.FC = () => {
                                     }}
                                 >
                                     <Grid item xs={6} sm={3} md={2}>
-                                        <Box className={classes.year}>
-                                            <Link href={`/dashboard/${year}`}>
+                                        <Link href={`/dashboard/${year}`}>
+                                            <Box className={classes.year}>
                                                 <Typography component="a">
                                                     {year}
                                                 </Typography>
-                                            </Link>
-                                        </Box>
+                                            </Box>
+                                        </Link>
                                     </Grid>
                                 </Grow>
                             );
