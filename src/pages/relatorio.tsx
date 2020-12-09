@@ -17,7 +17,7 @@ import { TreeItem } from '@material-ui/lab';
 import Button from '@material-ui/core/Button';
 import { Plus } from '@styled-icons/entypo';
 import Layout from '../layout/layout';
-
+import api from '../services/api'
 
 import scoresData from '../utils/data/report/scores';
 import presencesData from '../utils/data/report/presences';
@@ -30,6 +30,7 @@ import { dataApi } from '../services/useCases/data';
 import ReportCard from '../components/report/reportCard';
 import RadioCard from '../components/report/radioCard';
 
+import useSWR from 'swr'
 
 let ids = 0;
 
@@ -181,11 +182,21 @@ function limpaLixo(data: INode) {
     });
 }
 
-function gerarRelatorio(data: Array<Arquivo>) {
+async function gerarRelatorio(data: Array<Arquivo>) {
     data.forEach(e => {
         limpaLixo(e)
     });
-    console.log(JSON.stringify(data))
+    console.log("axios call")
+    try {
+        const fetch = async (str) => { await api.get<number>(str, { params: { data } }) }
+
+        const { data, error } = await useSWR('http://localhost:3232/relatorio', fetch)
+        console.log("resposta:", data)
+    }
+    catch (e) {
+        console.log("Erro ao chamar API", e)
+    }
+
 }
 
 const Report: React.FC = () => {
@@ -223,7 +234,7 @@ const Report: React.FC = () => {
         const [upt, setUpt] = useState(0)
 
         const adicionarFilho = (pai: INode) => {
-            console.log(pai)
+
             pai.adicionarFilho()
             setUpt(upt + 1);
         }
@@ -283,7 +294,7 @@ const Report: React.FC = () => {
                     </Button>
                     </TreeView>
                     <Button variant="contained" size="small"
-                        color="default" endIcon={<Plus />} onClick={(e) => { gerarRelatorio(relatorios) }} >
+                        color="default" endIcon={<Plus />} onClick={async (e) => { await gerarRelatorio(relatorios) }} >
                         Gerar Relatorio
                     </Button>
                 </Grid>
