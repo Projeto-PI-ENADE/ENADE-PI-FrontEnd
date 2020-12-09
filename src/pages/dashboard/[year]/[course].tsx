@@ -39,8 +39,12 @@ type Props = {
 const Course: React.FC<Props> = (props: Props) => {
     const homeClasses = homeUseStyles();
     const classes = useStyles();
-    const { query } = useRouter();
+    const { query, isFallback } = useRouter();
     const { data, charts, groupedCharts } = props;
+
+    if (isFallback) {
+        return <Typography>Carregando...</Typography>;
+    }
 
     return (
         <Layout>
@@ -83,7 +87,10 @@ const Course: React.FC<Props> = (props: Props) => {
                             />
                         </Grid>
                         <Grid container item xs={4} md={3}>
-                            <YearsMenu year={Number(query.year)} />
+                            <YearsMenu
+                                year={Number(query.year)}
+                                course={Number(Object.keys(data.courses)[0])}
+                            />
                         </Grid>
                     </Grid>
                 </Grid>
@@ -97,20 +104,6 @@ const Course: React.FC<Props> = (props: Props) => {
                         title="Alunos Inscritos"
                         value={formatPtBr(data.studentsEnrolled)}
                     />
-                    <SecondaryCard
-                        title="Tipos de Presença"
-                        style={{ marginTop: '-4rem' }}
-                    >
-                        <CardItem
-                            data={formatPtBr(charts.perPresence.data[0])}
-                            subtitle="Presentes"
-                        />
-                        <CardItem
-                            data={formatPtBr(charts.perPresence.data[1])}
-                            subtitle="Ausentes"
-                            className="right-content"
-                        />
-                    </SecondaryCard>
                 </Grid>
 
                 <ChartContainer
@@ -120,7 +113,7 @@ const Course: React.FC<Props> = (props: Props) => {
                         title="Ranking das notas"
                         description="Alunos"
                         secondaryDescription="Porcentagem"
-                        data={charts.scoresRank /* ['scoresRank'] */}
+                        data={charts.scoresRank}
                         chartType={{ first: 'Bar', second: 'Doughnut' }}
                         modalTitle={{
                             main: 'Análises',
@@ -168,13 +161,6 @@ const Course: React.FC<Props> = (props: Props) => {
                             fullWidth
                         />
                     </ChartItem>
-                    <ChartItem
-                        title="Tipos de Presença"
-                        description="Quantidade"
-                        secondaryDescription="Porcentagem"
-                        data={charts.perPresence}
-                        chartType={{ first: 'Bar', second: 'Doughnut' }}
-                    />
                 </ChartContainer>
 
                 <ChartContainer
@@ -227,7 +213,7 @@ export default Course;
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const paths = [];
-    for await (const year of yearsData) {
+    for await (const year of [2018 /*2017  , 2016, 2015, 2014 */]) {
         const courses = await dataApi.courses(year);
         Object.keys(courses).map((course) => {
             paths.push({ params: { year: year.toString(), course } });
@@ -237,31 +223,31 @@ export const getStaticPaths: GetStaticPaths = async () => {
     // console.log(paths);
     return {
         paths,
-        fallback: false,
+        fallback: true,
     };
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
     const { year, course } = context.params;
 
-    try {
-        const data = await getData(Number(year), false, Number(course));
-        const chartsData = await getChartData();
-        const groupedCharts = await getGroupedChartData();
+    // try {
+    const data = await getData(Number(year), false, Number(course));
+    const chartsData = await getChartData();
+    const groupedCharts = await getGroupedChartData();
 
-        return {
-            props: {
-                data,
-                charts: chartsData,
-                groupedCharts,
-            },
-            // revalidate: 10,
-        };
-    } catch (error) {
-        // toast de erro
-        console.log(error);
-        return {
-            notFound: true,
-        };
-    }
+    return {
+        props: {
+            data,
+            charts: chartsData,
+            groupedCharts,
+        },
+        // revalidate: 10,
+    };
+    // } catch (error) {
+    // toast de erro
+    // console.log(error);
+    // return {
+    // notFound: true,
+    // };
+    // }
 };

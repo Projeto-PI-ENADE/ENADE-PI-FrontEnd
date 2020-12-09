@@ -5,14 +5,17 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 
+import { dataApi } from '../../services/useCases/data';
 import yearsData from '../../utils/data/years';
+import coursesIds from '../coursesMenu/courses_id.json';
 import useStyles from './styles';
 
 type Props = {
     year: number;
+    course?: number;
 };
 
-const yearsMenu: React.FC<Props> = ({ year }) => {
+const yearsMenu: React.FC<Props> = ({ year, course }) => {
     const classes = useStyles();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -22,12 +25,22 @@ const yearsMenu: React.FC<Props> = ({ year }) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleMenuItemClick = (
+    const handleCourseData = async (year: number) => {
+        const courses = await dataApi.courses(year);
+        console.log(courses);
+        Router.push(`/dashboard/${year}/${Object.keys(courses)[0]}`);
+    };
+
+    const handleMenuItemClick = async (
         event: React.MouseEvent<HTMLElement>,
         year: number
     ) => {
         setSelectedYear(year);
-        Router.push(`/dashboard/${year}`);
+        if (!course) Router.push(`/dashboard/${year}`);
+        else {
+            const courseId = coursesIds[year.toString()];
+            Router.push(`/dashboard/${year}/${courseId}`);
+        }
         setAnchorEl(null);
     };
 

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import Router from 'next/router';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -19,7 +19,10 @@ const yearsMenu: React.FC<Props> = ({ year, course, coursesData }) => {
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [selectedCourse, setSelectedIndex] = useState(course);
-    const [courses] = useState(coursesData);
+    const [courses, setCourses] = useState(coursesData);
+
+    useEffect(() => setSelectedIndex(course), [course]);
+    useEffect(() => setCourses(coursesData), [coursesData]);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -60,6 +63,7 @@ const yearsMenu: React.FC<Props> = ({ year, course, coursesData }) => {
                 {Object.entries(courses).map((course) => (
                     <MenuItem
                         key={course[0]}
+                        disabled={Number(course[0]) === selectedCourse}
                         selected={Number(course[0]) === selectedCourse}
                         onClick={(event) =>
                             handleMenuItemClick(event, Number(course[0]))
