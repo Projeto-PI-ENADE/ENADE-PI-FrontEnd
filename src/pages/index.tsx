@@ -1,192 +1,100 @@
-import { useEffect } from 'react';
 import Head from 'next/head';
-import { GetStaticProps } from 'next';
+import Link from 'next/link';
+import Image from 'next/image';
+import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Grow from '@material-ui/core/Grow';
+import Hidden from '@material-ui/core/Hidden';
 
-import courses2018 from '../utils/data/courses_2018.json';
-import formatPtBr from '../utils/functions/formatPtBr';
-import { getData, getChartData, TypeChart, TypeData } from '../services';
+import yearsData from '../utils/data/years';
+import Footer from '../layout/components/footer/footer';
+import StudentsIllus from '../assets/illustrations/students.svg';
+import useStyles from '../styles/pages';
 
-import MainCard from '../components/mainCard/mainCard';
-import { SecondaryCard, CardItem } from '../components/secondaryCard';
-import YearsMenu from '../components/yearsMenu/yearsMenu';
-import CoursesCard from '../components/coursesCard/coursesCard';
-import { ChartContainer, ChartItem } from '../components/chart';
-import ScrollToTopButton from '../components/scrollTopButton/scrollTopButton';
-import useStyles from '../styles/pages/index';
-
-type Props = {
-    data: TypeData;
-    charts: {
-        [key: string]: TypeChart;
-    };
-};
-
-const Home: React.FC<Props> = ({ data, charts }) => {
+const Home: React.FC = () => {
     const classes = useStyles();
+    let animationDelay = 50;
 
     return (
-        <Grid container direction={'column'} className={classes.container}>
+        <Grid container className={classes.container}>
             <Head>
                 <title>Painel do Enade</title>
+                <meta
+                    name="description"
+                    content="Análises e relatórios dos dados do ENADE"
+                />
             </Head>
-
-            <Grid container>
+            <Grid container className={classes.contentConainer}>
                 <Grid
                     container
-                    item
-                    xs={6}
+                    component={Image}
+                    src="/inep.png"
+                    alt="Logo do Inep"
+                    width={144}
+                    height={60}
+                />
+                <Grid
+                    container
                     component={Typography}
                     variant="h1"
-                    className={classes.title}
+                    justify="center"
                 >
-                    <Typography>Painel</Typography>{' '}
-                    <Typography>do Enade</Typography>
+                    Painel do Enade
                 </Grid>
-                <Grid
-                    container
-                    item
-                    xs={6}
-                    justify="flex-end"
-                    className={classes.yearsMenuContainer}
-                >
-                    <YearsMenu />
+                <Grid container justify="center">
+                    <Grid
+                        container
+                        component={Typography}
+                        variant="h2"
+                        justify="flex-start"
+                    >
+                        Escolha um ano:
+                    </Grid>
+                    <Grid container item xs={12} md={9} spacing={3}>
+                        {yearsData.map((year) => {
+                            animationDelay += 100;
+                            return (
+                                <Grow
+                                    key={year}
+                                    in={true}
+                                    mountOnEnter
+                                    timeout={100 + animationDelay}
+                                    style={{
+                                        transitionDelay: `${animationDelay}ms`,
+                                    }}
+                                >
+                                    <Grid item xs={6} sm={3} md={2}>
+                                        <Box className={classes.year}>
+                                            <Link href={`/dashboard/${year}`}>
+                                                <Typography component="a">
+                                                    {year}
+                                                </Typography>
+                                            </Link>
+                                        </Box>
+                                    </Grid>
+                                </Grow>
+                            );
+                        })}
+                    </Grid>
+                    <Hidden only="xs">
+                        <Grid
+                            container
+                            item
+                            xs={12}
+                            md={3}
+                            className={classes.illusContainer}
+                        >
+                            <StudentsIllus />
+                        </Grid>
+                    </Hidden>
                 </Grid>
             </Grid>
-
-            <Grid container component="ul" className={classes.cardsContainer}>
-                <MainCard
-                    title="Alunos Inscritos"
-                    value={formatPtBr(data.studentsEnrolled)}
-                />
-                <SecondaryCard title="Tipos de Presença" component="li">
-                    <CardItem data="400.000" subtitle="Presentes" />
-                    <CardItem
-                        data="50.000"
-                        subtitle="Ausentes"
-                        className="right-content"
-                    />
-                    <CardItem data="50.000" subtitle="Eliminados" />
-                </SecondaryCard>
-                <SecondaryCard title="Aplicação do Exame" component="li">
-                    <CardItem data={27} subtitle="UFs" />
-                    <CardItem
-                        data="1.385"
-                        subtitle="Municípios"
-                        className="right-content"
-                    />
-                    <CardItem data="1.581" subtitle="Locais de Aplicação" />
-                    <CardItem
-                        data="15.055"
-                        subtitle="Salas"
-                        className="right-content"
-                    />
-                </SecondaryCard>
+            <Grid container alignItems="flex-end">
+                <Footer />
             </Grid>
-
-            <CoursesCard
-                title="Lista de cursos de Bacharelado avaliados"
-                courses={courses2018.bacharelado}
-                illus="bachelor"
-            />
-
-            <CoursesCard
-                title="Lista de cursos de Tecnologia avaliados"
-                courses={courses2018.tecnologia}
-                illus="technology"
-            />
-
-            <ChartContainer
-                title={{ main: 'Resultados', secondary: 'do Enade' }}
-            >
-                <ChartItem
-                    title="Ranking das notas"
-                    description="Quantidade"
-                    secondaryDescription="Porcentagem"
-                    data={charts['scoresRank']}
-                    secondaryData={charts['scoresRank'].secondaryData}
-                    modalTitle={{
-                        main: 'Análises',
-                        secondary: 'de notas',
-                    }}
-                >
-                    <ChartItem title="Relatório das notas" />
-                    {/* <ChartItem title="Relatório das notas" />
-                    <ChartItem title="Relatório das notas" />
-                    <ChartItem title="Relatório das notas" />
-                    <ChartItem title="Relatório das notas" />
-                    <ChartItem title="Relatório das notas" /> */}
-                </ChartItem>
-                <ChartItem title="Tipos de Presença" />
-            </ChartContainer>
-
-            <ChartContainer
-                title={{ main: 'Dados', secondary: 'dos Participantes' }}
-            >
-                <ChartItem
-                    title="Idade"
-                    description="Qnt. total por idade"
-                    data={charts['perAgeData']}
-                />
-                <ChartItem
-                    title="Gênero"
-                    description="Qnt. total por gênero"
-                    data={charts['perGenderData']}
-                />
-                <ChartItem
-                    title="Tipo de Ensino Médio %"
-                    description="% de tipo de Ensino Médio"
-                    data={charts['perSchoolType']}
-                    chartType="Doughnut"
-                />
-            </ChartContainer>
-
-            <ChartContainer
-                title={{
-                    main: 'Dados',
-                    secondary: 'dos cursos',
-                }}
-            >
-                <ChartItem
-                    title="Modalidade de Ensino"
-                    description="Qnt. total"
-                    data={charts['perTeachingModality']}
-                />
-                <ChartItem
-                    title="Organização acadêmica"
-                    description="Qnt. total"
-                    data={charts['coursesPerAcademicOrg']}
-                    chartType="Doughnut"
-                />
-            </ChartContainer>
-
-            <ScrollToTopButton />
         </Grid>
     );
 };
 
 export default Home;
-
-export const getStaticProps: GetStaticProps = async () => {
-    let data = null;
-    let chartsData = null;
-
-    try {
-        const dataResponse = await getData();
-        const chartResponse = await getChartData();
-        data = dataResponse;
-        chartsData = chartResponse;
-        // console.log(chartsData);
-    } catch (error) {
-        // toast de erro
-    }
-
-    return {
-        props: {
-            data,
-            charts: chartsData,
-        },
-        revalidate: 10,
-    };
-};

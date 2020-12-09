@@ -15,6 +15,12 @@ const useStyles = makeStyles<Theme>((theme) =>
             right: 0,
             textAlign: 'center',
 
+            '& #modal-close-button': {
+                position: 'absolute',
+                top: 25,
+                right: 20,
+            },
+
             [theme.breakpoints.down('md')]: {
                 maxWidth: '91vw',
                 padding: '.1rem 1rem 1rem',

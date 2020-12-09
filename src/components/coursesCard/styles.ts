@@ -27,6 +27,25 @@ const useStyles = makeStyles((theme: Theme) =>
                 maxHeight: 390,
                 columnCount: 2,
                 columnWidth: 450,
+                zIndex: 0,
+                overflow: 'auto',
+
+                scrollbarWidth: 'thin',
+                '&::-webkit-scrollbar': {
+                    width: '8px',
+                    marginLeft: '12px',
+                },
+                /* Track */
+                '&::-webkit-scrollbar-track': {
+                    WebkitBorderRadius: '10px',
+                    borderRadius: '10px',
+                },
+                /* Handle */
+                '&::-webkit-scrollbar-thumb': {
+                    WebkitBorderRadius: '10px',
+                    borderRadius: '10px',
+                    background: 'rgba(170,170,170,0.5)',
+                },
 
                 [theme.breakpoints.down('md')]: {
                     marginTop: '.3rem',
@@ -43,6 +62,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
                 [theme.breakpoints.down('md')]: {
                     fontSize: '1rem',
+                },
+
+                '& p': {
+                    fontSize: '1.2rem',
+                    textTransform: 'lowercase',
+                },
+
+                '& p::first-letter': {
+                    textTransform: 'uppercase',
                 },
             },
 

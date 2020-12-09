@@ -2,6 +2,8 @@ import React from 'react';
 import Modal from '@material-ui/core/Modal';
 import Paper from '@material-ui/core/Paper';
 import Slide from '@material-ui/core/Slide';
+import IconButton from '@material-ui/core/IconButton';
+import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 
 import TypeTitle from '../models/title';
 
@@ -33,6 +35,12 @@ const ChartModal: React.FC<Props> = (props: Props) => {
         >
             <Slide direction="up" in={isOpen} mountOnEnter unmountOnExit>
                 <Paper className={classes.paper}>
+                    <IconButton
+                        id="modal-close-button"
+                        onClick={handleCloseModal}
+                    >
+                        <CloseIcon size={20} />
+                    </IconButton>
                     <ChartContainer title={title} overflow>
                         {children}
                     </ChartContainer>

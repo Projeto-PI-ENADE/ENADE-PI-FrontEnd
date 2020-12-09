@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
         teamContainer: {
             marginTop: '2rem',
 
-            '& h2': {
+            '& button': {
                 fontSize: '2rem',
                 fontWeight: 600,
 

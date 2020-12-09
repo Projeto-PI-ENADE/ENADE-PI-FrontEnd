@@ -1,0 +1,130 @@
+{
+    "name": "IDADE <= 0.5",
+    "children": [
+        {
+            "name": "IDADE <= 0.5",
+            "children": [
+                {
+                    "name": "IDADE <= 0.5",
+                    "children": [
+                        {
+                            "name": "IDADE <= 0.5",
+                            "children": [
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                },
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "IDADE <= 0.5",
+                            "children": [
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                },
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "IDADE <= 0.5",
+                    "children": [
+                        {
+                            "name": "PROUNI_PARCIAL_APENAS <= 0.5",
+                            "children": [
+                                {
+                                    "name": " class: D <= 0.5",
+                                    "children": []
+                                },
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "PROUNI_INTEGRAL <= 0.5",
+                            "children": [
+                                {
+                                    "name": " class: D <= 0.5",
+                                    "children": []
+                                },
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "IDADE <= 0.5",
+            "children": [
+                {
+                    "name": "IDADE <= 0.5",
+                    "children": [
+                        {
+                            "name": "PROUNI_INTEGRAL <= 0.5",
+                            "children": [
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                },
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "SEXO_M <= 0.5",
+                            "children": [
+                                {
+                                    "name": " class: D <= 0.5",
+                                    "children": []
+                                },
+                                {
+                                    "name": " class: D <= 0.5",
+                                    "children": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "IDADE <= 0.5",
+                    "children": [
+                        {
+                            "name": "MAIOR_PARTE_PRIVADA <= 0.5",
+                            "children": [
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                },
+                                {
+                                    "name": " class: A <= 0.5",
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": " class: A <= 0.5",
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,22 +1,28 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
+import Router from 'next/router';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 
-import CoursesDataType from './coursesDataType';
-import useStyles from './styles';
+import { TypeCourses } from '../../services/models/data';
+import yearMenuUseStyles from '../yearsMenu/styles';
 
 type Props = {
-    coursesData: Array<CoursesDataType>;
+    year: string | string[];
+    course: number;
+    coursesData: TypeCourses | { [key: string]: string };
 };
 
-const yearsMenu: React.FC<Props> = ({ coursesData }) => {
-    const classes = useStyles();
+const yearsMenu: React.FC<Props> = ({ year, course, coursesData }) => {
+    const yearMenuClasses = yearMenuUseStyles();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const [courses] = useState(coursesData);
+    const [selectedCourse, setSelectedIndex] = useState(course);
+    const [courses, setCourses] = useState(coursesData);
+
+    useEffect(() => setSelectedIndex(course), [course]);
+    useEffect(() => setCourses(coursesData), [coursesData]);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -24,9 +30,10 @@ const yearsMenu: React.FC<Props> = ({ coursesData }) => {
 
     const handleMenuItemClick = (
         event: React.MouseEvent<HTMLElement>,
-        index: number
+        course_id: number
     ) => {
-        setSelectedIndex(index);
+        setSelectedIndex(course_id);
+        Router.push(`/dashboard/${year}/${course_id}`);
         setAnchorEl(null);
     };
 
@@ -39,10 +46,10 @@ const yearsMenu: React.FC<Props> = ({ coursesData }) => {
             <Button
                 aria-controls="menu-de-anos"
                 aria-haspopup="true"
-                className={classes.button}
+                className={yearMenuClasses.button}
                 onClick={handleClick}
             >
-                {courses[selectedIndex].name}
+                {courses[selectedCourse]}
                 <ChevronDownIcon size={20} />
             </Button>
             <Menu
@@ -53,13 +60,16 @@ const yearsMenu: React.FC<Props> = ({ coursesData }) => {
                 onClose={handleClose}
             >
                 <MenuItem disabled>Selecione o curso:</MenuItem>
-                {courses.map((course, index) => (
+                {Object.entries(courses).map((course) => (
                     <MenuItem
-                        key={course.id}
-                        selected={index === selectedIndex}
-                        onClick={(event) => handleMenuItemClick(event, index)}
+                        key={course[0]}
+                        disabled={Number(course[0]) === selectedCourse}
+                        selected={Number(course[0]) === selectedCourse}
+                        onClick={(event) =>
+                            handleMenuItemClick(event, Number(course[0]))
+                        }
                     >
-                        {course.name}
+                        {course[1]}
                     </MenuItem>
                 ))}
             </Menu>

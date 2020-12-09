@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -12,14 +13,22 @@ import TypeTitle from '../models/title';
 import ChartModal from '../modal/modal';
 import useStyles from './styles';
 
+type TypeChart = 'Bar' | 'Doughnut';
+
 type Props<T> = {
     title: string;
     description?: string;
     secondaryDescription?: string;
     data?: T;
-    secondaryData?: Array<number>;
     modalTitle?: TypeTitle;
-    chartType?: 'Bar' | 'Doughnut';
+    chartType?:
+        | TypeChart
+        | {
+              first: TypeChart;
+              second: TypeChart;
+          };
+    switchSize?: 'medium' | 'small';
+    fullWidth?: boolean;
     children?: React.ReactNode;
 };
 
@@ -37,6 +46,8 @@ const ChartItem = <T extends object>(props: Props<T>) => {
         data = defaultData,
         modalTitle,
         chartType = 'Bar',
+        switchSize = 'medium',
+        fullWidth,
         children,
     } = props;
 
@@ -80,7 +91,13 @@ const ChartItem = <T extends object>(props: Props<T>) => {
 
     return (
         <React.Fragment>
-            <Grid container item xs={12} md={6} className={classes.container}>
+            <Grid
+                container
+                item
+                xs={12}
+                md={fullWidth ? 12 : 6}
+                className={classes.container}
+            >
                 <Grid
                     item
                     xs={12}
@@ -96,30 +113,29 @@ const ChartItem = <T extends object>(props: Props<T>) => {
                         >
                             <Typography variant="h6">{title}</Typography>
                         </Grid>
-                        {secondaryDescription && (
-                            <Grid
-                                container
-                                item
-                                xs={6}
-                                md={4}
-                                alignItems="center"
-                            >
-                                <Switch
-                                    color="primary"
-                                    checked={showSecondaryData}
-                                    onChange={handleChange}
-                                    inputProps={{
-                                        'aria-label':
-                                            'Interruptor do tipo de dado',
-                                    }}
+                        <Grid container item xs={6} md={4} alignItems="center">
+                            {secondaryDescription && (
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            color="primary"
+                                            checked={showSecondaryData}
+                                            onChange={handleChange}
+                                            size={switchSize}
+                                            inputProps={{
+                                                'aria-label':
+                                                    'Interruptor do tipo de dado',
+                                            }}
+                                        />
+                                    }
+                                    label={
+                                        !showSecondaryData
+                                            ? description
+                                            : secondaryDescription
+                                    }
                                 />
-                                <Typography>
-                                    {showSecondaryData
-                                        ? secondaryDescription
-                                        : description}
-                                </Typography>
-                            </Grid>
-                        )}
+                            )}
+                        </Grid>
                         {modalTitle && (
                             <Grid
                                 container
@@ -143,17 +159,22 @@ const ChartItem = <T extends object>(props: Props<T>) => {
                         )}
                     </Grid>
                     <Grid item xs={12}>
-                        {chartType === 'Bar' && !showSecondaryData ? (
-                            <Bar
-                                data={chartData}
-                                // width={100}
-                                // height={200}
-                            />
+                        {!secondaryDescription ? (
+                            chartType === 'Bar' ? (
+                                <Bar data={chartData} />
+                            ) : (
+                                <Doughnut data={chartData} />
+                            )
+                        ) : !showSecondaryData ? (
+                            chartType['first'] === 'Bar' ? (
+                                <Bar data={chartData} />
+                            ) : (
+                                <Doughnut data={chartData} />
+                            )
+                        ) : chartType['second'] === 'Bar' ? (
+                            <Bar data={chartData} />
                         ) : (
-                            <Doughnut
-                                data={chartData}
-                                options={{ maintainAspectRatio: true }}
-                            />
+                            <Doughnut data={chartData} />
                         )}
                     </Grid>
                 </Grid>

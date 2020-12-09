@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Grid from '@material-ui/core/Grid';
 import Tabs from '@material-ui/core/Tabs';
@@ -16,17 +17,20 @@ const Header: React.FC = () => {
         const setInitialTab = () => {
             // console.log(router.pathname);
             switch (router.pathname) {
-                case '/':
+                case '/dashboard/[year]':
                     setValue(0);
                     break;
-                case '/curso':
+                case '/dashboard/[year]/[course]':
                     setValue(1);
                     break;
-                case '/relatorio':
+                case '/mineracao/[year]/[tree]':
                     setValue(2);
                     break;
-                case '/sobre':
+                case '/relatorio':
                     setValue(3);
+                    break;
+                case '/sobre':
+                    setValue(4);
                     break;
             }
         };
@@ -38,15 +42,18 @@ const Header: React.FC = () => {
         setValue(newValue);
         switch (newValue) {
             case 0:
-                router.push('/');
+                router.push('/dashboard/2018');
                 break;
             case 1:
-                router.push(`/curso`);
+                router.push(`/dashboard/2018/1`);
                 break;
             case 2:
-                router.push(`/relatorio`);
+                router.push(`/mineracao/2018/1`);
                 break;
             case 3:
+                router.push(`/relatorio`);
+                break;
+            case 4:
                 router.push(`/sobre`);
                 break;
         }
@@ -62,11 +69,13 @@ const Header: React.FC = () => {
     return (
         <Grid container component="header" className={classes.container}>
             <Grid item xs={4} md={4}>
-                <img
-                    src={Logo}
-                    alt="logo do site com os dizeres ENADE e INEP"
-                    draggable="false"
-                />
+                <Link href={'/'}>
+                    <img
+                        src={Logo}
+                        alt="logo do site com os dizeres ENADE e INEP"
+                        draggable="false"
+                    />
+                </Link>
             </Grid>
             <Grid item xs={2} md={1} />
             <Grid container item xs={6} md={7} justify="flex-end">
@@ -84,8 +93,9 @@ const Header: React.FC = () => {
                 >
                     <Tab label="Painel Geral" {...TabsProps(0)} />
                     <Tab label="Cursos" {...TabsProps(1)} />
-                    <Tab label="Relatório" {...TabsProps(2)} />
-                    <Tab label="Sobre Nós" {...TabsProps(3)} />
+                    <Tab label="Mineração" {...TabsProps(2)} />
+                    <Tab label="Relatório" {...TabsProps(3)} />
+                    <Tab label="Sobre Nós" {...TabsProps(4)} />
                 </Tabs>
             </Grid>
         </Grid>

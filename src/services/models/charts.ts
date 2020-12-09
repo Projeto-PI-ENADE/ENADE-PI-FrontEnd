@@ -2,6 +2,21 @@ export type TypeScoresRank = Array<{
     qnt: number;
     prc: number;
 }>;
+export type TypeScores = Array<{
+    grupo: string;
+    rank: Array<{
+        quantidade_elementos: number;
+        percentual: number;
+    }>;
+}>;
+export type TypeStudentsPresence = {
+    Total: number;
+    NumeroALunosPresentes: number;
+    PercentualPresente: number;
+    NumeroAlunosAusentes: number;
+    PercentualAusente: number;
+};
+
 export type TypeStudentsPerAge = Array<number>;
 export type TypeStudentsPerGender = {
     feminino: number;
