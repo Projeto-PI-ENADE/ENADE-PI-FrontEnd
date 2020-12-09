@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Grid from '@material-ui/core/Grid';
 import Tabs from '@material-ui/core/Tabs';
@@ -68,11 +69,13 @@ const Header: React.FC = () => {
     return (
         <Grid container component="header" className={classes.container}>
             <Grid item xs={4} md={4}>
-                <img
-                    src={Logo}
-                    alt="logo do site com os dizeres ENADE e INEP"
-                    draggable="false"
-                />
+                <Link href={'/'}>
+                    <img
+                        src={Logo}
+                        alt="logo do site com os dizeres ENADE e INEP"
+                        draggable="false"
+                    />
+                </Link>
             </Grid>
             <Grid item xs={2} md={1} />
             <Grid container item xs={6} md={7} justify="flex-end">
