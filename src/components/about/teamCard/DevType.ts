@@ -1,5 +1,5 @@
 type DevType = {
-    image: string;
+    image: Array<string>;
     name: string;
     jobTitle: string;
     linkedin: string;

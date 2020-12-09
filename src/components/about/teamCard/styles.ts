@@ -42,6 +42,16 @@ const useStyles = makeStyles((theme: Theme) =>
                 height: theme.spacing(11),
             },
         },
+
+        spinAnimation: {
+            animation: '$spin 4s linear infinite',
+        },
+
+        '@keyframes spin': {
+            '100%': {
+                transform: 'rotate(360deg)',
+            },
+        },
     })
 );
 

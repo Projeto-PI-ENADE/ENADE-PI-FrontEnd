@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
 import techsData from '../utils/data/techs';
 import teamData from '../utils/data/team';
@@ -22,6 +23,7 @@ const AboutUs: React.FC = () => {
 
     const [techs] = useState(techsData);
     const [team] = useState(teamData);
+    const [spin, setSpin] = useState(false);
 
     return (
         <Layout>
@@ -93,11 +95,16 @@ const AboutUs: React.FC = () => {
                 </Grid>
 
                 <Grid container className={classes.teamContainer}>
-                    <Typography variant="h2">Equipe</Typography>
+                    <Typography
+                        component={ButtonBase}
+                        onClick={() => setSpin(!spin)}
+                    >
+                        Equipe
+                    </Typography>
                     <Grid container>
                         {team.map((dev, index) => (
                             <Grid key={index} container item xs={12} md={6}>
-                                <TeamCard dev={dev} />
+                                <TeamCard dev={dev} spin={spin} />
                             </Grid>
                         ))}
                     </Grid>

@@ -5,9 +5,21 @@ import mairaImage from '../../assets/team/maira.png';
 import ruanImage from '../../assets/team/ruan.png';
 import yasminImage from '../../assets/team/yasmin.png';
 
+const lucasSecImage =
+    'https://static.todamateria.com.br/upload/co/mu/comunismo-og.jpg';
+const ruanSecImage =
+    'https://i.pinimg.com/originals/57/c1/51/57c151822fbb350009667e8d52fc9be4.jpg';
+const caiqueSecImage =
+    'https://s2.glbimg.com/bqhJOnzCVhGdXw66nk1KqFPrko0=/780x440/e.glbimg.com/og/ed/f/original/2015/09/04/cavalo_coice.jpg';
+const janderSecImage =
+    'https://www.educacaoetransformacao.com.br/wp-content/uploads/2018/09/ambiguidade.png';
+const mairaSecImage =
+    'https://www.pucrs.br/soupucrs-pesquisador/wp-content/uploads/sites/197/2020/04/2020_03_05_inicicao_cientifica_logo.png';
+const yasminSecImage = 'https://www.cimatecjr.com.br/assets/img/og.jpg';
+
 const team = [
     {
-        image: caiqueImage,
+        image: [caiqueImage, caiqueSecImage],
         name: 'Caique Augusto',
         jobTitle: 'Cientista de Dados e DBA',
         linkedin: 'Caique Augusto',
@@ -16,7 +28,7 @@ const team = [
         githubUrl: 'https://github.com/caiqueaugustocm',
     },
     {
-        image: janderImage,
+        image: [janderImage, janderSecImage],
         name: 'Jander Silva',
         jobTitle: 'Desenvolvedor Front-end',
         linkedin: 'Jander Silva',
@@ -25,7 +37,7 @@ const team = [
         githubUrl: 'https://github.com/JanderSilv',
     },
     {
-        image: lucasImage,
+        image: [lucasImage, lucasSecImage],
         name: 'Lucas Nogueira',
         jobTitle: 'Desenvolvedor Back-end',
         linkedin: 'Lucas Souza',
@@ -34,7 +46,7 @@ const team = [
         githubUrl: 'https://github.com/LucasSNSantos',
     },
     {
-        image: mairaImage,
+        image: [mairaImage, mairaSecImage],
         name: 'Maíra Matos',
         jobTitle: 'Cientista de Dados',
         linkedin: 'Maíra Matos Araújo',
@@ -44,7 +56,7 @@ const team = [
         githubUrl: 'https://github.com/maaira',
     },
     {
-        image: ruanImage,
+        image: [ruanImage, ruanSecImage],
         name: 'Ruan Azevedo',
         jobTitle: 'Desenvolvedor Back-end',
         linkedin: 'Ruan Azevedo',
@@ -53,7 +65,7 @@ const team = [
         githubUrl: 'https://github.com/Ruannilton',
     },
     {
-        image: yasminImage,
+        image: [yasminImage, yasminSecImage],
         name: 'Yasmin Thasla',
         jobTitle: 'Cientista de Dados',
         linkedin: 'Yasmim Thasla',
