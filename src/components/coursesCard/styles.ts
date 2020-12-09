@@ -63,6 +63,15 @@ const useStyles = makeStyles((theme: Theme) =>
                 [theme.breakpoints.down('md')]: {
                     fontSize: '1rem',
                 },
+
+                '& p': {
+                    fontSize: '1.2rem',
+                    textTransform: 'lowercase',
+                },
+
+                '& p::first-letter': {
+                    textTransform: 'uppercase',
+                },
             },
 
             '& li::before': {

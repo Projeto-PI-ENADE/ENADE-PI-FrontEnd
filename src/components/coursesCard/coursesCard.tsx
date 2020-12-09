@@ -39,7 +39,9 @@ const CoursesCard: React.FC<Props> = (props: Props) => {
             <Grid container item xs={12} md={9}>
                 <List>
                     {Object.values(courses).map((course, index) => (
-                        <ListItem key={index}>{course}</ListItem>
+                        <ListItem key={index}>
+                            <Typography>{course}</Typography>
+                        </ListItem>
                     ))}
                 </List>
             </Grid>
