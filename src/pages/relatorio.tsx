@@ -16,6 +16,7 @@ import { Checkbox } from '@material-ui/core';
 import { TreeItem } from '@material-ui/lab';
 import Button from '@material-ui/core/Button';
 import { Plus } from '@styled-icons/entypo';
+import Layout from '../layout/layout';
 
 
 import scoresData from '../utils/data/report/scores';
@@ -24,6 +25,8 @@ import participantsData from '../utils/data/report/participants';
 import exportsData from '../utils/data/report/exports';
 import yearsReportData from '../utils/data/report/years';
 import { dataApi } from '../services/useCases/data';
+
+
 import ReportCard from '../components/report/reportCard';
 import RadioCard from '../components/report/radioCard';
 
@@ -36,69 +39,154 @@ const getNewID = () => {
     return String(tmp);
 }
 
-class Check {
+enum eFiltroOpcoes {
+    quantidade = 1,
+    idade = 2,
+    sexo = 3,
+    renda = 4,
+    modalidade = 5,
+    etnia = 6
+}
+
+
+enum eFiltroArquivoValues {
+    CSV = 1,
+    XLSX = 2,
+    JSON = 3
+}
+
+class IValues {
     nome: string
+    id: number
     valor: boolean
 }
 
-class Filtro {
-    marksNota: Array<Check>
-    marksPresenca: Array<Check>
+abstract class INode {
+    values: Array<IValues>;
+    childs: Array<INode>;
+
+    public abstract adicionarFilho(): void;
+    public abstract noFolha(): boolean;
+}
+
+class FiltroNota extends INode {
+    public adicionarFilho(): void {
+
+    }
+
+    public noFolha(): boolean {
+        return true;
+    }
 
     constructor() {
+        super()
         const op = ['Por quantidade de alunos', 'Por idade', 'Por sexo', 'Por renda familiar', 'Por modalidade de ensino', 'Por etnia']
+        const opCode: Array<number> = [eFiltroOpcoes.quantidade, eFiltroOpcoes.idade, eFiltroOpcoes.sexo, eFiltroOpcoes.renda, eFiltroOpcoes.modalidade, eFiltroOpcoes.etnia]
 
-        this.marksNota = new Array<Check>(op.length)
-        this.marksPresenca = new Array<Check>(op.length)
+        this.values = new Array<IValues>(op.length)
+        this.childs = new Array<INode>(0)
 
         for (let index = 0; index < op.length; index++) {
-            this.marksNota[index] = { nome: op[index], valor: false }
-            this.marksPresenca[index] = { nome: op[index], valor: false }
+            this.values[index] = { nome: op[index], id: opCode[index], valor: false }
         }
     }
 }
 
-class Curso {
-    childs: Array<Filtro>
-    marks: Array<Check>
+class FiltroPresenca extends INode {
+    public adicionarFilho(): void {
 
+    }
+    public noFolha(): boolean {
+        return true;
+    }
+    constructor() {
+        super()
+        const op = ['Por quantidade de alunos', 'Por idade', 'Por sexo', 'Por renda familiar', 'Por modalidade de ensino', 'Por etnia']
+        const opCode: Array<number> = [eFiltroOpcoes.quantidade, eFiltroOpcoes.idade, eFiltroOpcoes.sexo, eFiltroOpcoes.renda, eFiltroOpcoes.modalidade, eFiltroOpcoes.etnia]
+
+        this.values = new Array<IValues>(op.length)
+        this.childs = new Array<INode>(0)
+
+        for (let index = 0; index < op.length; index++) {
+            this.values[index] = { nome: op[index], id: opCode[index], valor: false }
+        }
+    }
+}
+
+class Curso extends INode {
+    public adicionarFilho(): void {
+
+    }
+    public noFolha(): boolean {
+        return false;
+    }
     constructor(ano: number[]) {
+        super()
         const cursos = coursesData;
-        this.childs = new Array<Filtro>()
-        this.marks = new Array<Check>(cursos.length)
+        this.childs = [new FiltroNota(), new FiltroPresenca()]
+        this.values = new Array<IValues>(cursos.length)
 
         for (let i = 0; i < cursos.length; i++) {
-            this.marks[i] = { nome: cursos[i].name, valor: cursos[i].checked }
+            this.values[i] = { nome: cursos[i].name, id: cursos[i].id, valor: cursos[i].checked }
 
         }
     }
 }
 
-class Ano {
-    childs: Array<Curso>
-    marks: Array<Check>
+class Ano extends INode {
+    public adicionarFilho(): void {
+        const anos: number[] = []
 
+        this.values.map(x => {
+            anos.push(Number(x.nome))
+        })
+
+        this.childs.push(new Curso(anos))
+    }
+
+    public noFolha(): boolean {
+        return false;
+    }
     constructor() {
+        super()
         this.childs = new Array<Curso>()
-        this.marks = new Array<Check>(yearsData.length)
+        this.values = new Array<IValues>(yearsData.length)
 
         for (let i = 0; i < yearsData.length; i++) {
-            this.marks[i] = { nome: String(yearsData[i]), valor: false };
+            this.values[i] = { nome: String(yearsData[i]), id: yearsData[i], valor: false };
         }
 
     }
 }
 
-class Arquivo {
-    childs: Array<Ano>
-    marks: Array<Check>
-
+class Arquivo extends INode {
+    public adicionarFilho(): void {
+        this.childs.push(new Ano())
+    }
+    public noFolha(): boolean {
+        return false;
+    }
     constructor() {
+        super()
         this.childs = new Array<Ano>()
-        this.marks = [{ nome: "CSV", valor: false }, { nome: "XLSX", valor: false }]
+        this.values = [{ nome: "CSV", id: eFiltroArquivoValues.CSV, valor: false }, { nome: "XLSX", id: eFiltroArquivoValues.XLSX, valor: false }]
     }
 }
 
+function limpaLixo(data: INode) {
+    const values_clean = data.values.filter(x => x.valor === true).map((x) => { delete x['valor']; return x })
+    data.values = values_clean;
+    data.childs.forEach(c => {
+        limpaLixo(c);
+    });
+}
+
+function gerarRelatorio(data: Array<Arquivo>) {
+    data.forEach(e => {
+        limpaLixo(e)
+    });
+    console.log(JSON.stringify(data))
+}
 
 const Report: React.FC = () => {
     const homeClasses = homeUseStyles();
@@ -112,11 +200,12 @@ const Report: React.FC = () => {
         setRelatorios(aux)
     }
 
-    const RenderCheckBox: React.FC<Array<Check>> = (props: Array<Check>) => {
+    const RenderCheckBox: React.FC<Array<IValues>> = (props: Array<IValues>) => {
         const [upt, setUpt] = useState(0)
         const comp = props.props
         return (
             <FormGroup row>
+
                 {comp.map((item, index) => (
                     <FormControlLabel
                         id={getNewID()}
@@ -128,155 +217,80 @@ const Report: React.FC = () => {
         )
     }
 
-    const FiltrosComponent: React.FC<Filtro> = (props: Filtro) => {
-        const noID = getNewID()
-        const noNot = getNewID()
-        const noPre = getNewID()
-        const comp = props.props
-
-        return (
-            <TreeItem nodeId={noID} label="Filtro">
-                <TreeItem nodeId={noNot} label="Nota">
-                    <RenderCheckBox props={comp.marksNota} />
-                </TreeItem>
-                <TreeItem nodeId={noPre} label="Presença">
-                    <RenderCheckBox props={comp.marksPresenca} />
-                </TreeItem>
-            </TreeItem>
-        )
-    }
-
-    const CursosComponent: React.FC<Curso> = (props: Curso) => {
-
+    const RenderNode: React.FC<INode> = (props: INode) => {
         const noID = getNewID()
         const comp = props.props
         const [upt, setUpt] = useState(0)
 
-        const adicionarFiltro = (pai: Curso) => {
-
-
-
-            pai.childs.push(new Filtro())
+        const adicionarFilho = (pai: INode) => {
+            console.log(pai)
+            pai.adicionarFilho()
             setUpt(upt + 1);
         }
 
         return (
-            <TreeItem nodeId={noID} label="Cursos">
-                <RenderCheckBox props={comp.marks} />
+            <TreeItem nodeId={noID} label={comp.constructor.name} >
+                <RenderCheckBox props={comp.values} />
                 {
                     comp.childs.map(x => (
-                        <FiltrosComponent key={getNewID()} props={x} />)
+                        <RenderNode key={getNewID()} props={x} />)
                     )
+                }{
+                    comp.noFolha() === false ? (
+                        <Button variant="contained" size="small"
+                            color="default" endIcon={<Plus />} onClick={(e) => { adicionarFilho(comp) }}>
+                            Adicionar
+                        </Button>) : <div></div>
                 }
-                <Button size="small" variant="contained"
-                    color="default" endIcon={<Plus />} onClick={(event) => { adicionarFiltro(comp) }} >
-                    Adicionar Filtro
-                </Button>
             </TreeItem >)
-    }
 
-    const AnosComponent: React.FC<Ano> = (props: Ano) => {
-        const noID = getNewID()
-        const comp = props.props
-        const [upt, setUpt] = useState(0)
-
-        const adicionarAno = (pai: Ano) => {
-
-            const anos: number[] = []
-
-            pai.marks.map(x => {
-                anos.push(Number(x.nome))
-            })
-
-            pai.childs.push(new Curso(anos))
-            setUpt(upt + 1);
-        }
-
-        return (
-            <TreeItem nodeId={noID} label="Anos">
-                <RenderCheckBox props={comp.marks} />
-                {
-                    comp.childs.map(x => (
-                        <CursosComponent key={getNewID()} props={x} />)
-                    )
-                }
-                <Button variant="contained" size="small"
-                    color="default" endIcon={<Plus />} onClick={(event) => { adicionarAno(comp) }} >
-                    Adicionar Curso
-                </Button>
-            </TreeItem>)
-    }
-
-    const ArquivoComponent: React.FC<Arquivo> = (props: Arquivo) => {
-
-        const noID = getNewID()
-        const comp = props.props
-        const [upt, setUpt] = useState(0)
-
-
-        const adicionarAno = (pai: Arquivo) => {
-            pai.childs.push(new Ano())
-            setUpt(upt + 1);
-        }
-
-        return (
-            <TreeItem nodeId={noID} label="Arquivo">
-                <RenderCheckBox props={comp.marks} />
-                {
-                    comp.childs.map(x => (
-                        <AnosComponent key={getNewID()} props={x} />)
-                    )
-                }
-                <Button variant="contained" size="small"
-                    color="default" endIcon={<Plus />} onClick={(event) => { adicionarAno(comp) }}>
-                    Adicionar Ano
-                </Button>
-            </TreeItem>)
-    }
-
-    const RelatorioComponent: React.FC<Array<Arquivo>> = (props: Array<Arquivo>) => {
-        const comps = props.props
-        return (<div>{
-            comps.map(x => (
-                <ArquivoComponent key={getNewID()} props={x} />)
-            )
-        }</div>)
     }
 
 
     return (
-        <Grid container className={homeClasses.container}>
-            <Head>
-                <title>Geração de Relatório</title>
-            </Head>
+        <Layout>
+            <Grid container className={homeClasses.container}>
+                <Head>
+                    <title>Geração de Relatório</title>
+                </Head>
 
-            <Grid container>
-                <Grid
-                    container
-                    component={Typography}
-                    variant="h1"
-                    className={homeClasses.title}
-                >
-                    <Typography>Geração</Typography>{' '}
-                    <Typography>de Relatório</Typography>
+                <Grid container>
+                    <Grid
+                        container
+                        component={Typography}
+                        variant="h1"
+                        className={homeClasses.title}
+                    >
+                        <Typography>Geração</Typography>{' '}
+                        <Typography>de Relatório</Typography>
+                    </Grid>
                 </Grid>
-            </Grid>
 
-            <Grid>
-                <TreeView
-                    defaultExpanded={["1"]}
-                    defaultCollapseIcon={<ChevronDown />}
-                    defaultExpandIcon={<ChevronRight />}>
-                    <RelatorioComponent props={relatorios} />
-                    <Button variant="contained" size="small"
-                        color="default" endIcon={<Plus />} onClick={adicionarRelatorio} >
-                        Adicionar Arquivo
+                <Grid>
+                    <TreeView
+                        defaultExpanded={["1"]}
+                        defaultCollapseIcon={<ChevronDown />}
+                        defaultExpandIcon={<ChevronRight />}>
+
+                        {
+                            relatorios.map(x => (
+                                <RenderNode key={getNewID()} props={x} />)
+                            )
+                        }
+                        <Button variant="contained" size="small"
+                            color="default" endIcon={<Plus />} onClick={adicionarRelatorio} >
+                            Adicionar
                     </Button>
-                </TreeView>
-            </Grid>
+                    </TreeView>
+                    <Button variant="contained" size="small"
+                        color="default" endIcon={<Plus />} onClick={(e) => { gerarRelatorio(relatorios) }} >
+                        Gerar Relatorio
+                    </Button>
+                </Grid>
 
-            <ScrollToTopButton />
-        </Grid>
+                <ScrollToTopButton />
+            </Grid>
+        </Layout>
     );
 };
 
